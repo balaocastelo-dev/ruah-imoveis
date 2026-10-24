@@ -1,0 +1,165 @@
+﻿SISTEMA RUAH - FASE 1 - COMO USAR E CONFIGURAR
+================================================
+
+INICIAR
+-------
+Dê dois cliques em "Sistema RUAH" na Área de Trabalho (ou clique com o botão direito
+em INICIAR-RUAH.ps1 > Executar com o PowerShell). A janela preta é o servidor:
+deixe aberta enquanto usa. Para parar, feche a janela.
+
+No primeiro acesso o sistema pede para criar o usuário administrativo.
+Depois, em Configurações > Usuários, cadastre cada corretor com login e senha.
+  - Corretor: vê só os imóveis e leads dele.
+  - Gestor: vê tudo.
+  - Administrativo: vê tudo e gerencia usuários e integrações.
+
+CELULAR DOS CORRETORES (rede do escritório)
+A janela do servidor mostra o endereço "Na rede", por exemplo http://192.168.0.10:3333.
+Abra esse endereço no celular conectado ao mesmo Wi-Fi. Se o Windows perguntar sobre
+o Firewall na primeira vez, clique em "Permitir" (rede privada).
+
+BACKUP
+Todo dia em que o sistema é aberto, o banco é copiado para data\backups (guarda 14 dias).
+Os arquivos dos imóveis ficam em data\arquivos e também no Google Drive quando conectado.
+Copie a pasta "data" para um HD externo ou nuvem de vez em quando.
+
+
+PARTE 1 - GOOGLE DRIVE (pasta automática por imóvel)
+----------------------------------------------------
+Faça uma vez, com a conta Google da RUAH:
+
+1. Acesse https://console.cloud.google.com e crie um projeto chamado "Sistema RUAH".
+2. Menu "APIs e serviços" > "Biblioteca" > procure "Google Drive API" > Ativar.
+3. "APIs e serviços" > "Tela de consentimento OAuth" (Google Auth Platform):
+   - Se a RUAH usa Google Workspace (e-mail @ruahimobiliaria.com.br pago): escolha "Interno".
+   - Se usa Gmail comum: escolha "Externo", preencha nome e e-mail, e em "Público-alvo"
+     clique em "PUBLICAR APLICATIVO" (colocar em produção). Em modo "Teste" o Google
+     desconecta o sistema a cada 7 dias. Na hora de conectar vai aparecer o aviso
+     "app não verificado": clique em Avançado > Acessar Sistema RUAH. É normal para uso interno.
+4. "Credenciais" (Clientes) > "Criar credenciais" > "ID do cliente OAuth"
+   - Tipo: Aplicativo da Web
+   - URIs de redirecionamento autorizados:  http://localhost:3333/api/drive/callback
+5. Copie o "ID do cliente" e a "Chave secreta do cliente" para o arquivo .env:
+      GOOGLE_CLIENT_ID=...
+      GOOGLE_CLIENT_SECRET=...
+6. Feche e abra o sistema. Em Configurações > Google Drive > "Conectar Google Drive".
+   Faça isso NESTE PC (o endereço localhost só funciona aqui).
+
+Pronto: cada imóvel ganha a pasta "RUAH Imóveis / AP0001 - Nome do condomínio" com
+Fotos, Documentos do proprietário, Matrícula e certidões, Autorização de venda,
+Contratos, Propostas e Vídeo e anúncios. Arquivos enviados pelo sistema vão para lá,
+e arquivos colocados direto no Drive aparecem na ficha do imóvel.
+Corretores abrem os arquivos pelo sistema (só dos imóveis deles); não precisam de
+acesso ao Drive. Para usar um Drive compartilhado do Workspace, coloque o ID da pasta
+em DRIVE_ROOT_FOLDER_ID.
+
+
+PARTE 2 - WHATSAPP OFICIAL (Cloud API da Meta)
+----------------------------------------------
+Enquanto não configurar, o WhatsApp fica em MODO SIMULADO para testes.
+Para usar de verdade é preciso um número exclusivo (não pode estar no app WhatsApp comum)
+e o endereço público (Parte 3).
+
+1. Acesse https://developers.facebook.com > Meus apps > Criar app > tipo "Empresa".
+2. Adicione o produto "WhatsApp" e cadastre o número da RUAH.
+3. No Gerenciador de Negócios, crie um "Usuário do sistema" e gere um token permanente
+   com as permissões whatsapp_business_messaging e whatsapp_business_management.
+4. Preencha no .env:
+      WA_TOKEN=        (token permanente)
+      WA_PHONE_ID=     (ID do número de telefone, na tela do WhatsApp > Configuração da API)
+      WA_APP_SECRET=   (Configurações do app > Básico > Chave secreta do app)
+   O WA_VERIFY_TOKEN já foi criado automaticamente.
+5. Em WhatsApp > Configuração > Webhook:
+      URL de callback:  https://SEU-ENDERECO-PUBLICO/webhook/whatsapp
+      Token de verificação: o valor de WA_VERIFY_TOKEN do .env
+   Assine o campo "messages".
+
+Regras da Meta: o sistema responde livremente até 24h depois da última mensagem do
+cliente. Depois disso, só com modelo de mensagem aprovado (fase 2: reativação de leads).
+Quem responder "parar" entra automaticamente na lista não contatar.
+
+
+PARTE 3 - ENDEREÇO PÚBLICO (assinatura de casa, link do imóvel e webhook)
+------------------------------------------------------------------------
+Sem isso, os links de assinatura e de imóvel só abrem neste PC ou no Wi-Fi do escritório.
+Opção recomendada (gratuita): Cloudflare Tunnel com um subdomínio da RUAH.
+  1. winget install Cloudflare.cloudflared
+  2. Siga https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/
+     para criar um túnel apontando sistema.ruahimobiliaria.com.br -> http://localhost:3333
+  3. No .env:  PUBLIC_URL=https://sistema.ruahimobiliaria.com.br
+Teste rápido (endereço muda a cada vez):  cloudflared tunnel --url http://localhost:3333
+
+
+PARTE 4 - IA LOCAL (sugestões no WhatsApp)
+------------------------------------------
+Usa o Ollama deste PC, sem custo e sem enviar conversas para fora.
+Modelo padrão: qwen3:14b (OLLAMA_MODEL no .env). Se não tiver: ollama pull qwen3:14b
+IA_MODO=sugerir      -> a IA escreve, o corretor confere e clica em "Aprovar e enviar" (padrão)
+IA_MODO=automatico   -> a IA responde sozinha (use só depois de testar bastante)
+IA_MODO=desligado    -> sem IA
+A IA só fala dos imóveis com status "Publicado" e nunca inventa preço ou condição.
+
+
+AUTORIZAÇÃO DE VENDA
+--------------------
+O texto gerado é um MODELO INICIAL. Peça ao advogado da RUAH para revisar antes de usar.
+A assinatura é eletrônica simples (link individual + CPF conferido + assinatura desenhada
++ IP, data/hora e hash do documento), válida entre as partes pela MP 2.200-2/2001.
+O PDF assinado vai para a pasta "Autorização de venda" do imóvel.
+
+
+RADAR DE CAPTAÇÃO (FASE 2)
+--------------------------
+Menu Captação > Nova oportunidade: copie os dados do alerta do portal (link, título, telefone,
+endereço provável). O sistema avisa se o imóvel já está cadastrado e calcula a prioridade
+(particular, anúncio novo, preço caiu, alto padrão).
+
+A cascata é sempre do grátis para o pago:
+  1. Contato do anúncio (WhatsApp do próprio anunciante).
+  2. Carta ao proprietário com QR code. Imprima várias de uma vez na lista do radar.
+     Quando o dono aponta a câmera, o WhatsApp abre com a referência OP-0001 e a resposta
+     cai sozinha na oportunidade certa.
+  3. Placa, portaria e vizinhança.
+  4. Matrícula (paga) e 5. Birô (pago): só depois de tentar o grátis e com aprovação do
+     gestor ou do administrativo. O custo fica registrado e aparece o custo por captação.
+
+Configuração no .env (opcional):
+  WHATSAPP_RUAH=19999999999   número central impresso no QR code das cartas.
+                              Vazio = celular do corretor (Configurações > Meu WhatsApp).
+  CUSTO_MATRICULA=  e  CUSTO_BIRO=   valores de referência sugeridos no pedido.
+
+Proteções: anúncio de imobiliária não é abordado; quem responde PARAR ou é descartado como
+"não contatar" bloqueia o telefone e o endereço para sempre (só o gestor reabre).
+
+RADAR AUTOMÁTICO (o sistema busca sozinho os anúncios novos)
+------------------------------------------------------------
+Os portais mandam por e-mail os anúncios novos que batem com uma busca salva. O sistema lê esses
+e-mails a cada 10 minutos e cria as oportunidades sozinho: tira repetidos, junta o mesmo imóvel
+anunciado em mais de um portal, avisa quando o preço cai e calcula a prioridade.
+Ele só LÊ a caixa (não apaga, não responde, não marca como lido) e só aceita e-mails que o Gmail
+confirma que vieram mesmo do portal (proteção contra e-mail falso).
+
+1. SENHA DE APP do Gmail (uma vez):
+   - Entre em https://myaccount.google.com com a conta imoveisruah@gmail.com.
+   - Segurança > "Verificação em duas etapas": ative (é obrigatório para a senha de app).
+   - Abra https://myaccount.google.com/apppasswords , dê o nome "Sistema RUAH" e clique em Criar.
+   - Aparece uma senha de 16 letras. Copie.
+2. No arquivo .env (pasta do sistema), preencha:
+      RADAR_EMAIL=imoveisruah@gmail.com
+      RADAR_EMAIL_SENHA=abcd efgh ijkl mnop     (a senha de app, pode ser com ou sem espaços)
+   Feche e abra o sistema. No Radar de captação aparece "Radar automático ligado".
+   Não use a senha normal da conta e não mande essa senha por mensagem para ninguém.
+3. CRIE OS ALERTAS nos portais, logado com imoveisruah@gmail.com:
+   - OLX: Imóveis > Venda > Campinas, escolha o bairro e os filtros (tipo, faixa de preço).
+     Se tiver o filtro "Particular", marque. Clique em "Salvar busca" e ative o aviso por e-mail.
+   - ZAP Imóveis e Viva Real: faça a busca e clique em "Criar alerta" (escolha e-mail diário ou imediato).
+   - Imovelweb e Chaves na Mão: faça a busca e clique em "Receber alertas" / "Criar alerta".
+   Dica: um alerta por região ou faixa de preço que interessa (ex.: Cambuí até 3 milhões, Alphaville,
+   Nova Campinas). Quanto mais específico, menos lixo.
+4. Conferir: no Radar, clique em "Ler agora" (ou "Reler 7 dias" na primeira vez).
+   Para ver em detalhe o que o sistema leu, sem gravar nada, abra o PowerShell na pasta do sistema e rode:
+      node ler-alertas.js --testar --dias 7
+
+Facebook Marketplace não manda alerta por e-mail: lá o corretor cadastra pelo botão "+ Nova oportunidade".
+Se aparecer erro de login: confira a senha de app. Se aparecer erro de conexão: o antivírus pode estar
+bloqueando a porta 993 (IMAP do Gmail).

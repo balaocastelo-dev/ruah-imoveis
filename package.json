@@ -1,0 +1,23 @@
+{
+  "name": "sistema-ruah",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema RUAH Investimentos Imobiliários - Fase 1",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node test/smoke.js"
+  },
+  "dependencies": {
+    "express": "5.1.0",
+    "imapflow": "2.1.2",
+    "multer": "2.0.2",
+    "node-html-parser": "9.0.4",
+    "pdfkit": "0.17.2",
+    "qrcode": "1.5.4"
+  }
+}
