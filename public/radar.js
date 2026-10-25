@@ -5,7 +5,7 @@ const PRIO = { alta: ['alta', 'bad'], media: ['média', 'warn'], baixa: ['baixa'
 const opPill = (s) => `<span class="pill ${(OP_ST[s] || ['', 'info'])[1]}">${esc((OP_ST[s] || [s])[0])}</span>`;
 const prioPill = (p) => `<span class="pill ${PRIO[p.nivel][1]}" title="${esc(p.motivos.join(' · '))}">${PRIO[p.nivel][0]}</span>`;
 const endOp = (o) => [o.logradouro, o.numero].filter(Boolean).join(', ') + (o.unidade ? ' · ' + o.unidade : '');
-const PORTAIS = ['ZAP Imóveis', 'Viva Real', 'Imovelweb', 'Chaves na Mão', 'Casa Mineira', 'OLX', 'Placa na rua', 'Indicação', 'Outro'];
+const PORTAIS = ['ZAP Imóveis', 'Viva Real', 'Imovelweb', 'Chaves na Mão', 'Casa Mineira', 'OLX', 'Facebook Marketplace', 'Placa na rua', 'Indicação', 'Outro'];
 
 async function telaRadar(qs) {
   const st = qs.get('status') || '';
@@ -13,7 +13,7 @@ async function telaRadar(qs) {
   const n = (k) => r.porStatus[k] || 0;
   $('#main').innerHTML = `<div class="eyebrow">Captação</div><h1>Radar de captação</h1>
   <p class="lead">Imóveis à venda por particulares que podem virar exclusividade da RUAH. A ordem é sempre do grátis para o pago: contato do anúncio, carta com QR code, placa/portaria e, só com aprovação, matrícula e birô.</p>
-  ${avisoSaude(al, true)}${painelAlertas(al)}
+  ${avisoSaude(al, true)}${painelAlertas(al)}${cartaoBotaoRadar()}
   ${veTudo() && r.aprovacoesPendentes ? `<div class="banner warn"><b>${r.aprovacoesPendentes}</b> pedido(s) de consulta paga esperando aprovação. <a href="#/radar/aprovacoes">Revisar agora</a></div>` : ''}
   <div class="grid g4">
     <div class="card kpi"><div class="n">${n('nova') + n('em_contato') + n('carta_enviada') + n('aguardando_aprovacao')}</div><div class="l">Em andamento</div></div>
@@ -48,6 +48,24 @@ function portaisLinha(al) {
     return `<span class="pill ${cls}" title="${esc(n)}">${esc(n)} · ${esc(txt)}</span>`;
   }).join('')}</div>`;
 }
+// Monitor direto: lê o mapa de anúncios novos dos portais que permitem (hoje, Chaves na Mão).
+function monitorLinha(al) {
+  const p = al.portais; if (!p) return '';
+  if (!p.ligado) return '<div class="small muted" style="margin-top:6px">Monitor direto dos portais desligado (RADAR_PORTAIS=0).</div>';
+  const u = p.ultima;
+  const quando = u ? new Date(u.em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : null;
+  return `<div class="small" style="margin-top:8px"><b>Monitor direto</b> · ${esc(p.fontes.join(', '))} a cada ${p.intervalo_min} min${p.rodando ? ' · buscando agora…' : ''}
+    ${u ? ` · última busca ${esc(quando)}: ${u.erro ? `<span class="pill bad">${esc(u.erro)}</span>` : `${u.novas} nova(s) de ${u.alvo} anúncio(s) nos bairros${u.fila ? `, ${u.fila} na fila` : ''}`}` : ' · primeira busca em instantes'}
+    <br><span class="muted">ZAP, Viva Real, OLX e Imovelweb bloqueiam leitura automática: use o botão “Mandar pro Radar” abaixo.</span></div>`;
+}
+// Favorito do navegador: o corretor abre o anúncio no portal e clica; o Radar abre com os dados preenchidos.
+function cartaoBotaoRadar() {
+  const base = location.origin;
+  const js = `(()=>{const m=n=>(document.querySelector('meta[property="'+n+'"],meta[name="'+n+'"]')||{}).content||'';const tx=(document.body.innerText||'').slice(0,20000);const g=r=>(tx.match(r)||[])[1]||'';const h=location.hostname;const portal=/zapimoveis/.test(h)?'ZAP Imóveis':/vivareal/.test(h)?'Viva Real':/olx/.test(h)?'OLX':/imovelweb/.test(h)?'Imovelweb':/chavesnamao/.test(h)?'Chaves na Mão':/facebook/.test(h)?'Facebook Marketplace':'Outro';const q=new URLSearchParams({portal,link:location.href.split('?')[0],titulo:(m('og:title')||document.title).trim().slice(0,180),valor:g(/R\$\s?([\d.]{5,})/),area:g(/(\d{2,5})\s?m²/),quartos:g(/(\d+)\s?quartos?/i),vagas:g(/(\d+)\s?vagas?/i),anunciante:/particular|propriet[áa]rio direto|direto com o propriet/i.test(tx)?'particular':(/creci/i.test(tx)?'imobiliaria':'')});window.open('${base}/#/radar/novo?'+q.toString(),'_blank');})()`;
+  return `<div class="card" style="margin-bottom:14px"><div class="row" style="gap:12px;align-items:center">
+    <div style="flex:1;min-width:240px"><b>Botão “Mandar pro Radar”</b><br><span class="small muted">Para ZAP, Viva Real, OLX, Imovelweb e Facebook. Arraste o botão dourado para a barra de favoritos do Chrome (uma vez só). Depois, com um anúncio aberto no portal, clique nele: o Radar abre com link, título, valor, área e quartos já preenchidos. Confira e salve.</span></div>
+    <a class="btn pri" href="javascript:${esc(encodeURIComponent(js))}" draggable="true" title="Arraste para a barra de favoritos">★ Mandar pro Radar</a></div></div>`;
+}
 function avisoSaude(al, ondeRadar) {
   if (!al || !al.saude || al.saude.ok) return '';
   return `<div class="banner warn" style="border-style:solid;border-color:var(--bad);background:var(--bad-bg)"><b>⚠ Radar de captação precisa de atenção.</b><ul style="margin:6px 0 0;padding-left:18px">${al.saude.problemas.map((p) => `<li>${esc(p.texto)}</li>`).join('')}</ul>${ondeRadar ? '' : ' <a href="#/radar">Abrir o Radar</a>'}</div>`;
@@ -63,9 +81,15 @@ function painelAlertas(al) {
     <div style="flex:1;min-width:220px"><b>Radar automático ligado</b> <span class="muted small">· lendo ${esc(al.email)} a cada ${al.intervalo_min} min</span><br>
       <span class="small">${al.rodando ? 'Lendo os alertas agora…' : quando ? `Última leitura ${esc(quando)}${res ? ': ' + esc(res) : ''}.` : 'Primeira leitura em instantes.'} <b>${al.hoje}</b> encontrada(s) hoje.</span>
       ${u && u.erro ? `<br><span class="pill bad">${esc(u.erro)}</span>` : ''}
-      ${portaisLinha(al)}</div>
-    ${veTudo() ? `<button class="btn sm" data-act="alertas-ler">Ler agora</button><button class="btn sm" data-act="alertas-ler" data-dias="7" title="Relê os alertas dos últimos 7 dias (não duplica)">Reler 7 dias</button>` : ''}</div></div>`;
+      ${portaisLinha(al)}${monitorLinha(al)}</div>
+    ${veTudo() ? `<button class="btn sm" data-act="portais-ler" title="Lê agora os anúncios novos do Chaves na Mão">Buscar nos portais</button><button class="btn sm" data-act="alertas-ler">Ler e-mail</button><button class="btn sm" data-act="alertas-ler" data-dias="7" title="Relê os alertas dos últimos 7 dias (não duplica)">Reler 7 dias</button>` : ''}</div></div>`;
 }
+ACT['portais-ler'] = (el) => comBotao(el, async () => {
+  const r = await api('POST', '/api/radar/portais/ler');
+  if (r.erro) { rota(); throw new Error(r.erro); }
+  toast(`${r.novas} oportunidade(s) nova(s) no Chaves na Mão${r.fila ? ` · ${r.fila} na fila para a próxima busca` : ''}`);
+  rota();
+});
 ACT['alertas-ler'] = (el) => comBotao(el, async () => {
   const r = await api('POST', '/api/radar/alertas/ler', el.dataset.dias ? { dias: +el.dataset.dias } : {});
   if (r.erro) { rota(); throw new Error(r.erro); }
@@ -75,11 +99,24 @@ ACT['alertas-ler'] = (el) => comBotao(el, async () => {
 ACT['cartas-lote'] = () => { const ids = selecionadas(); if (!ids.length) return toast('Selecione as oportunidades na lista.', true); window.open('/api/radar/cartas.pdf?ids=' + ids.join(','), '_blank', 'noopener'); };
 ACT['cartas-enviadas'] = (el) => comBotao(el, async () => { const ids = selecionadas(); if (!ids.length) throw new Error('Selecione as oportunidades na lista.'); const r = await api('POST', '/api/radar/cartas-enviadas', { ids }); toast(`${r.marcadas} carta(s) marcada(s) como enviada(s)`); rota(); });
 
-async function telaOpForm(id) {
+async function telaOpForm(id, qs) {
   const o = id ? await api('GET', `/api/radar/${id}`) : { anunciante_tipo: 'particular', cidade: 'Campinas' };
+  // veio do botão "Mandar pro Radar": preenche com o que foi lido do anúncio
+  const veio = !id && qs && qs.get('link');
+  if (veio) {
+    const num = (v) => { const n = Number(String(v || '').replace(/\./g, '').replace(',', '.')); return Number.isFinite(n) && n > 0 ? n : null; };
+    const tit = qs.get('titulo') || '';
+    o.portal = PORTAIS.includes(qs.get('portal')) ? qs.get('portal') : 'Outro';
+    o.link = qs.get('link'); o.titulo = tit; o.valor = num(qs.get('valor')); o.area = num(qs.get('area'));
+    o.quartos = num(qs.get('quartos')); o.vagas = num(qs.get('vagas'));
+    if (['particular', 'imobiliaria'].includes(qs.get('anunciante'))) o.anunciante_tipo = qs.get('anunciante');
+    o.tipo = /cobertura/i.test(tit) ? 'Cobertura' : /casa.*condom/i.test(tit) ? 'Casa em condomínio' : /casa|sobrado/i.test(tit) ? 'Casa' : /apart|apto/i.test(tit) ? 'Apartamento' : '';
+    o.publicado_em = new Date().toISOString().slice(0, 10);
+  }
   const v = (k) => esc(o[k] ?? '');
   $('#main').innerHTML = `<a class="btn sm" href="${id ? '#/radar/' + id : '#/radar'}">← Voltar</a>
   <div class="eyebrow" style="margin-top:12px">${id ? esc(o.ref) : 'Radar de captação'}</div><h1>${id ? 'Editar oportunidade' : 'Nova oportunidade'}</h1>
+  ${veio ? '<div class="banner info"><b>Dados trazidos do anúncio.</b> Confira valor, área, quartos e quem anuncia antes de salvar: a leitura automática pode errar.</div>' : ''}
   <p class="lead">Copie os dados do alerta do portal. O sistema avisa se o mesmo imóvel já foi cadastrado (mesmo link, telefone ou endereço) e calcula a prioridade.</p>
   <form class="grid" style="gap:16px" data-form="op" data-id="${id || ''}"><div class="grid g2">
     <fieldset><legend>Anúncio</legend>

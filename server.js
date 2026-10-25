@@ -66,6 +66,7 @@ if (require.main === module) {
     console.log('   Para parar: feche esta janela');
     console.log('  ==============================================\n');
     require('./src/services/alertas').iniciar();
+    require('./src/services/portais').iniciar();
   });
 }
 

@@ -52,6 +52,9 @@ module.exports = {
   RADAR_EMAIL_PASTA: env('RADAR_EMAIL_PASTA', 'INBOX'),
   RADAR_INTERVALO_MIN: env('RADAR_INTERVALO_MIN', '10'),
   RADAR_ALERTA_MAX_HORAS: env('RADAR_ALERTA_MAX_HORAS', '24'),
+  RADAR_PORTAIS: env('RADAR_PORTAIS', '1'),            // monitor direto dos portais (0 desliga)
+  RADAR_PORTAIS_MIN: env('RADAR_PORTAIS_MIN', '60'),   // de quantos em quantos minutos (mínimo 30)
+  RADAR_BAIRROS: env('RADAR_BAIRROS', ''),             // bairros vigiados, separados por vírgula (vazio = os 11 da RUAH)
 
   // IA local (Ollama)
   OLLAMA_URL: env('OLLAMA_URL', 'http://127.0.0.1:11434'),

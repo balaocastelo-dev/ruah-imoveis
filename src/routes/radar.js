@@ -79,7 +79,22 @@ const comExtras = (op) => ({ ...op, ref: carta.ref(op), prioridade: prioridade(o
 
 // ---------- radar automático (alertas por e-mail) ----------
 const alertas = require('../services/alertas');
-r.get('/radar/alertas', (req, res) => res.json(alertas.status()));
+const portais = require('../services/portais');
+// Status do radar automático: e-mail + monitor direto. O vigia junta os problemas dos dois.
+r.get('/radar/alertas', (req, res) => {
+  const st = alertas.status(); const ps = portais.status();
+  if (ps.ligado) {
+    if (ps.ultima && ps.ultima.erro) st.saude.problemas.push({ tipo: 'portais', texto: `Monitor direto dos portais: ${ps.ultima.erro}` });
+    if (ps.parado) st.saude.problemas.push({ tipo: 'portais', texto: 'O monitor direto dos portais parou de rodar. O sistema está aberto?' });
+    st.saude.ok = !st.saude.problemas.length;
+  }
+  res.json({ ...st, portais: ps });
+});
+r.post('/radar/portais/ler', A.exigePerfil('adm', 'gestor'), async (req, res) => {
+  const { encontrados, ...r0 } = await portais.ler();
+  audit(req.usuario.id, 'radar_ler_portais', 'manual');
+  res.json(r0);
+});
 r.post('/radar/alertas/ler', A.exigePerfil('adm', 'gestor'), async (req, res) => {
   if (!alertas.configurado()) falha(400, 'Configure o e-mail do radar no .env (RADAR_EMAIL e RADAR_EMAIL_SENHA).');
   const dias = Math.min(30, parseInt(req.body?.dias, 10) || 0) || null;

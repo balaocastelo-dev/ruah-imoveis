@@ -148,7 +148,7 @@ async function rota() {
     else if (p[0] === 'leads') await telaLeads();
     else if (p[0] === 'whats') await telaWhats(p[1] ? +p[1] : null);
     else if (p[0] === 'visitas') await telaVisitas();
-    else if (p[0] === 'radar' && p[1] === 'novo') await telaOpForm();
+    else if (p[0] === 'radar' && p[1] === 'novo') await telaOpForm(null, new URLSearchParams(qs || ''));
     else if (p[0] === 'radar' && p[1] === 'aprovacoes') await telaAprovacoes();
     else if (p[0] === 'radar' && p[1] && p[2] === 'editar') await telaOpForm(+p[1]);
     else if (p[0] === 'radar' && p[1]) await telaOp(+p[1]);

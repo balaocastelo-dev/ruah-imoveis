@@ -180,8 +180,8 @@ function registra(a, quando) {
   const id = Number(run(`INSERT INTO oportunidades(portal,link,titulo,tipo,bairro,cidade,quartos,vagas,area,valor,anunciante_tipo,publicado_em,observacoes)
       VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`, a.portal, a.link, a.titulo, a.tipo, a.bairro, a.cidade || cfg.CIDADE_PADRAO,
     a.quartos ? parseInt(a.quartos, 10) : null, a.vagas ? parseInt(a.vagas, 10) : null, a.area, a.valor, a.anunciante_tipo, quando,
-    `Texto do alerta: ${a.texto}`.slice(0, 2000)).lastInsertRowid);
-  ev(id, `Encontrada automaticamente no alerta de e-mail do ${a.portal}.`);
+    `${a.origem ? 'Texto do anúncio' : 'Texto do alerta'}: ${a.texto}`.slice(0, 2000)).lastInsertRowid);
+  ev(id, `Encontrada automaticamente ${a.origem ? 'pelo ' + a.origem : 'no alerta de e-mail do ' + a.portal}: ${a.link}`);
   if (a.anunciante_tipo === 'imobiliaria') ev(id, 'Anunciado por imobiliária: não abordar o dono (provável exclusividade).');
   return 'nova';
 }
@@ -317,4 +317,4 @@ function iniciar() {
   console.log(`  Radar automático: lendo ${cfg.RADAR_EMAIL} a cada ${intervaloMin()} min.`);
 }
 
-module.exports = { configurado, status, saude, ler, iniciar, anunciosDoEmail, extraiCampos, remetenteConfiavel, cabecalhos, registra, PORTAIS };
+module.exports = { configurado, status, saude, anotaPortal, ler, iniciar, anunciosDoEmail, extraiCampos, remetenteConfiavel, cabecalhos, registra, PORTAIS };
