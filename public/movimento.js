@@ -13,9 +13,12 @@
   const parado = () => reduz && reduz.matches;
 
   const SUAVE = 'cubic-bezier(.22,1,.36,1)';
+  // Tudo que forma um "painel" em qualquer tela do sistema e nas páginas públicas (link do imóvel e assinatura).
   const ALVOS = '.eyebrow,h1,.lead,.banner,.card,.imcardw,.item,.col,.lc,fieldset,.tabs,.seg,.empty,.timeline>div,tbody>tr,.sug,.alertas,' +
-    '.side,.brand,.who,#nav a,#nav .grp,.wrap>*';
-  const IGNORA = '.gal,#toast,#modal,#chat';
+    '.side,.brand,.who,#nav a,#nav .grp,.wrap>*,.hero,.thumbs img,.doc,.copybox,.dl,.fotos>*,' +
+    '#main>h2,#main>h3,#main>.row,#main>a.btn,#aba>*,.auth label.f,.auth .btn,.auth label.chk,.auth p,' +
+    '.modal>h2,.modal>p,.modal>form>*,.modal>.tbl,.modal>.row';
+  const IGNORA = '.gal,#toast,#chat';
 
   // Só anima o que aparece por ação da pessoa (abrir tela, buscar, clicar, arrastar).
   // Atualizações automáticas em segundo plano não piscam a tela.
@@ -36,14 +39,46 @@
   const DE_LADO = { opacity: 0, transform: 'translateX(-18px)' };
   const SO_OPACO = { opacity: 0 };
 
+  const deOnde = (el) => el.matches('tbody>tr') ? SO_OPACO : el.matches('.side,#nav a,#nav .grp') ? DE_LADO
+    : el.matches('.hero') ? { opacity: 0, transform: 'scale(1.04)' } : null;
+  const numero = (el, atraso) => { if (el.matches('.kpi')) { const n = el.querySelector('.n'); if (n) conta(n, atraso + 120); } };
+
+  // O que está abaixo da tela espera: entra quando a pessoa rola até ele.
+  const esperando = new Map();
+  const revela = 'IntersectionObserver' in window ? new IntersectionObserver((ents) => {
+    let k = 0;
+    for (const e of ents) {
+      if (!e.isIntersecting) continue;
+      const a = esperando.get(e.target);
+      revela.unobserve(e.target); esperando.delete(e.target);
+      if (!a) continue;
+      a.effect.updateTiming({ delay: Math.min(k++ * 60, 360) });
+      a.play();
+      numero(e.target, Math.min(k * 60, 360));
+    }
+  }, { rootMargin: '0px 0px -30px 0px' }) : null;
+  const soltaTodos = () => { esperando.forEach((a, el) => { a.finish(); revela.unobserve(el); }); esperando.clear(); };
+  window.addEventListener('beforeprint', soltaTodos);
+  window.addEventListener('hashchange', soltaTodos, true);
+
   function cascata(lista) {
     let i = 0;
+    const alturaTela = window.innerHeight;
     for (const el of lista) {
-      if (i >= 70) break;
+      if (i >= 90) break;
+      const de = deOnde(el);
+      const r = el.getBoundingClientRect();
+      if (revela && r.top > alturaTela && r.height > 0 && !el.closest('.modal')) {
+        const a = el.animate([de || { opacity: 0, transform: 'translateY(22px) scale(.985)' }, { opacity: 1, transform: 'none' }],
+          { duration: 620, easing: SUAVE, fill: 'backwards' });
+        a.pause();
+        esperando.set(el, a);
+        revela.observe(el);
+        continue;
+      }
       const atraso = Math.min(i * 38, 650);
-      const de = el.matches('tbody>tr') ? SO_OPACO : el.matches('.side,#nav a,#nav .grp') ? DE_LADO : null;
       entra(el, atraso, de);
-      if (el.matches('.kpi')) { const n = el.querySelector('.n'); if (n) conta(n, atraso + 120); }
+      numero(el, atraso);
       i++;
     }
   }
@@ -109,6 +144,17 @@
     montaIndicador();
   });
   obs.observe(document.body, { childList: true, subtree: true });
+
+  // Troca de foto (destaque do link do imóvel e galeria) com transição
+  new MutationObserver((recs) => {
+    if (parado()) return;
+    for (const r of recs) {
+      const img = r.target;
+      if (r.oldValue && img.matches && img.matches('.hero,.gal-palco img') && !img.closest('[hidden]')) {
+        img.animate([{ opacity: .35, transform: 'scale(.97)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: SUAVE });
+      }
+    }
+  }).observe(document.body, { attributes: true, attributeFilter: ['src'], attributeOldValue: true, subtree: true });
 
   // ---------- barra dourada que desliza no menu ----------
   let navObs = null;

@@ -348,3 +348,48 @@ label.f input.auto{animation:preenche .9s var(--suave)}
 }
 @media (hover:none){.kpi::before,.imcardw::before{display:none}}
 @media (prefers-reduced-motion:reduce){.card.kpi:hover,.imcardw:hover,.btn:hover,.lc:hover,.item.click:hover,nav a:hover{transform:none}.imcardw:hover .imfoto img{transform:none}}
+
+/* Movimento V18 — todo e qualquer painel */
+.card:not(.kpi):not(form):hover{transform:translateY(-3px);box-shadow:var(--sombra-alta)}
+.card:focus-within,form.card:hover{transform:none}
+form.card:hover,.card:focus-within{box-shadow:var(--sombra-alta)}
+.card.tbl:hover{transform:none}
+tbody tr td{transition:background .25s,transform .3s var(--mola)}
+tbody tr:hover td{background:color-mix(in srgb,var(--gold-soft) 60%,transparent)}
+fieldset{transition:border-color .25s,box-shadow .35s var(--suave)}
+fieldset:focus-within{border-color:var(--gold);box-shadow:var(--sombra)}
+fieldset:focus-within legend{animation:pulsa .6s var(--mola);display:inline-block}
+.banner{transition:transform .35s var(--mola)}
+.banner:hover{transform:translateX(3px)}
+.empty{transition:border-color .3s,color .3s}
+.empty:hover{border-color:var(--gold);color:var(--ink)}
+.copybox .inp{transition:box-shadow .3s}
+.dl dd{transition:transform .3s var(--mola)}
+.dl dd:hover{transform:translateX(3px)}
+.fotos img,.fotos .noimg{transition:transform .5s var(--mola),box-shadow .35s}
+.fotos button.foto:hover img,.fotos a:hover img{transform:scale(1.04);box-shadow:var(--sombra-alta)}
+.col h4 .mono{transition:transform .3s var(--mola)}
+.col:hover h4 .mono{transform:scale(1.15)}
+.timeline div{border-radius:0 8px 8px 0}
+.timeline div:hover{background:color-mix(in srgb,var(--gold-soft) 50%,transparent)}
+.chat{border-radius:14px;scroll-behavior:smooth}
+.msg{border-radius:14px;transition:transform .3s var(--mola)}
+.msg:hover{transform:scale(1.015)}
+label.chk input{transition:transform .3s var(--mola)}
+label.chk input:checked{animation:pulsa .45s var(--mola)}
+select.inp,label.f select{cursor:pointer}
+
+/* Páginas públicas: link do imóvel e assinatura */
+.hero{transition:transform .9s var(--suave),box-shadow .4s;border-radius:18px!important}
+.hero:hover{transform:scale(1.01);box-shadow:var(--sombra-alta)}
+.thumbs img{transition:transform .35s var(--mola),border-color .2s,opacity .2s;border-radius:10px!important}
+.thumbs img:hover{transform:translateY(-3px)}
+.thumbs img:not(.on){opacity:.75}
+.thumbs img:not(.on):hover{opacity:1}
+.doc{border-radius:16px!important;box-shadow:var(--sombra);transition:box-shadow .3s}
+.doc:hover{box-shadow:var(--sombra-alta)}
+canvas#cv{transition:border-color .25s,box-shadow .3s}
+canvas#cv:hover,canvas#cv:active{border-color:var(--gold)!important;box-shadow:0 0 0 4px var(--gold-soft)}
+
+@media (max-width:760px){.card:not(.kpi):not(form):hover,.banner:hover,.dl dd:hover,.msg:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){.card:hover,.banner:hover,.hero:hover,.thumbs img:hover{transform:none!important}}
