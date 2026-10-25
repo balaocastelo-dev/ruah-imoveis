@@ -177,10 +177,12 @@ function registra(a, quando) {
     const gemea = all("SELECT * FROM oportunidades WHERE status!='descartada' AND bairro=? AND abs(valor-?)<=?*0.01 AND abs(coalesce(area,0)-?)<=2", a.bairro, a.valor, a.valor, a.area)[0];
     if (gemea) { if (!one("SELECT 1 FROM oportunidade_eventos WHERE oportunidade_id=? AND texto LIKE ?", gemea.id, '%' + a.link + '%')) ev(gemea.id, `Provavelmente o mesmo imóvel anunciado também no ${a.portal}: ${a.link}`); return 'repetido'; }
   }
-  const id = Number(run(`INSERT INTO oportunidades(portal,link,titulo,tipo,bairro,cidade,quartos,vagas,area,valor,anunciante_tipo,publicado_em,observacoes)
-      VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`, a.portal, a.link, a.titulo, a.tipo, a.bairro, a.cidade || cfg.CIDADE_PADRAO,
+  // endereço quando o título traz ("... na Rua Antônio Cesarino, 686, Cambuí")
+  const end = String(a.titulo || '').match(/\b(?:na|no)\s+((?:Rua|Avenida|Av\.|Alameda|Al\.|Travessa|Estrada|Rodovia|Praça|Largo)\s[^,]{2,80}),\s*(\d{1,6})\b/i);
+  const id = Number(run(`INSERT INTO oportunidades(portal,link,titulo,tipo,bairro,cidade,quartos,vagas,area,valor,anunciante_tipo,publicado_em,observacoes,logradouro,numero)
+      VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, a.portal, a.link, a.titulo, a.tipo, a.bairro, a.cidade || cfg.CIDADE_PADRAO,
     a.quartos ? parseInt(a.quartos, 10) : null, a.vagas ? parseInt(a.vagas, 10) : null, a.area, a.valor, a.anunciante_tipo, quando,
-    `${a.origem ? 'Texto do anúncio' : 'Texto do alerta'}: ${a.texto}`.slice(0, 2000)).lastInsertRowid);
+    `${a.origem ? 'Texto do anúncio' : 'Texto do alerta'}: ${a.texto}`.slice(0, 2000), end ? end[1].trim() : null, end ? end[2] : null).lastInsertRowid);
   ev(id, `Encontrada automaticamente ${a.origem ? 'pelo ' + a.origem : 'no alerta de e-mail do ' + a.portal}: ${a.link}`);
   if (a.anunciante_tipo === 'imobiliaria') ev(id, 'Anunciado por imobiliária: não abordar o dono (provável exclusividade).');
   return 'nova';
