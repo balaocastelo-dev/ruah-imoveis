@@ -12,7 +12,7 @@ const cfg = require('../config');
 const { getConfig, setConfig, audit } = require('../db');
 const alertas = require('./alertas');
 
-const UA = 'Mozilla/5.0 (compatible; SistemaRUAH-Radar/1.0; leitura de anúncios novos para captação)';
+const UA = 'Mozilla/5.0 (compatible; SistemaRUAH-Radar/1.0; +https://ruahimobiliaria.com.br)';
 const BASE = 'https://www.chavesnamao.com.br';
 const PAUSA_MS = 4000;          // entre uma página e outra do mesmo portal
 const DETALHES_POR_RODADA = 25; // anúncios novos abertos por rodada (o resto fica na fila)
@@ -87,6 +87,7 @@ async function lerAgora({ log = () => {}, testar = false } = {}) {
   const r = { em: new Date().toISOString(), ok: false, fonte: 'Chaves na Mão', lidos: 0, campinas: 0, alvo: 0, novas: 0, precos: 0, repetidos: 0, fila: 0, erro: null, encontrados: [] };
   try {
     if (!(await robotsPermite())) throw new Error('O robots.txt do Chaves na Mão passou a proibir esta leitura. Monitor pausado.');
+    await espera(PAUSA_MS);
     const indice = await baixa(`${BASE}/sitemap-index.xml`);
     const mapas = [...indice.matchAll(/<loc>([^<]*sitemap-venda-imoveis-(\d+)\.xml(?:\.gz)?)<\/loc>\s*(?:<lastmod>([^<]+))?/g)]
       .map((m) => ({ url: m[1], n: +m[2], lastmod: m[3] || '' })).sort((a, b) => a.n - b.n).slice(0, 2);
