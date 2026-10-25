@@ -193,3 +193,158 @@ html.gal-aberta,html.gal-aberta body{overflow:hidden}
 @media (max-width:1000px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3,.g21,.g12{grid-template-columns:1fr}}
 @media (max-width:760px){.app{grid-template-columns:1fr}.side{position:static;height:auto}nav{flex-direction:row;flex-wrap:wrap}nav .grp{width:100%;margin:4px}.main{padding:16px}.g2{grid-template-columns:1fr}h1{font-size:28px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ==========================================================================
+   Movimento V18 — forma e animação inspiradas no "Dashboard V18".
+   As cores NÃO mudam: tudo usa as mesmas variáveis do começo deste arquivo.
+   O que se move fica em public/movimento.js.
+   ========================================================================== */
+:root{
+  --mola:cubic-bezier(.34,1.56,.64,1); --suave:cubic-bezier(.22,1,.36,1);
+  --sombra:0 1px 2px rgba(0,0,0,.04),0 6px 18px rgba(0,0,0,.05);
+  --sombra-alta:0 2px 6px rgba(0,0,0,.06),0 22px 44px rgba(0,0,0,.13);
+  --brilho:rgba(255,255,255,.55);
+}
+@media (prefers-color-scheme: dark){:root{
+  --sombra:0 1px 2px rgba(0,0,0,.35),0 6px 18px rgba(0,0,0,.28);
+  --sombra-alta:0 2px 6px rgba(0,0,0,.4),0 22px 44px rgba(0,0,0,.5);
+  --brilho:rgba(255,255,255,.07)}}
+
+/* Menu lateral flutuante, em pílula */
+@media (min-width:761px){
+  .app{grid-template-columns:256px 1fr}
+  .side{margin:12px 0 12px 12px;height:calc(100vh - 24px);top:12px;border-radius:22px;box-shadow:var(--sombra-alta)}
+  .main{padding-top:26px}
+}
+nav{position:relative}
+nav a{position:relative;z-index:1;transition:background .2s,color .25s,transform .35s var(--mola)}
+nav a:hover{transform:translateX(3px)}
+nav a.on:hover{transform:none}
+nav.ind a.on{background:transparent}
+.nav-ind{position:absolute;left:0;top:0;width:0;height:0;border-radius:9px;background:var(--gold);z-index:0;pointer-events:none;opacity:0;
+  transition:transform .55s var(--mola),width .35s var(--suave),height .35s var(--suave),opacity .25s;
+  box-shadow:0 6px 18px color-mix(in srgb,var(--gold) 40%,transparent)}
+nav a,nav .grp{border-radius:9px}
+nav .ct{display:inline-block}
+nav .ct.pulsa{animation:pulsa .7s var(--mola)}
+@keyframes pulsa{35%{transform:scale(1.45)}}
+.who{border-radius:12px;transition:background .25s}
+.who:hover{background:rgba(255,255,255,.1)}
+
+/* Cards arredondados, sombra suave e "sobe" ao passar o mouse */
+.card{border-radius:16px;box-shadow:var(--sombra);transition:transform .45s var(--mola),box-shadow .35s var(--suave),border-color .25s}
+.card.kpi{position:relative;overflow:hidden;cursor:default}
+.card.kpi:hover{transform:translateY(-5px);box-shadow:var(--sombra-alta);border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.kpi::before,.imcardw::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;z-index:2;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,0),color-mix(in srgb,var(--gold) 16%,transparent),transparent 65%)}
+.kpi:hover::before,.imcardw:hover::before{opacity:1}
+.kpi .n{transition:transform .45s var(--mola);transform-origin:left bottom}
+.kpi:hover .n{transform:scale(1.06)}
+.card.dark{box-shadow:var(--sombra-alta)}
+
+/* Cards de imóvel: o card inteiro sobe e a foto aproxima devagar */
+.imcard,.imcardw{border-radius:16px}
+.imcardw{position:relative;transition:transform .5s var(--mola),box-shadow .4s var(--suave)}
+.imcardw:hover{transform:translateY(-6px);box-shadow:var(--sombra-alta)}
+.imcard:hover{transform:none;box-shadow:none}
+.imcardw.com-acoes .imcard{border-radius:16px 16px 0 0}
+.imacoes{border-radius:0 0 16px 16px}
+.imfoto img{transition:transform .9s var(--suave)}
+.imcardw:hover .imfoto img{transform:scale(1.07)}
+.imst .pill,.imbadge .pill,.imnf{transition:transform .4s var(--mola)}
+.imcardw:hover .imst .pill{transform:translateY(-1px) scale(1.05)}
+.imvalor{transition:letter-spacing .4s var(--suave)}
+.imcardw:hover .imvalor{letter-spacing:.01em}
+.minifoto{border-radius:9px}
+.minifoto img{transition:transform .6s var(--suave)}
+.item:hover .minifoto img{transform:scale(1.12)}
+
+/* Listas, kanban e tabelas */
+.item{border-radius:12px;transition:transform .35s var(--mola),border-color .2s,box-shadow .3s,background .2s}
+.item.click:hover{transform:translateX(4px);box-shadow:var(--sombra)}
+.col{border-radius:16px;transition:background .25s,border-color .25s,transform .35s var(--mola)}
+.col.over{transform:scale(1.015)}
+.col h4 .mono{display:inline-block;min-width:22px;text-align:center;border-radius:999px;background:var(--panel);border:1px solid var(--line);padding:0 6px}
+.lc{border-radius:12px;transition:transform .35s var(--mola),box-shadow .3s,border-color .2s,opacity .2s}
+.lc:hover{transform:translateY(-3px);box-shadow:var(--sombra)}
+.lc.drag{transform:rotate(-2.5deg) scale(.97)}
+.lc:active{cursor:grabbing}
+tr.click td{transition:background .2s}
+.card.tbl{padding:6px}
+.timeline div{transition:border-color .25s,padding-left .3s var(--suave)}
+.timeline div:hover{border-color:var(--gold);padding-left:14px}
+fieldset{border-radius:16px}
+.empty{border-radius:16px}
+.banner{border-radius:12px}
+.sug{border-radius:14px}
+
+/* Botões: mola ao passar o mouse, aperta ao clicar e solta uma onda */
+.btn{border-radius:10px;position:relative;overflow:hidden;isolation:isolate;
+  transition:transform .3s var(--mola),box-shadow .3s var(--suave),border-color .2s,background .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--sombra)}
+.btn:active{transform:scale(.95);transition-duration:.08s}
+.btn.pri:hover{box-shadow:0 8px 22px color-mix(in srgb,var(--gold) 40%,transparent)}
+.btn.pri::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;transform:translateX(-120%);
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transition:transform .8s var(--suave)}
+.btn.pri:hover::after{transform:translateX(120%)}
+.btn:disabled{transform:none;box-shadow:none}
+.onda{position:absolute;border-radius:50%;background:currentColor;opacity:.22;transform:scale(0);pointer-events:none;animation:onda .6s var(--suave) forwards;z-index:-1}
+@keyframes onda{to{transform:scale(1);opacity:0}}
+.seg{border-radius:10px}
+.seg button{position:relative;overflow:hidden;transition:background .3s var(--suave),color .2s}
+.pill{transition:transform .3s var(--mola)}
+
+/* Campos: anel suave no foco */
+label.f input,label.f select,label.f textarea,.inp{border-radius:10px;transition:border-color .2s,box-shadow .3s var(--suave),background .2s}
+label.f input:focus,label.f select:focus,label.f textarea:focus,.inp:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+label.f input.auto{animation:preenche .9s var(--suave)}
+@keyframes preenche{from{box-shadow:0 0 0 6px var(--ok-bg)}}
+
+/* Abas: o traço dourado cresce do centro */
+.tabs a{position:relative;border-bottom-color:transparent!important;transition:color .2s}
+.tabs a::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;border-radius:2px;background:var(--gold);transform:scaleX(0);transition:transform .4s var(--mola)}
+.tabs a:hover::after{transform:scaleX(.35)}
+.tabs a.on::after{transform:scaleX(1);animation:risca .55s var(--mola)}
+@keyframes risca{from{transform:scaleX(0)}}
+
+/* Janela (modal), aviso (toast) e galeria */
+.modal-bg{-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:fundo .25s ease}
+.modal{border-radius:20px;box-shadow:var(--sombra-alta);animation:sobe .5s var(--mola)}
+@keyframes fundo{from{opacity:0}}
+@keyframes sobe{from{opacity:0;transform:translateY(24px) scale(.96)}}
+.toast{border-radius:14px;animation:aviso .55s var(--mola)}
+@keyframes aviso{from{opacity:0;transform:translateY(24px) scale(.9)}}
+.gal{animation:fundo .3s ease}
+.gal-palco img{transition:opacity .2s,transform .45s var(--suave)}
+.gal-palco img.carregando{transform:scale(.97)}
+.gal-x,.gal-seta{transition:background .2s,transform .3s var(--mola)}
+.gal-x:hover{transform:rotate(90deg)}
+.gal-seta:hover{transform:scale(1.1)}
+
+/* Login */
+.auth .card{border-radius:22px;box-shadow:var(--sombra-alta);animation:sobe .7s var(--mola)}
+
+/* Carregando: esqueleto com brilho passando, em vez de texto solto */
+#main>p.muted:only-child,.wrap>p.muted:only-child{color:transparent;user-select:none;margin:0;height:300px;border-radius:16px;
+  background:
+    linear-gradient(100deg,transparent 35%,var(--brilho) 50%,transparent 65%) -150% 0/60% 100% no-repeat,
+    linear-gradient(var(--line),var(--line)) 0 0/22% 12px no-repeat,
+    linear-gradient(var(--line),var(--line)) 0 24px/38% 30px no-repeat,
+    linear-gradient(var(--panel),var(--panel)) 0 84px/calc(25% - 12px) 90px no-repeat,
+    linear-gradient(var(--panel),var(--panel)) 33.4% 84px/calc(25% - 12px) 90px no-repeat,
+    linear-gradient(var(--panel),var(--panel)) 66.6% 84px/calc(25% - 12px) 90px no-repeat,
+    linear-gradient(var(--panel),var(--panel)) 100% 84px/calc(25% - 12px) 90px no-repeat,
+    linear-gradient(var(--panel),var(--panel)) 0 194px/100% 106px no-repeat;
+  animation:esqueleto 1.3s linear infinite,fundo .3s .15s both}
+@keyframes esqueleto{to{background-position:250% 0,0 0,0 24px,0 84px,33.4% 84px,66.6% 84px,100% 84px,0 194px}}
+
+/* Radar automático: o ponto "lendo" pulsa como radar */
+.alertas .ponto.lendo{animation:pisca 1s infinite alternate,radar 1.6s var(--suave) infinite}
+@keyframes radar{from{box-shadow:0 0 0 0 var(--gold-soft)}to{box-shadow:0 0 0 12px transparent}}
+
+@media (max-width:760px){
+  .card.kpi:hover,.imcardw:hover,.lc:hover,.item.click:hover{transform:none}
+  .imcardw:active{transform:scale(.98)}
+}
+@media (hover:none){.kpi::before,.imcardw::before{display:none}}
+@media (prefers-reduced-motion:reduce){.card.kpi:hover,.imcardw:hover,.btn:hover,.lc:hover,.item.click:hover,nav a:hover{transform:none}.imcardw:hover .imfoto img{transform:none}}
