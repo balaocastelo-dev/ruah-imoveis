@@ -13,7 +13,7 @@ async function telaRadar(qs) {
   const n = (k) => r.porStatus[k] || 0;
   $('#main').innerHTML = `<div class="eyebrow">Captação</div><h1>Radar de captação</h1>
   <p class="lead">Imóveis à venda por particulares que podem virar exclusividade da RUAH. A ordem é sempre do grátis para o pago: contato do anúncio, carta com QR code, placa/portaria e, só com aprovação, matrícula e birô.</p>
-  ${painelAlertas(al)}
+  ${avisoSaude(al, true)}${painelAlertas(al)}
   ${veTudo() && r.aprovacoesPendentes ? `<div class="banner warn"><b>${r.aprovacoesPendentes}</b> pedido(s) de consulta paga esperando aprovação. <a href="#/radar/aprovacoes">Revisar agora</a></div>` : ''}
   <div class="grid g4">
     <div class="card kpi"><div class="n">${n('nova') + n('em_contato') + n('carta_enviada') + n('aguardando_aprovacao')}</div><div class="l">Em andamento</div></div>
@@ -36,6 +36,22 @@ async function telaRadar(qs) {
   const t = $('#sel-todas'); if (t) t.addEventListener('change', () => { $$('.sel-op:not(:disabled)').forEach((c) => (c.checked = t.checked)); atualiza(); });
 }
 const selecionadas = () => $$('.sel-op:checked').map((c) => c.value);
+// Quando cada portal mandou o último alerta: mostra na hora se algum parou.
+function portaisLinha(al) {
+  const pp = (al.saude && al.saude.porPortal) || {};
+  const nomes = ['ZAP Imóveis', 'Viva Real', 'OLX', ...Object.keys(pp).filter((n) => !['ZAP Imóveis', 'Viva Real', 'OLX'].includes(n))];
+  const lim = (al.saude && al.saude.maxHoras) || 24;
+  return `<div class="row small" style="gap:6px;margin-top:6px">${nomes.map((n) => {
+    const p = pp[n]; const h = p && p.ultimo ? (Date.now() - new Date(p.ultimo).getTime()) / 36e5 : null;
+    const cls = h === null ? 'warn' : h >= lim ? 'bad' : 'ok';
+    const txt = h === null ? 'nenhum alerta ainda' : h < 1 ? 'alerta há menos de 1 h' : h < 48 ? `último alerta há ${Math.floor(h)} h` : `último alerta há ${Math.floor(h / 24)} dias`;
+    return `<span class="pill ${cls}" title="${esc(n)}">${esc(n)} · ${esc(txt)}</span>`;
+  }).join('')}</div>`;
+}
+function avisoSaude(al, ondeRadar) {
+  if (!al || !al.saude || al.saude.ok) return '';
+  return `<div class="banner warn" style="border-style:solid;border-color:var(--bad);background:var(--bad-bg)"><b>⚠ Radar de captação precisa de atenção.</b><ul style="margin:6px 0 0;padding-left:18px">${al.saude.problemas.map((p) => `<li>${esc(p.texto)}</li>`).join('')}</ul>${ondeRadar ? '' : ' <a href="#/radar">Abrir o Radar</a>'}</div>`;
+}
 function painelAlertas(al) {
   if (!al) return '';
   if (!al.configurado) return `<div class="banner info"><b>Radar automático desligado.</b> Para o sistema buscar sozinho os anúncios novos da OLX, ZAP, Viva Real e Imovelweb, coloque o e-mail dos alertas e a senha de app no arquivo .env (veja "Radar automático" no COMO-CONFIGURAR.txt).</div>`;
@@ -46,7 +62,8 @@ function painelAlertas(al) {
     <span class="ponto ${al.rodando ? 'lendo' : u && u.erro ? 'bad' : 'ok'}" aria-hidden="true"></span>
     <div style="flex:1;min-width:220px"><b>Radar automático ligado</b> <span class="muted small">· lendo ${esc(al.email)} a cada ${al.intervalo_min} min</span><br>
       <span class="small">${al.rodando ? 'Lendo os alertas agora…' : quando ? `Última leitura ${esc(quando)}${res ? ': ' + esc(res) : ''}.` : 'Primeira leitura em instantes.'} <b>${al.hoje}</b> encontrada(s) hoje.</span>
-      ${u && u.erro ? `<br><span class="pill bad">${esc(u.erro)}</span>` : ''}</div>
+      ${u && u.erro ? `<br><span class="pill bad">${esc(u.erro)}</span>` : ''}
+      ${portaisLinha(al)}</div>
     ${veTudo() ? `<button class="btn sm" data-act="alertas-ler">Ler agora</button><button class="btn sm" data-act="alertas-ler" data-dias="7" title="Relê os alertas dos últimos 7 dias (não duplica)">Reler 7 dias</button>` : ''}</div></div>`;
 }
 ACT['alertas-ler'] = (el) => comBotao(el, async () => {

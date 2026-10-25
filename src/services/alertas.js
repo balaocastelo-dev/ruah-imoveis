@@ -187,15 +187,52 @@ function registra(a, quando) {
 }
 
 function salvaStatus(s) { setConfig('alertas_status', JSON.stringify(s)); }
+const json = (k, d) => { try { return JSON.parse(getConfig(k) || 'null') || d; } catch { return d; } };
+// Vigia do radar: o sistema avisa quando os portais param de mandar alertas ou a leitura para.
+const maxHoras = () => Math.max(6, parseInt(cfg.RADAR_ALERTA_MAX_HORAS, 10) || 24);
+function saude(s) {
+  const agora = Date.now();
+  const porPortal = json('alertas_por_portal', {});
+  const datas = Object.values(porPortal).map((p) => p.ultimo).filter(Boolean).sort();
+  const ultimoAlerta = datas.length ? datas[datas.length - 1] : null;
+  const inicio = getConfig('alertas_inicio');
+  const base = ultimoAlerta || inicio;
+  const horasSemAlerta = base ? Math.floor((agora - new Date(base).getTime()) / 36e5) : null;
+  const problemas = [];
+  if (!configurado()) return { ok: true, problemas, porPortal, ultimoAlerta, horasSemAlerta, maxHoras: maxHoras() };
+  if (s && s.erro) problemas.push({ tipo: 'erro', texto: s.erro });
+  const minLeitura = s ? (agora - new Date(s.em).getTime()) / 60000 : null;
+  if (minLeitura !== null && minLeitura > intervaloMin() * 3 + 5) problemas.push({ tipo: 'parado', texto: `A leitura automática parou: a última foi há ${Math.round(minLeitura / 60) >= 1 ? Math.round(minLeitura / 60) + ' h' : Math.round(minLeitura) + ' min'}. O sistema está aberto?` });
+  if (horasSemAlerta !== null && horasSemAlerta >= maxHoras()) problemas.push({ tipo: 'silencio', texto: ultimoAlerta
+    ? `Nenhum alerta dos portais chega há ${horasSemAlerta} h (o último foi em ${new Date(ultimoAlerta).toLocaleString('pt-BR')}). Confira os alertas no ZAP, Viva Real e OLX.`
+    : `Nenhum alerta dos portais chegou em ${horasSemAlerta} h desde que o radar foi ligado. Confira se os alertas do ZAP, Viva Real e OLX estão ativos e mandando para ${cfg.RADAR_EMAIL}.` });
+  for (const [nome, p] of Object.entries(porPortal)) {
+    if ((p.vazios || 0) >= 3) problemas.push({ tipo: 'leitura', texto: `Os últimos ${p.vazios} e-mails do ${nome} vieram sem nenhum anúncio reconhecido. O formato do e-mail pode ter mudado: rode "node ler-alertas.js --testar --dias 3".` });
+  }
+  return { ok: !problemas.length, problemas, porPortal, ultimoAlerta, horasSemAlerta, maxHoras: maxHoras() };
+}
 function status() {
-  let s = null; try { s = JSON.parse(getConfig('alertas_status') || 'null'); } catch { /* vazio */ }
-  return { configurado: configurado(), email: cfg.RADAR_EMAIL || null, pasta: cfg.RADAR_EMAIL_PASTA || 'INBOX', intervalo_min: intervaloMin(), rodando: !!emAndamento, ultima: s, hoje: one("SELECT count(*) n FROM oportunidade_eventos WHERE texto LIKE 'Encontrada automaticamente%' AND date(em)=date('now','localtime')").n };
+  const s = json('alertas_status', null);
+  return { configurado: configurado(), email: cfg.RADAR_EMAIL || null, pasta: cfg.RADAR_EMAIL_PASTA || 'INBOX', intervalo_min: intervaloMin(), rodando: !!emAndamento, ultima: s, saude: saude(s),
+    hoje: one("SELECT count(*) n FROM oportunidade_eventos WHERE texto LIKE 'Encontrada automaticamente%' AND date(em)=date('now','localtime')").n };
+}
+function anotaPortal(nome, quando, nAnuncios, boasVindas) {
+  const pp = json('alertas_por_portal', {});
+  const p = pp[nome] || { ultimo: null, emails: 0, vazios: 0 };
+  if (!p.ultimo || quando > p.ultimo) p.ultimo = quando;
+  p.emails = (p.emails || 0) + 1;
+  if (nAnuncios) p.vazios = 0; else if (!boasVindas) p.vazios = (p.vazios || 0) + 1;
+  pp[nome] = p; setConfig('alertas_por_portal', JSON.stringify(pp));
 }
 
 let emAndamento = null;
 // testar=true: só mostra o que encontraria, sem gravar.  dias: relê os últimos N dias.
+// Um pedido feito durante uma leitura espera ela terminar (antes o "Reler 7 dias" era engolido).
 function ler(opcoes = {}) {
-  if (emAndamento) return emAndamento;
+  if (emAndamento) {
+    if (!opcoes.dias && !opcoes.testar) return emAndamento;
+    return emAndamento.catch(() => {}).then(() => ler(opcoes));
+  }
   emAndamento = lerAgora(opcoes).finally(() => { emAndamento = null; });
   return emAndamento;
 }
@@ -235,6 +272,7 @@ async function lerAgora({ testar = false, dias = null, log = () => {} } = {}) {
         const quando = new Date(msg.internalDate || Date.now()).toISOString().slice(0, 10);
         let anuncios = await anunciosDoEmail(parteHtml.type === 'text/html' ? corpo : null, corpo, portal);
         log(`${portal.nome}: "${limpa(msg.envelope?.subject).slice(0, 80)}" -> ${anuncios.length} anúncio(s)`);
+        if (!testar) anotaPortal(portal.nome, new Date(msg.internalDate || Date.now()).toISOString(), anuncios.length, /bem-vind|boas-vindas|bom ter voc|confirm/i.test(limpa(msg.envelope?.subject)));
         for (let a of anuncios) {
           r.anuncios++;
           if ((!a.valor || !a.titulo || !a.bairro) && usaIA !== false) {
@@ -271,6 +309,7 @@ async function lerAgora({ testar = false, dias = null, log = () => {} } = {}) {
 let timer = null;
 function iniciar() {
   if (!configurado() || timer) return;
+  if (!getConfig('alertas_inicio')) setConfig('alertas_inicio', new Date().toISOString());
   const roda = () => ler().catch(() => { /* erro fica no status */ });
   setTimeout(roda, 20000);
   timer = setInterval(roda, intervaloMin() * 60000);
@@ -278,4 +317,4 @@ function iniciar() {
   console.log(`  Radar automático: lendo ${cfg.RADAR_EMAIL} a cada ${intervaloMin()} min.`);
 }
 
-module.exports = { configurado, status, ler, iniciar, anunciosDoEmail, extraiCampos, remetenteConfiavel, cabecalhos, registra, PORTAIS };
+module.exports = { configurado, status, saude, ler, iniciar, anunciosDoEmail, extraiCampos, remetenteConfiavel, cabecalhos, registra, PORTAIS };

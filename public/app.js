@@ -110,7 +110,12 @@ function shell() {
   atualizaBadge();
 }
 async function atualizaBadge() {
-  if (veTudo()) api('GET', '/api/radar/resumo').then((r) => { const b = $('#badge-radar'); if (b) { b.textContent = r.aprovacoesPendentes; b.hidden = !r.aprovacoesPendentes; } }).catch(() => {});
+  if (veTudo()) Promise.all([api('GET', '/api/radar/resumo'), api('GET', '/api/radar/alertas').catch(() => null)]).then(([r, al]) => {
+    const b = $('#badge-radar'); if (!b) return;
+    const alerta = al && al.saude && !al.saude.ok;
+    b.textContent = alerta ? '!' : r.aprovacoesPendentes; b.hidden = !alerta && !r.aprovacoesPendentes;
+    b.title = alerta ? 'O radar precisa de atenção' : 'Consultas pagas esperando aprovação';
+  }).catch(() => {});
   try { const w = await api('GET', '/api/whats'); const n = w.conversas.filter((c) => c.tem_sugestao || c.direcao === 'entrada').length; const b = $('#badge-whats'); if (b) { b.textContent = n; b.hidden = !n; } } catch {}
 }
 function marcaNav(h) {
@@ -158,9 +163,10 @@ async function rota() {
 async function telaPainel() {
   const d = await api('GET', '/api/painel');
   if (veTudo()) api('GET', '/api/radar/resumo').then((r) => { const el = $('#painel-aprov'); if (el && r.aprovacoesPendentes) el.innerHTML = `<div class="banner warn"><b>${r.aprovacoesPendentes}</b> pedido(s) de matrícula/birô esperando sua aprovação. <a href="#/radar/aprovacoes">Revisar</a></div>`; }).catch(() => {});
+  if (veTudo()) api('GET', '/api/radar/alertas').then((al) => { const el = $('#painel-radar'); if (el && typeof avisoSaude === 'function') el.innerHTML = avisoSaude(al, false); }).catch(() => {});
   $('#main').innerHTML = `<div class="eyebrow">${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
   <h1>Painel</h1><p class="lead">${veTudo() ? 'Visão de toda a imobiliária.' : 'Seus imóveis, leads e visitas.'}</p>
-  <div id="painel-aprov"></div>
+  <div id="painel-radar"></div><div id="painel-aprov"></div>
   ${d.sugestoes ? `<div class="banner warn">A IA preparou <b>${d.sugestoes}</b> resposta(s) esperando aprovação. <a href="#/whats">Abrir WhatsApp</a></div>` : ''}
   <div class="grid g4">
     <div class="card kpi"><div class="n">${d.kpis.imoveis}</div><div class="l">Imóveis na carteira</div></div>
