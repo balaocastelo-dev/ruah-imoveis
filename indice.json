@@ -13,7 +13,12 @@
         "documentação",
         "condomínio"
       ],
-      "capa": null,
+      "capa": {
+        "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/como-avaliar-imovel-de-alto-padrao-antes-de-comprar-beb83d2d.jpg",
+        "alt": "Sala ampla e vazia de uma casa contemporânea, com piso de pedra clara, grandes portas de vidro abertas para um jardim e luz do fim da tarde",
+        "largura": 1600,
+        "altura": 900
+      },
       "publicadoEm": "2026-10-26T10:29:45.038Z",
       "minutos": 13
     },
@@ -83,5 +88,5 @@
       "formato": "dica"
     }
   ],
-  "atualizadoEm": "2026-10-26T10:36:41.701Z"
+  "atualizadoEm": "2026-10-26T10:38:14.590Z"
 }

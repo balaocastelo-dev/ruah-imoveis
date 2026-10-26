@@ -10,7 +10,12 @@
     "documentação",
     "condomínio"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/como-avaliar-imovel-de-alto-padrao-antes-de-comprar-beb83d2d.jpg",
+    "alt": "Sala ampla e vazia de uma casa contemporânea, com piso de pedra clara, grandes portas de vidro abertas para um jardim e luz do fim da tarde",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-26T10:29:45.038Z",
   "redes": {
     "legenda": "Acabamento bonito convence na visita, mas não conta a história inteira de um imóvel de alto padrão. Para onde a sala está voltada? A construção está averbada na matrícula? O condomínio tem orçamento aprovado em assembleia e fundo de reserva? Juntamos num checklist o que olhar antes de comprar: entorno, luz, estrutura, instalações, condomínio, documentos e custo de manutenção. E dizemos em que ponto vale chamar engenheiro e advogado. O guia completo está no blog, link na bio.",
