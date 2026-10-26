@@ -14,7 +14,8 @@ const publico = require('./src/routes/publico');
 
 const app = express();
 app.disable('x-powered-by');
-app.set('trust proxy', 'loopback'); // IP real quando houver túnel local (cloudflared)
+// IP real do visitante: atrás da Vercel (link online) ou de túnel local (cloudflared).
+app.set('trust proxy', process.env.VERCEL ? 1 : 'loopback');
 
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -74,6 +75,8 @@ if (require.main === module) {
     ips.forEach((ip) => console.log(`   Na rede (celular): http://${ip}:${cfg.PORT}`));
     console.log('   Para parar: feche esta janela');
     console.log('  ==============================================\n');
+    // Radar automático (alertas por e-mail e monitor dos portais) roda no PC;
+    // com o banco online, o que ele encontra aparece também no link da Vercel.
     require('./src/services/alertas').iniciar();
     require('./src/services/portais').iniciar();
   });

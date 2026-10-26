@@ -21,9 +21,11 @@ const PORT = parseInt(env('PORT', '3333'), 10);
 
 module.exports = {
   ROOT,
-  DATA_DIR: path.join(ROOT, 'data'),
+  // Na Vercel só /tmp aceita gravação (cache temporário); no PC continua em data/.
+  DATA_DIR: process.env.VERCEL ? '/tmp/ruah-data' : path.join(ROOT, 'data'),
+  DATABASE_URL: env('DATABASE_URL'), // Postgres online (Supabase). Vazio = banco local SQLite.
   PORT,
-  BASE_URL: env('BASE_URL', `http://localhost:${PORT}`),
+  BASE_URL: env('BASE_URL', process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : `http://localhost:${PORT}`),
   PUBLIC_URL: env('PUBLIC_URL', ''), // URL pública (túnel) para links de assinatura, off-market e webhook
   SECRET_KEY: env('SECRET_KEY'),
   EMPRESA: env('EMPRESA', 'RUAH Investimentos Imobiliários'),

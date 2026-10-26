@@ -43,10 +43,11 @@ function lerCookie(req, nome) {
   }
   return null;
 }
+const SEGURO = process.env.VERCEL ? '; Secure' : ''; // no link online (https) o cookie só trafega cifrado
 function setCookie(res, token) {
-  res.setHeader('Set-Cookie', `${COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${SESSAO_HORAS * 3600}`);
+  res.setHeader('Set-Cookie', `${COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${SESSAO_HORAS * 3600}${SEGURO}`);
 }
-function limparCookie(res) { res.setHeader('Set-Cookie', `${COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`); }
+function limparCookie(res) { res.setHeader('Set-Cookie', `${COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${SEGURO}`); }
 
 function usuarioDaSessao(req) {
   const token = lerCookie(req, COOKIE);

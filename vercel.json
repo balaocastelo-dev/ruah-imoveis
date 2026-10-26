@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "regions": ["pdx1"],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60,
+      "memory": 1024,
+      "includeFiles": "{src/**,public/**,server.js,package.json}"
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index.js" }]
+}
