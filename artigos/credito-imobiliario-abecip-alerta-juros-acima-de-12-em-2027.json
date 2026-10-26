@@ -46,7 +46,7 @@
     },
     {
       "tipo": "paragrafo",
-      "texto": "O encontro, chamado \"Economia e construção: perspectivas para 2027\", foi transmitido pelo canal da CBIC no YouTube. Quem falou pelo crédito foi Filipe Pontual, diretor-executivo da Abecip. Segundo o [relato publicado pela própria CBIC](https://cbic.org.br/cbic-debate-inflacao-credito-imobiliario-e-os-impactos-para-a-construcao-em-2027/), estes foram os pontos principais:"
+      "texto": "O encontro, chamado \"Economia e construção: perspectivas para 2027\", foi transmitido pelo canal da CBIC no YouTube. Quem falou pelo crédito foi Filipe Pontual, diretor-executivo da Abecip. Segundo o relato publicado pela própria CBIC, estes foram os pontos principais:"
     },
     {
       "tipo": "lista",
@@ -60,7 +60,7 @@
     },
     {
       "tipo": "paragrafo",
-      "texto": "O número bate com o balanço mensal da Abecip referente a agosto: de janeiro a agosto, o crédito com recursos da poupança somou R$ 132,5 bilhões, alta de 37,5%, segundo a [Revista Construa](https://revistaconstrua.com.br/imoveis/credito-imobiliario-cresce-agosto-2026-abecip/). A saída de dinheiro da poupança continua: em setembro, os saques superaram os depósitos em R$ 6,19 bilhões, de acordo com dados do Banco Central."
+      "texto": "O número bate com o balanço mensal da Abecip referente a agosto: de janeiro a agosto, o crédito com recursos da poupança somou R$ 132,5 bilhões, alta de 37,5%, segundo a Revista Construa. A saída de dinheiro da poupança continua: em setembro, os saques superaram os depósitos em R$ 6,19 bilhões, de acordo com dados do Banco Central."
     },
     {
       "tipo": "titulo",
@@ -143,5 +143,6 @@
       "url": "https://agenciabrasil.ebc.com.br/economia/noticia/2026-09/bc-reduz-juros-basicos-para-1375-ao-ano",
       "data": "16 de setembro de 2026"
     }
-  ]
+  ],
+  "atualizadoEm": "2026-10-26T18:20:42.162Z"
 }

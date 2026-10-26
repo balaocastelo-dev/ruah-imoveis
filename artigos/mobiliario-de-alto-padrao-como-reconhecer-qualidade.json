@@ -63,7 +63,7 @@
     },
     {
       "tipo": "paragrafo",
-      "texto": "O **MDF** é feito de fibras de madeira unidas com resina sob calor e pressão; segundo estudo do [BNDES](https://web.bndes.gov.br/bib/jspui/bitstream/1408/19623/1/PR_MDF%20-%20Medium%20Density%20Fiberboard_n%2020_P_BD.PDF), as fibras uniformes aceitam usinagem detalhada, pintura e lâmina. O **MDP**, segundo a revista [Ciência da Madeira](https://periodicos.ufpel.edu.br/index.php/cienciadamadeira/article/view/4052/3196), usa partículas, as finas na superfície e as maiores no miolo, e aparece muito em laterais, portas e tampos."
+      "texto": "O **MDF** é feito de fibras de madeira unidas com resina sob calor e pressão; segundo estudo do BNDES, as fibras uniformes aceitam usinagem detalhada, pintura e lâmina. O **MDP**, segundo a revista Ciência da Madeira, usa partículas, as finas na superfície e as maiores no miolo, e aparece muito em laterais, portas e tampos."
     },
     {
       "tipo": "tabela",
@@ -110,7 +110,7 @@
     },
     {
       "tipo": "chamada",
-      "tema": "instagram"
+      "tema": "blog"
     },
     {
       "tipo": "titulo",
@@ -119,7 +119,7 @@
     },
     {
       "tipo": "paragrafo",
-      "texto": "No estofado, o número que importa é a **densidade da espuma**, medida em kg/m³ pelo método da norma ABNT NBR 8537. Como explica reportagem do [Olhar Digital](https://olhardigital.com.br/curiosidades/?p=22137), ela indica resistência ao uso repetido, não maciez no primeiro toque."
+      "texto": "No estofado, o número que importa é a **densidade da espuma**, medida em kg/m³ pelo método da norma ABNT NBR 8537. Como explica reportagem do Olhar Digital, ela indica resistência ao uso repetido, não maciez no primeiro toque."
     },
     {
       "tipo": "paragrafo",
@@ -127,7 +127,7 @@
     },
     {
       "tipo": "paragrafo",
-      "texto": "Na loja, sente por uns vinte segundos e veja se o assento volta à forma. Há uma norma ABNT para sofás, a [NBR 15164](https://www.target.com.br/produtos/normas-tecnicas/35570/nbr15164-moveis-estofados-sofas-requisitos-e-metodos-de-ensaio), sobre resistência, durabilidade e estabilidade; pergunte se o modelo foi ensaiado. Do tecido ou couro, peça composição e limpeza por escrito."
+      "texto": "Na loja, sente por uns vinte segundos e veja se o assento volta à forma. Há uma norma ABNT para sofás, a NBR 15164, sobre resistência, durabilidade e estabilidade; pergunte se o modelo foi ensaiado. Do tecido ou couro, peça composição e limpeza por escrito."
     },
     {
       "tipo": "titulo",
@@ -136,11 +136,11 @@
     },
     {
       "tipo": "paragrafo",
-      "texto": "O selo **FSC** indica madeira de manejo florestal certificado. Segundo o [FSC](https://us.fsc.org/what-is-fsc/what-do-the-fsc-labels-mean), há três rótulos: *FSC 100%* (só florestas certificadas), *FSC Misto* (certificado combinado com madeira controlada ou reciclada) e *FSC Reciclado*. Peça ao vendedor o certificado da peça."
+      "texto": "O selo **FSC** indica madeira de manejo florestal certificado. Segundo o FSC, há três rótulos: *FSC 100%* (só florestas certificadas), *FSC Misto* (certificado combinado com madeira controlada ou reciclada) e *FSC Reciclado*. Peça ao vendedor o certificado da peça."
     },
     {
       "tipo": "paragrafo",
-      "texto": "O design autoral brasileiro é uma boa régua. A cadeira de três pés de Joaquim Tenreiro, de 1947, e o trabalho de José Zanine Caldas, lembrado pelo [British Council](https://design.britishcouncil.org/blog/2014/mar/23/brazilian-design-modern-contemporary-furniture/) entre os primeiros designers sustentáveis do país, mostram o que buscar: desenho que respeita a madeira e encaixe preciso."
+      "texto": "O design autoral brasileiro é uma boa régua. A cadeira de três pés de Joaquim Tenreiro, de 1947, e o trabalho de José Zanine Caldas, lembrado pelo British Council entre os primeiros designers sustentáveis do país, mostram o que buscar: desenho que respeita a madeira e encaixe preciso."
     },
     {
       "tipo": "titulo",
@@ -226,5 +226,6 @@
       "url": "https://design.britishcouncil.org/blog/2014/mar/23/brazilian-design-modern-contemporary-furniture/",
       "data": "outubro de 2026"
     }
-  ]
+  ],
+  "atualizadoEm": "2026-10-26T18:20:42.159Z"
 }
