@@ -2,6 +2,22 @@
   "versao": 1,
   "artigos": [
     {
+      "slug": "marmore-granito-quartzito-ou-porcelanato-guia-de-pedras",
+      "titulo": "Mármore, granito, quartzito ou porcelanato: guia de pedras para a casa",
+      "resumo": "Mármore, granito, quartzito ou porcelanato? Veja como cada um reage a riscos, manchas e ácidos, onde usar na casa e o que pedir antes de comprar.",
+      "categoria": "interiores",
+      "etiquetas": [
+        "interiores",
+        "pedras",
+        "acabamentos",
+        "cozinha",
+        "porcelanato"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-27T09:00:00.000Z",
+      "minutos": 11
+    },
+    {
       "slug": "como-avaliar-imovel-de-alto-padrao-antes-de-comprar",
       "titulo": "Como avaliar um imóvel de alto padrão antes de comprar: o checklist",
       "resumo": "Como avaliar um imóvel de alto padrão: entorno, sol, construção, instalações, condomínio, documentos e manutenção, e quando chamar engenheiro ou advogado.",
@@ -108,5 +124,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-26T18:20:42.163Z"
+  "atualizadoEm": "2026-10-26T23:19:00.427Z"
 }
