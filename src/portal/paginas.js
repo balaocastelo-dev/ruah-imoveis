@@ -172,10 +172,13 @@ function paginaVitrine(req, lista) {
   const titulo = grupo ? `${grupo.nome} à venda${q.bairro ? ` no ${q.bairro}` : ''} · RUAH` : q.bairro ? `Imóveis à venda no ${q.bairro} · RUAH` : 'Imóveis à venda em Campinas e região · RUAH';
 
   const corpo = `
-<section class="p-hero">
+<section class="p-hero p-hero-foto">
+  <div class="p-hero-fundo" aria-hidden="true"><img src="/portal-assets/hero-castelo.jpg" srcset="/portal-assets/hero-castelo-1280.jpg 1280w, /portal-assets/hero-castelo.jpg 1920w" sizes="100vw" alt="" width="1920" height="832" fetchpriority="high" decoding="async"></div>
+  <div class="p-hero-txt">
   <p class="p-sobre">Portal RUAH</p>
   <h1>${grupo ? esc(grupo.nome) : 'Imóveis'} à venda${q.bairro ? ` no ${esc(q.bairro)}` : ' em Campinas e região'}</h1>
   <p class="p-hero-l">${lista.length} imóveis com fotos, ficha completa e uma página para cada um. Encontrou? Fale com o corretor pela própria página.</p>
+  </div>
   <form class="p-filtros" method="get" action="/imoveis" role="search" data-filtros>
     <label class="p-campo p-campo-q"><span>Procurar</span><input type="search" name="q" value="${esc(q.q || '')}" placeholder="Bairro, condomínio, código…" autocomplete="off" maxlength="80"></label>
     <label class="p-campo"><span>Tipo</span><select name="tipo"><option value="">Todos</option>${grupos.map((g) => `<option value="${g.slug}"${sel(g.slug, q.tipo)}>${esc(g.nome)}</option>`).join('')}</select></label>
@@ -185,6 +188,7 @@ function paginaVitrine(req, lista) {
     <label class="p-campo"><span>Ordem</span><select name="ordem"><option value="">Mais recentes</option><option value="menor-valor"${sel('menor-valor', q.ordem)}>Menor valor</option><option value="maior-valor"${sel('maior-valor', q.ordem)}>Maior valor</option><option value="maior-area"${sel('maior-area', q.ordem)}>Maior área</option></select></label>
     <button class="p-botao" type="submit">Buscar</button>
   </form>
+  <p class="p-hero-credito">Vista aérea do Castelo, Campinas · ilustração RUAH</p>
 </section>
 <section class="p-resultado" aria-live="polite">
   <div class="p-resultado-cab"><p><b>${achados.length}</b> ${achados.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados'}</p>${filtrado ? '<a href="/imoveis">Limpar filtros</a>' : ''}</div>
