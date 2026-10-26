@@ -13,7 +13,7 @@ async function telaRadar(qs) {
   const n = (k) => r.porStatus[k] || 0;
   $('#main').innerHTML = `<div class="eyebrow">Captação</div><h1>Radar de captação</h1>
   <p class="lead">Imóveis à venda por particulares que podem virar exclusividade da RUAH. A ordem é sempre do grátis para o pago: contato do anúncio, carta com QR code, placa/portaria e, só com aprovação, matrícula e birô.</p>
-  ${avisoSaude(al, true)}${painelAlertas(al)}${cartaoBotaoRadar()}
+  ${avisoSaude(al, true)}${painelAlertas(al)}
   ${veTudo() && r.aprovacoesPendentes ? `<div class="banner warn"><b>${r.aprovacoesPendentes}</b> pedido(s) de consulta paga esperando aprovação. <a href="#/radar/aprovacoes">Revisar agora</a></div>` : ''}
   <div class="grid g4">
     <div class="card kpi"><div class="n">${n('nova') + n('em_contato') + n('carta_enviada') + n('aguardando_aprovacao')}</div><div class="l">Em andamento</div></div>
@@ -22,15 +22,14 @@ async function telaRadar(qs) {
     <div class="card kpi"><div class="n">${r.custoPorCaptacao === null ? '—' : brl(r.custoPorCaptacao)}</div><div class="l">Custo por captação</div></div>
   </div>
   <div class="row" style="margin:16px 0 12px">
-    <div class="tabs" style="margin:0;flex:1;border:0">${[['', 'Em andamento'], ['nova', 'Novas'], ['carta_enviada', 'Carta enviada'], ['aguardando_aprovacao', 'Aguardando aprovação'], ['captada', 'Captadas'], ['descartada', 'Descartadas']].map(([k, t]) => `<a href="#/radar${k ? '?status=' + k : ''}" class="${st === k ? 'on' : ''}">${t}</a>`).join('')}</div>
-    <a class="btn pri" href="#/radar/novo">+ Nova oportunidade</a></div>
+    <div class="tabs" style="margin:0;flex:1;border:0">${[['', 'Em andamento'], ['nova', 'Novas'], ['carta_enviada', 'Carta enviada'], ['aguardando_aprovacao', 'Aguardando aprovação'], ['captada', 'Captadas'], ['descartada', 'Descartadas']].map(([k, t]) => `<a href="#/radar${k ? '?status=' + k : ''}" class="${st === k ? 'on' : ''}">${t}</a>`).join('')}</div></div>
   ${l.length ? `<div class="card tbl"><table><thead><tr><th><input type="checkbox" id="sel-todas" aria-label="Selecionar todas"></th><th>Prioridade</th><th>Anúncio</th><th>Endereço</th><th class="num">Valor</th><th>Status</th><th>Corretor</th></tr></thead><tbody>
     ${l.map((o) => `<tr><td><input type="checkbox" class="sel-op" value="${o.id}" ${o.bloqueio || o.anunciante_tipo === 'imobiliaria' || !o.logradouro ? 'disabled title="Sem endereço, de imobiliária ou na lista não contatar"' : ''} aria-label="Selecionar ${esc(o.ref)}"></td>
       <td>${prioPill(o.prioridade)}</td>
       <td class="click" data-act="ir" data-href="#/radar/${o.id}" style="cursor:pointer"><span class="mono" style="color:var(--gold)">${esc(o.ref)}</span> <b>${esc(o.titulo || o.condominio_nome || o.tipo || 'Sem título')}</b><br><span class="muted small">${esc(o.portal || '')}${o.anunciante_tipo === 'particular' ? ' · particular' : o.anunciante_tipo === 'imobiliaria' ? ' · imobiliária' : ''}${o.prioridade.motivos.length ? ' · ' + esc(o.prioridade.motivos.join(', ')) : ''}</span>${o.bloqueio ? '<br><span class="pill bad">não contatar</span>' : ''}</td>
       <td>${esc(endOp(o) || '—')}<br><span class="muted small">${esc(o.bairro || '')}</span></td><td class="num">${brl(o.valor)}</td><td>${opPill(o.status)}</td><td>${esc(o.corretor_nome || 'livre')}</td></tr>`).join('')}</tbody></table></div>
     <div class="row" style="margin-top:12px"><span class="muted small" id="sel-n">Nenhuma selecionada</span><button class="btn" data-act="cartas-lote">Gerar cartas das selecionadas (PDF)</button><button class="btn" data-act="cartas-enviadas">Marcar selecionadas como enviadas</button></div>`
-    : `<div class="empty">Nada aqui. Cadastre uma oportunidade a partir de um alerta dos portais. <a href="#/radar/novo">Nova oportunidade</a></div>`}`;
+    : `<div class="empty">Nada aqui. As oportunidades chegam pelo radar automático.</div>`}`;
   const atualiza = () => { const n0 = $$('.sel-op:checked').length; const el = $('#sel-n'); if (el) el.textContent = n0 ? `${n0} selecionada(s)` : 'Nenhuma selecionada'; };
   $$('.sel-op').forEach((c) => c.addEventListener('change', atualiza));
   const t = $('#sel-todas'); if (t) t.addEventListener('change', () => { $$('.sel-op:not(:disabled)').forEach((c) => (c.checked = t.checked)); atualiza(); });
@@ -56,15 +55,7 @@ function monitorLinha(al) {
   const quando = u ? new Date(u.em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : null;
   return `<div class="small" style="margin-top:8px"><b>Monitor direto</b> · ${esc(p.fontes.join(', '))} a cada ${p.intervalo_min} min${p.rodando ? ' · buscando agora…' : ''}
     ${u ? ` · última busca ${esc(quando)}: ${u.erro ? `<span class="pill bad">${esc(u.erro)}</span>` : `${u.novas} nova(s) de ${u.alvo} anúncio(s) nos bairros${u.fila ? `, ${u.fila} na fila` : ''}`}` : ' · primeira busca em instantes'}
-    <br><span class="muted">ZAP, Viva Real, OLX e Imovelweb bloqueiam leitura automática: use o botão “Mandar pro Radar” abaixo.</span></div>`;
-}
-// Favorito do navegador: o corretor abre o anúncio no portal e clica; o Radar abre com os dados preenchidos.
-function cartaoBotaoRadar() {
-  const base = location.origin;
-  const js = `(()=>{const m=n=>(document.querySelector('meta[property="'+n+'"],meta[name="'+n+'"]')||{}).content||'';const tx=(document.body.innerText||'').slice(0,20000);const g=r=>(tx.match(r)||[])[1]||'';const h=location.hostname;const portal=/zapimoveis/.test(h)?'ZAP Imóveis':/vivareal/.test(h)?'Viva Real':/olx/.test(h)?'OLX':/imovelweb/.test(h)?'Imovelweb':/chavesnamao/.test(h)?'Chaves na Mão':/facebook/.test(h)?'Facebook Marketplace':'Outro';const q=new URLSearchParams({portal,link:location.href.split('?')[0],titulo:(m('og:title')||document.title).trim().slice(0,180),valor:g(/R\$\s?([\d.]{5,})/),area:g(/(\d{2,5})\s?m²/),quartos:g(/(\d+)\s?quartos?/i),vagas:g(/(\d+)\s?vagas?/i),anunciante:/particular|propriet[áa]rio direto|direto com o propriet/i.test(tx)?'particular':(/creci/i.test(tx)?'imobiliaria':'')});window.open('${base}/#/radar/novo?'+q.toString(),'_blank');})()`;
-  return `<div class="card" style="margin-bottom:14px"><div class="row" style="gap:12px;align-items:center">
-    <div style="flex:1;min-width:240px"><b>Botão “Mandar pro Radar”</b><br><span class="small muted">Para ZAP, Viva Real, OLX, Imovelweb e Facebook. Arraste o botão dourado para a barra de favoritos do Chrome (uma vez só). Depois, com um anúncio aberto no portal, clique nele: o Radar abre com link, título, valor, área e quartos já preenchidos. Confira e salve.</span></div>
-    <a class="btn pri" href="javascript:${esc(encodeURIComponent(js))}" draggable="true" title="Arraste para a barra de favoritos">★ Mandar pro Radar</a></div></div>`;
+    <br><span class="muted">ZAP, Viva Real, OLX e Imovelweb bloqueiam leitura automática.</span></div>`;
 }
 function avisoSaude(al, ondeRadar) {
   if (!al || !al.saude || al.saude.ok) return '';
@@ -99,24 +90,11 @@ ACT['alertas-ler'] = (el) => comBotao(el, async () => {
 ACT['cartas-lote'] = () => { const ids = selecionadas(); if (!ids.length) return toast('Selecione as oportunidades na lista.', true); window.open('/api/radar/cartas.pdf?ids=' + ids.join(','), '_blank', 'noopener'); };
 ACT['cartas-enviadas'] = (el) => comBotao(el, async () => { const ids = selecionadas(); if (!ids.length) throw new Error('Selecione as oportunidades na lista.'); const r = await api('POST', '/api/radar/cartas-enviadas', { ids }); toast(`${r.marcadas} carta(s) marcada(s) como enviada(s)`); rota(); });
 
-async function telaOpForm(id, qs) {
+async function telaOpForm(id) {
   const o = id ? await api('GET', `/api/radar/${id}`) : { anunciante_tipo: 'particular', cidade: 'Campinas' };
-  // veio do botão "Mandar pro Radar": preenche com o que foi lido do anúncio
-  const veio = !id && qs && qs.get('link');
-  if (veio) {
-    const num = (v) => { const n = Number(String(v || '').replace(/\./g, '').replace(',', '.')); return Number.isFinite(n) && n > 0 ? n : null; };
-    const tit = qs.get('titulo') || '';
-    o.portal = PORTAIS.includes(qs.get('portal')) ? qs.get('portal') : 'Outro';
-    o.link = qs.get('link'); o.titulo = tit; o.valor = num(qs.get('valor')); o.area = num(qs.get('area'));
-    o.quartos = num(qs.get('quartos')); o.vagas = num(qs.get('vagas'));
-    if (['particular', 'imobiliaria'].includes(qs.get('anunciante'))) o.anunciante_tipo = qs.get('anunciante');
-    o.tipo = /cobertura/i.test(tit) ? 'Cobertura' : /casa.*condom/i.test(tit) ? 'Casa em condomínio' : /casa|sobrado/i.test(tit) ? 'Casa' : /apart|apto/i.test(tit) ? 'Apartamento' : '';
-    o.publicado_em = new Date().toISOString().slice(0, 10);
-  }
   const v = (k) => esc(o[k] ?? '');
   $('#main').innerHTML = `<a class="btn sm" href="${id ? '#/radar/' + id : '#/radar'}">← Voltar</a>
   <div class="eyebrow" style="margin-top:12px">${id ? esc(o.ref) : 'Radar de captação'}</div><h1>${id ? 'Editar oportunidade' : 'Nova oportunidade'}</h1>
-  ${veio ? '<div class="banner info"><b>Dados trazidos do anúncio.</b> Confira valor, área, quartos e quem anuncia antes de salvar: a leitura automática pode errar.</div>' : ''}
   <p class="lead">Copie os dados do alerta do portal. O sistema avisa se o mesmo imóvel já foi cadastrado (mesmo link, telefone ou endereço) e calcula a prioridade.</p>
   <form class="grid" style="gap:16px" data-form="op" data-id="${id || ''}"><div class="grid g2">
     <fieldset><legend>Anúncio</legend>

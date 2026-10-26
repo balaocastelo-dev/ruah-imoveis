@@ -97,7 +97,7 @@ ACT.sair = async () => { await api('POST', '/api/logout').catch(() => {}); ME = 
 const MENU = [
   ['Operação', [['#/painel', 'Painel'], ['#/imoveis', 'Imóveis'], ['#/imoveis/novo', 'Novo imóvel']]],
   ['Vendas', [['#/leads', 'CRM e funil'], ['#/whats', 'WhatsApp', 'whats'], ['#/visitas', 'Visitas']]],
-  ['Captação', [['#/radar', 'Radar de captação', 'radar'], ['#/radar/novo', 'Nova oportunidade']]],
+  ['Captação', [['#/radar', 'Radar de captação', 'radar']]],
   ['Conteúdo', [['#/blog', 'Blog Sopro']]],
   ['Sistema', [['#/configuracoes', 'Configurações']]],
 ];
@@ -122,7 +122,7 @@ async function atualizaBadge() {
 function marcaNav(h) {
   $$('#nav a').forEach((a) => {
     const n = a.dataset.nav;
-    const pai = { '#/imoveis': '#/imoveis/novo', '#/radar': '#/radar/novo' };
+    const pai = { '#/imoveis': '#/imoveis/novo' };
     const on = h === n || (pai[n] ? h.startsWith(n + '/') && h !== pai[n] : !Object.values(pai).includes(n) && h.startsWith(n + '/'));
     a.classList.toggle('on', on);
   });
@@ -149,7 +149,7 @@ async function rota() {
     else if (p[0] === 'leads') await telaLeads();
     else if (p[0] === 'whats') await telaWhats(p[1] ? +p[1] : null);
     else if (p[0] === 'visitas') await telaVisitas();
-    else if (p[0] === 'radar' && p[1] === 'novo') await telaOpForm(null, new URLSearchParams(qs || ''));
+    else if (p[0] === 'radar' && p[1] === 'novo') { location.replace('#/radar'); return; }
     else if (p[0] === 'radar' && p[1] === 'aprovacoes') await telaAprovacoes();
     else if (p[0] === 'radar' && p[1] && p[2] === 'editar') await telaOpForm(+p[1]);
     else if (p[0] === 'radar' && p[1]) await telaOp(+p[1]);
