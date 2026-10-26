@@ -20,7 +20,7 @@ Campinas e mercado imobiliário. Todo texto leva uma legenda pronta para as rede
 | Comando de publicar | `scripts/blog-publicar.mjs` | Única porta de entrada: `preparar`, `conferir`, `publicar [--amanha]`, `capa`, `pendentes`, `retirar`. |
 | Ramo de conteúdo | `claude/blog-conteudo` | `indice.json`, `artigos/`, `capas/`, `capas/pendentes.json`, `ROTINA.md` (as regras da rotina) e `pauta.md`. |
 | Foto de capa | `scripts/capa_blog_ruah.py` | Usa o gerador do Balão (`balao-content-factory\publisher\capa_blog.py`): Flux no ComfyUI da RTX 4090 + conferência do Ollama. Tarefa do Windows `\RUAH\Capa do blog RUAH`, às 22h40 e 4h40. |
-| Rotina na nuvem | 3 tarefas agendadas do Claude | 19h06 artigo, 19h26 notícia, 19h46 dica. Escrevem, conferem e agendam para 6h / 12h / 18h do dia seguinte. |
+| Rotina na nuvem | 3 tarefas agendadas do Claude | 20h14 artigo, 20h34 notícia, 20h54 dica. Escrevem, conferem e agendam para 6h / 12h / 18h do dia seguinte. |
 | Tela no sistema | menu Conteúdo › Blog Sopro | O que está no ar, agendado ou esperando foto, e "Copiar legenda". |
 
 ## O leitor não sai do site da RUAH (decisão do Thiago, 26/10/2026)
