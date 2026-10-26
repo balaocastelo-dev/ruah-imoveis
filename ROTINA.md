@@ -278,9 +278,10 @@ Texto aceita só `**negrito**`, `*itálico*` e `[texto](endereço)`. Nada de HTM
 | `destaque` | `tom` (`dica`, `atencao`, `nota`), `titulo`, `texto` | Um alerta ou dica fora do fluxo |
 | `chamada` | `tema` | O convite para falar com a RUAH. Só o tema: o texto já está escrito |
 
-Temas de chamada: `comprar` (procura imóvel), `vender` (vai vender),
-`alto-padrao` (ver os imóveis à venda no site da RUAH), `visita` (marcar
-visita), `blog` (mais textos do blog) e `geral`. Não existe chamada para
+Temas de chamada: `comprar` (procura imóvel: abre o contato do blog),
+`vender` (vai vender: abre o contato do blog), `alto-padrao` (ver os imóveis
+à venda na vitrine da RUAH), `visita` (escolher um imóvel na vitrine e pedir
+a visita), `blog` (mais textos do blog) e `geral` (dúvida: abre o contato). Não existe chamada para
 Instagram ou outra rede: o leitor não sai do site da RUAH. Escolha o que continua o
 assunto do artigo; o comum é uma no meio e outra no fim.
 
