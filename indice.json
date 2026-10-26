@@ -2,6 +2,21 @@
   "versao": 1,
   "artigos": [
     {
+      "slug": "credito-imobiliario-novo-modelo-anima-compradores-datazap",
+      "titulo": "Crédito imobiliário: novo modelo anima 60% dos compradores, diz DataZAP",
+      "resumo": "Pesquisa do DataZAP divulgada em 21 de outubro mostra que 60% de quem procura imóvel ficou mais disposto a financiar com o novo modelo de crédito.",
+      "categoria": "noticias",
+      "etiquetas": [
+        "crédito imobiliário",
+        "financiamento",
+        "mercado imobiliário",
+        "pesquisa"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-27T15:00:00.000Z",
+      "minutos": 3
+    },
+    {
       "slug": "marmore-granito-quartzito-ou-porcelanato-guia-de-pedras",
       "titulo": "Mármore, granito, quartzito ou porcelanato: guia de pedras para a casa",
       "resumo": "Mármore, granito, quartzito ou porcelanato? Veja como cada um reage a riscos, manchas e ácidos, onde usar na casa e o que pedir antes de comprar.",
@@ -124,5 +139,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-26T23:19:00.427Z"
+  "atualizadoEm": "2026-10-26T23:42:51.797Z"
 }
