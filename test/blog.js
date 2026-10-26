@@ -56,6 +56,17 @@ const ramo = http.createServer((req, res) => {
     const art = await get(`/blog/${base.slug}`);
     assert.equal(art.s, 200); assert.ok(art.t.includes('<h1>')); assert.ok(art.t.includes('application/ld+json')); assert.ok(art.t.includes('og:image'));
     console.log('ok · artigo com texto no HTML, JSON-LD e og:image');
+    // O leitor não sai do site da RUAH: só links do blog, do site da RUAH e do WhatsApp da RUAH.
+    for (const pag of [art.t, ini.t]) {
+      const fora = [...pag.matchAll(/<a\s[^>]*href="([^"]+)"/g)].map((m) => m[1])
+        .filter((h) => !h.startsWith('/') && !h.startsWith('#') && !/^https:\/\/(www\.)?ruahimobiliaria\.com\.br/.test(h) && !/^https:\/\/wa\.me\/55/.test(h));
+      assert.deepEqual(fora, [], `link para fora: ${fora.join(', ')}`);
+    }
+    const { paginaArtigo } = require('../src/blog/paginas');
+    const comFora = { ...lido.valor, blocos: [{ tipo: 'paragrafo', texto: 'Veja [este site](https://exemplo.com.br/x) e [este texto](/blog/outro).' }, ...lido.valor.blocos] };
+    const h = paginaArtigo({ protocol: 'http', get: () => 'x', path: '/blog/x' }, comFora, []);
+    assert.ok(!h.includes('exemplo.com.br/x"') && h.includes('href="/blog/outro"')); console.log('ok · nenhuma página leva para fora do site da RUAH');
+    assert.ok(avaliarArtigo(comFora).erros.some((e) => /fora do site/.test(e))); console.log('ok · régua barra link para fora no texto');
     assert.equal((await get('/blog/artigo-sem-foto-ainda-esperando')).s, 404);
     assert.equal((await get('/blog/artigo-agendado-para-amanha-cedo')).s, 404);
     assert.equal((await get('/blog/nao-existe-esse')).s, 404); console.log('ok · sem foto, agendado e inventado dão 404');

@@ -50,9 +50,8 @@
     b.addEventListener('click', function () {
       var url = b.getAttribute('data-copiar');
       var feito = function () { var t = b.textContent; b.textContent = 'Link copiado'; setTimeout(function () { b.textContent = t; }, 1800); };
-      if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
-        navigator.share({ title: document.title, url: url }).catch(function () {});
-      } else if (navigator.clipboard) navigator.clipboard.writeText(url).then(feito, function () {});
+      if (navigator.clipboard) navigator.clipboard.writeText(url).then(feito, function () { window.prompt('Copie o link:', url); });
+      else window.prompt('Copie o link:', url);
     });
   });
 })();

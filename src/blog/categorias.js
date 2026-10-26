@@ -19,9 +19,9 @@ const SITE_RUAH = 'https://www.ruahimobiliaria.com.br';
 const INSTAGRAM_RUAH = 'https://www.instagram.com/ruahimobiliaria/';
 
 /**
- * Temas de chamada. `acao`: 'whatsapp' abre o WhatsApp da RUAH (WHATSAPP_RUAH no
- * .env) com a mensagem pronta; sem número, cai no site. 'site' e 'instagram'
- * levam aos endereços oficiais.
+ * Temas de chamada. O leitor nunca sai para fora da RUAH: `acao` 'whatsapp' abre a
+ * conversa com a RUAH (WHATSAPP_RUAH no .env; sem número, o site da RUAH), 'site'
+ * leva a ruahimobiliaria.com.br e 'blog' fica no próprio blog.
  */
 const CHAMADAS = {
   comprar: {
@@ -51,11 +51,11 @@ const CHAMADAS = {
     acao: 'whatsapp',
     mensagem: 'Olá! Li o blog da RUAH e quero marcar uma visita.',
   },
-  instagram: {
-    titulo: 'Acompanhe a RUAH no Instagram',
-    texto: 'Imóveis novos, bastidores e as dicas do blog em formato curto.',
-    rotulo: 'Seguir @ruahimobiliaria',
-    acao: 'instagram',
+  blog: {
+    titulo: 'Mais ideias para a sua casa',
+    texto: 'Textos novos todos os dias, às 6h, 12h e 18h: arquitetura, interiores, bem-estar e Campinas.',
+    rotulo: 'Ver mais textos',
+    acao: 'blog',
   },
   geral: {
     titulo: 'Fale com a RUAH',
@@ -65,6 +65,8 @@ const CHAMADAS = {
     mensagem: 'Olá! Li o blog da RUAH e tenho uma dúvida.',
   },
 };
+// 'instagram' levava o leitor para fora do site; os textos que já usam esse tema mostram a chamada do blog.
+CHAMADAS.instagram = CHAMADAS.blog;
 const TEMAS = new Set(Object.keys(CHAMADAS));
 
 /** O ramo do GitHub onde a rotina publica. O repositório é público: leitura sem senha. */

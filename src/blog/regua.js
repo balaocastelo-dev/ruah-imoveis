@@ -127,6 +127,9 @@ function avaliarArtigo(artigo) {
 
   // ---- Links ----
   if (internos.length < 2) erros.push(`Só ${internos.length} link(s) para dentro do blog; inclua ao menos 2, dentro do texto.`);
+  const externos = links.filter((l) => !l.startsWith('/') && !l.startsWith('#'));
+  if (externos.length) erros.push(`O texto tem link para fora do site (${[...new Set(externos)].slice(0, 3).join(', ')}): o leitor não sai do blog. Cite a fonte só no campo fontes, sem link no texto.`);
+  if (blocos.some((b) => b.tipo === 'chamada' && b.tema === 'instagram')) erros.push('A chamada "instagram" não existe mais (levava o leitor para fora): use "blog".');
   const proibidos = [...new Set(internos.filter((l) => !linkInternoPermitido(l)))];
   if (proibidos.length) erros.push(`Link interno fora da lista permitida: ${proibidos.join(', ')}.`);
 

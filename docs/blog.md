@@ -23,6 +23,14 @@ Campinas e mercado imobiliário. Todo texto leva uma legenda pronta para as rede
 | Rotina na nuvem | 3 tarefas agendadas do Claude | 19h06 artigo, 19h26 notícia, 19h46 dica. Escrevem, conferem e agendam para 6h / 12h / 18h do dia seguinte. |
 | Tela no sistema | menu Conteúdo › Blog Sopro | O que está no ar, agendado ou esperando foto, e "Copiar legenda". |
 
+## O leitor não sai do site da RUAH (decisão do Thiago, 26/10/2026)
+
+Nenhuma página do blog tem link para fora. Link para fora no texto aparece como texto comum,
+as fontes são citadas pelo nome e pelo site sem link, não há chamada nem rodapé de Instagram e o
+compartilhar só copia o link. Os únicos botões que saem do blog levam à RUAH: o site
+ruahimobiliaria.com.br e a conversa no WhatsApp da RUAH. A régua reprova texto novo com link
+para fora, e o teste `node test/blog.js` confere as páginas.
+
 ## Configuração (.env)
 
 ```

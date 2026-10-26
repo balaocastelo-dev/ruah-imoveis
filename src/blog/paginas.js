@@ -2,11 +2,17 @@
 // direto do HTML, sem depender de JavaScript).
 
 const cfg = require('../config');
-const { CATEGORIAS, CHAMADAS, nomeDaCategoria, SITE_RUAH, INSTAGRAM_RUAH } = require('./categorias');
+const { CATEGORIAS, CHAMADAS, nomeDaCategoria, SITE_RUAH } = require('./categorias');
 const { lerTextoRico, montarSumario, dataPorExtenso, minutosDeLeitura, cortar } = require('./texto');
 
 const NOME = process.env.BLOG_NOME || 'Sopro';
 const LEGENDA = process.env.BLOG_LEGENDA || 'Casa, arquitetura e bem-estar, pela RUAH';
+
+/** Só ficam clicáveis os endereços do próprio blog. */
+const linkDaRuah = (href) => (href.startsWith('/') && !href.startsWith('//')) || href.startsWith('#');
+
+/** "cbic.org.br" a partir do endereço da fonte, para citar sem link. */
+const siteDe = (url) => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; } };
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -15,8 +21,9 @@ function rico(texto) {
     if (t.tipo === 'texto') return esc(t.valor);
     if (t.tipo === 'negrito') return `<strong>${desenhar(t.filhos)}</strong>`;
     if (t.tipo === 'italico') return `<em>${desenhar(t.filhos)}</em>`;
-    const externo = /^https:/i.test(t.href);
-    return `<a href="${esc(t.href)}"${externo ? ' target="_blank" rel="noopener noreferrer"' : ''}>${desenhar(t.filhos)}</a>`;
+    // O leitor não sai do site da RUAH: link para fora vira texto comum (a fonte fica listada no fim, sem link).
+    if (!linkDaRuah(t.href)) return desenhar(t.filhos);
+    return `<a href="${esc(t.href)}">${desenhar(t.filhos)}</a>`;
   }).join('');
   return desenhar(lerTextoRico(texto));
 }
@@ -29,15 +36,15 @@ function whatsapp(mensagem) {
 }
 
 function linkDaChamada(c) {
-  if (c.acao === 'instagram') return INSTAGRAM_RUAH;
-  if (c.acao === 'whatsapp') return whatsapp(c.mensagem) || SITE_RUAH;
-  return SITE_RUAH;
+  if (c.acao === 'blog') return { href: '/blog', fora: false };
+  if (c.acao === 'whatsapp') return { href: whatsapp(c.mensagem) || SITE_RUAH, fora: true };
+  return { href: SITE_RUAH, fora: true };
 }
 
 function chamada(tema) {
   const c = CHAMADAS[tema] || CHAMADAS.geral;
   return `<aside class="chamada"><div><p class="chamada-t">${esc(c.titulo)}</p><p>${esc(c.texto)}</p></div>
-<a class="botao" href="${esc(linkDaChamada(c))}" target="_blank" rel="noopener">${esc(c.rotulo)}</a></aside>`;
+${(({ href, fora }) => `<a class="botao" href="${esc(href)}"${fora ? ' target="_blank" rel="noopener"' : ''}>${esc(c.rotulo)}</a>`)(linkDaChamada(c))}</aside>`;
 }
 
 function bloco(b, ids) {
@@ -53,7 +60,7 @@ function bloco(b, ids) {
     case 'tabela': return `<figure class="tabela">${b.titulo ? `<figcaption>${esc(b.titulo)}</figcaption>` : ''}<div class="rolar"><table>
 <thead><tr>${b.colunas.map((c, i) => `<th scope="col"${i === b.colunaDestaque ? ' class="destacada"' : ''}>${esc(c)}</th>`).join('')}</tr></thead>
 <tbody>${b.linhas.map((l) => `<tr>${l.map((c, i) => (i === 0 ? `<th scope="row">${rico(c)}</th>` : `<td${i === b.colunaDestaque ? ' class="destacada"' : ''}>${rico(c)}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>
-${b.nota || b.fonte ? `<p class="nota">${b.nota ? rico(b.nota) : ''}${b.fonte ? ` Fonte: <a href="${esc(b.fonte.url)}" target="_blank" rel="noopener noreferrer">${esc(b.fonte.nome)}</a>.` : ''}</p>` : ''}</figure>`;
+${b.nota || b.fonte ? `<p class="nota">${b.nota ? rico(b.nota) : ''}${b.fonte ? ` Fonte: ${esc(b.fonte.nome)}${siteDe(b.fonte.url) && !b.fonte.nome.includes(siteDe(b.fonte.url)) ? ` (${esc(siteDe(b.fonte.url))})` : ''}.` : ''}</p>` : ''}</figure>`;
     case 'pros-contras': return `<div class="pros-contras">${b.titulo ? `<p class="pc-t">${esc(b.titulo)}</p>` : ''}<div class="pc-g">
 <div><p class="pc-l">A favor</p><ul>${b.pros.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div>
 <div><p class="pc-l">Contra</p><ul>${b.contras.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div></div></div>`;
@@ -103,7 +110,7 @@ ${ld.map((o) => `<script type="application/ld+json">${json(o)}</script>`).join('
 <main id="conteudo">${corpo}</main>
 <footer class="rodape">
   <div><p class="rodape-n">RUAH Investimentos Imobiliários</p><p>Imobiliária de venda em Campinas, SP.${process.env.BLOG_CRECI ? ` CRECI ${esc(process.env.BLOG_CRECI)}.` : ''}</p></div>
-  <nav aria-label="RUAH"><a href="${SITE_RUAH}" target="_blank" rel="noopener">Imóveis à venda</a><a href="${INSTAGRAM_RUAH}" target="_blank" rel="noopener">Instagram</a>${whatsapp('Olá! Vim pelo blog da RUAH.') ? `<a href="${esc(whatsapp('Olá! Vim pelo blog da RUAH.'))}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<a href="/blog/rss.xml">RSS</a></nav>
+  <nav aria-label="RUAH"><a href="${SITE_RUAH}" target="_blank" rel="noopener">Imóveis à venda</a>${whatsapp('Olá! Vim pelo blog da RUAH.') ? `<a href="${esc(whatsapp('Olá! Vim pelo blog da RUAH.'))}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<a href="/blog/rss.xml">RSS</a></nav>
   <p class="rodape-p">Os textos deste blog são informativos e não substituem a orientação de arquiteto, engenheiro, advogado ou contador. As capas são imagens ilustrativas geradas por IA.</p>
 </footer>
 <script src="/blog-assets/blog.js" defer></script>
@@ -163,7 +170,6 @@ function paginaArtigo(req, a, relacionados) {
   ];
   if (a.perguntas) ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: a.perguntas.map((p) => ({ '@type': 'Question', name: p.pergunta, acceptedAnswer: { '@type': 'Answer', text: p.resposta } })) });
 
-  const compartilhar = `https://wa.me/?text=${encodeURIComponent(`${a.titulo} ${url}`)}`;
   const corpo = `<div class="leitura" aria-hidden="true"><span></span></div>
 <article class="artigo">
 <header class="art-cab">
@@ -178,8 +184,8 @@ ${sumario.filter((s) => s.nivel === 2).length >= 3 ? `<details class="sumario" o
 <div class="texto">
 ${a.blocos.map((b) => bloco(b, ids)).join('\n')}
 ${a.perguntas ? `<section class="faq" aria-labelledby="faq"><h2 id="faq">Perguntas frequentes</h2>${a.perguntas.map((p) => `<details><summary>${esc(p.pergunta)}</summary><p>${esc(p.resposta)}</p></details>`).join('')}</section>` : ''}
-${a.fontes ? `<section class="fontes"><h2>Fontes consultadas</h2><ul>${a.fontes.map((f) => `<li><a href="${esc(f.url)}" target="_blank" rel="noopener noreferrer">${esc(f.nome)}</a>${f.data ? `, ${esc(f.data)}` : ''}</li>`).join('')}</ul></section>` : ''}
-<div class="partilha"><span>Gostou? Mande para quem está pensando em casa.</span><a class="botao sec" href="${esc(compartilhar)}" target="_blank" rel="noopener">Enviar pelo WhatsApp</a><button class="botao sec" type="button" data-copiar="${esc(url)}">Copiar link</button></div>
+${a.fontes ? `<section class="fontes"><h2>Fontes consultadas</h2><ul>${a.fontes.map((f) => `<li>${esc(f.nome)}${siteDe(f.url) && !f.nome.includes(siteDe(f.url)) ? `, ${esc(siteDe(f.url))}` : ''}${f.data ? `, ${esc(f.data)}` : ''}</li>`).join('')}</ul></section>` : ''}
+<div class="partilha"><span>Gostou? Copie o link e mande para quem está pensando em casa.</span><button class="botao sec" type="button" data-copiar="${esc(url)}">Copiar link</button></div>
 </div></div>
 </article>
 ${relacionados.length ? `<section class="relacionados" aria-labelledby="leia"><h2 id="leia">Leia também</h2><div class="grade">${relacionados.map((r) => cartao(r)).join('')}</div></section>` : ''}`;

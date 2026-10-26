@@ -1,6 +1,5 @@
 {
   "slug": "biofilia-em-casa-como-trazer-natureza-para-dentro",
-  "formato": "dica",
   "titulo": "Biofilia em casa: como trazer a natureza para dentro",
   "resumo": "Biofilia em casa é luz natural, vista para o verde, plantas no lugar certo e materiais naturais. Veja o que a pesquisa diz e como aplicar sem exagero.",
   "categoria": "bem-estar",
@@ -12,9 +11,13 @@
     "interiores"
   ],
   "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/biofilia-em-casa-como-trazer-natureza-para-dentro-530a3fd0.jpg",
     "alt": "Sala clara com grande janela para um jardim, piso de madeira, vasos com plantas, poltrona de linho e mesa de pedra",
-    "pedido": "A bright, calm living room with a large floor-to-ceiling window looking out onto a leafy garden. Warm oak wooden floor, a low linen armchair, a round natural stone side table, a woven jute rug and several potted leafy plants placed near the window. Soft diffuse morning daylight, interior design photography, eye level, wide angle."
+    "largura": 1600,
+    "altura": 900
   },
+  "publicadoEm": "2026-10-26T10:26:45.038Z",
+  "formato": "dica",
   "redes": {
     "legenda": "Por que um cômodo com janela para uma árvore parece mais leve do que um com vista para a parede? Arquitetos chamam isso de biofilia: a nossa afinidade com a natureza. Trazer isso para casa vai além de encher a sala de vasos. Começa pela luz natural e pela vista, passa por madeira, pedra e fibras, e só depois chega às plantas, cada uma no lugar onde ela consegue viver. E um aviso honesto: vaso não purifica o ar da casa; janela aberta faz muito mais. O guia completo está no blog, link na bio.",
     "hashtags": [
@@ -80,12 +83,12 @@
     {
       "tipo": "destaque",
       "tom": "atencao",
-      "titulo": "Planta não substitui janela",
-      "texto": "Uma revisão de pesquisadores da Universidade Drexel calculou que seriam necessárias de 100 a 1.000 plantas por metro quadrado para igualar a renovação de ar de janelas abertas. Quem limpa o ar é a ventilação."
+      "texto": "Uma revisão de pesquisadores da Universidade Drexel calculou que seriam necessárias de 100 a 1.000 plantas por metro quadrado para igualar a renovação de ar de janelas abertas. Quem limpa o ar é a ventilação.",
+      "titulo": "Planta não substitui janela"
     },
     {
       "tipo": "chamada",
-      "tema": "instagram"
+      "tema": "blog"
     },
     {
       "tipo": "titulo",
