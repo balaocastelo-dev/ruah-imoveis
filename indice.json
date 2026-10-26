@@ -2,6 +2,23 @@
   "versao": 1,
   "artigos": [
     {
+      "slug": "pe-direito-alto-vale-a-pena-o-que-muda-na-sala",
+      "titulo": "Pé-direito alto vale a pena? O que muda na sala",
+      "resumo": "Pé-direito alto traz amplitude, luz e ar, mas pede mais cuidado com climatização, eco e limpeza. Veja quando vale a pena na sala e quando não compensa.",
+      "categoria": "construcao",
+      "etiquetas": [
+        "pé-direito",
+        "construção",
+        "arquitetura",
+        "conforto",
+        "sala"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-27T21:00:00.000Z",
+      "minutos": 5,
+      "formato": "dica"
+    },
+    {
       "slug": "credito-imobiliario-novo-modelo-anima-compradores-datazap",
       "titulo": "Crédito imobiliário: novo modelo anima 60% dos compradores, diz DataZAP",
       "resumo": "Pesquisa do DataZAP divulgada em 21 de outubro mostra que 60% de quem procura imóvel ficou mais disposto a financiar com o novo modelo de crédito.",
@@ -139,5 +156,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-26T23:42:51.797Z"
+  "atualizadoEm": "2026-10-26T23:58:26.703Z"
 }
