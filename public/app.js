@@ -98,6 +98,7 @@ const MENU = [
   ['Operação', [['#/painel', 'Painel'], ['#/imoveis', 'Imóveis'], ['#/imoveis/novo', 'Novo imóvel']]],
   ['Vendas', [['#/leads', 'CRM e funil'], ['#/whats', 'WhatsApp', 'whats'], ['#/visitas', 'Visitas']]],
   ['Captação', [['#/radar', 'Radar de captação', 'radar'], ['#/radar/novo', 'Nova oportunidade']]],
+  ['Conteúdo', [['#/blog', 'Blog Sopro']]],
   ['Sistema', [['#/configuracoes', 'Configurações']]],
 ];
 function shell() {
@@ -153,11 +154,32 @@ async function rota() {
     else if (p[0] === 'radar' && p[1] && p[2] === 'editar') await telaOpForm(+p[1]);
     else if (p[0] === 'radar' && p[1]) await telaOp(+p[1]);
     else if (p[0] === 'radar') await telaRadar(new URLSearchParams(qs || ''));
+    else if (p[0] === 'blog') await telaBlog();
     else if (p[0] === 'configuracoes') await telaConfig(new URLSearchParams(qs || ''));
     else await telaPainel();
   } catch (e) { if (seq === rotaSeq && document.body.contains(main)) main.innerHTML = `<div class="empty">${esc(e.message)}</div>`; }
   window.scrollTo(0, 0);
 }
+
+// ---------- blog ----------
+async function telaBlog() {
+  const d = await api('GET', '/api/blog');
+  const situ = (a) => (a.noAr ? '<span class="pill ok">no ar</span>' : a.esperandoFoto ? '<span class="pill warn">esperando a foto</span>' : '<span class="pill info">agendado</span>');
+  $('#main').innerHTML = `<div class="eyebrow">Conteúdo</div><h1>Blog Sopro</h1>
+  <p class="lead">Três textos por dia, escritos e conferidos sozinhos: artigo às 6h, notícia às 12h e dica às 18h. Cada um só aparece no blog com a foto de capa, feita de madrugada na placa de vídeo. Use "Copiar legenda" para postar no Instagram e no Facebook.</p>
+  <div class="row" style="margin-bottom:16px"><a class="btn pri" href="/blog" target="_blank" rel="noopener">Abrir o blog</a><span class="muted small">${d.fotosNaFila ? `${d.fotosNaFila} foto(s) na fila da placa de vídeo` : 'Nenhuma foto na fila'}</span></div>
+  ${d.artigos.length ? `<div class="card"><div class="list">${d.artigos.map((a) => `<div class="item" style="flex-wrap:wrap">
+    <div style="flex:1;min-width:240px"><div class="t">${a.noAr ? `<a href="/blog/${esc(a.slug)}" target="_blank" rel="noopener">${esc(a.titulo)}</a>` : esc(a.titulo)}</div>
+    <div class="muted small">${dataBR(a.publicadoEm)} · ${esc(a.categoria)}${a.formato === 'dica' ? ' (dica)' : ''}</div></div>
+    ${situ(a)}<button class="btn sm" data-act="blog-legenda" data-slug="${esc(a.slug)}">Copiar legenda</button></div>`).join('')}</div></div>`
+    : '<div class="card"><div class="empty">Ainda não há textos. O primeiro aparece assim que a foto de capa ficar pronta.</div></div>'}`;
+}
+ACT['blog-legenda'] = async (el) => {
+  const r = await api('GET', `/api/blog/${encodeURIComponent(el.dataset.slug)}/redes`);
+  const texto = `${r.legenda}\n\n${r.hashtags}`;
+  try { await navigator.clipboard.writeText(texto); el.textContent = 'Legenda copiada'; } catch { window.prompt('Copie a legenda:', texto); }
+  setTimeout(() => { el.textContent = 'Copiar legenda'; }, 2000);
+};
 
 // ---------- painel ----------
 async function telaPainel() {

@@ -10,7 +10,8 @@
   },
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning server.js",
-    "test": "node test/smoke.js"
+    "test": "node test/smoke.js && node test/blog.js",
+    "blog": "node scripts/blog-publicar.mjs"
   },
   "dependencies": {
     "express": "5.1.0",

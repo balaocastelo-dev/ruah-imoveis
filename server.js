@@ -39,9 +39,18 @@ app.use('/api/imoveis', require('./src/routes/imoveis'));
 app.use('/api', require('./src/routes/leads'));
 app.use('/api', require('./src/routes/radar'));
 app.use('/api', require('./src/routes/base'));
+// Blog: a situação (agendados, esperando foto) para a tela do sistema.
+app.get('/api/blog', async (req, res) => res.json(await require('./src/blog/diario').situacao()));
+app.get('/api/blog/:slug/redes', async (req, res) => {
+  const r = await require('./src/blog/diario').redes(req.params.slug);
+  if (!r) return res.status(404).json({ erro: 'Texto não encontrado.' });
+  res.json(r);
+});
 app.use('/api', (req, res) => res.status(404).json({ erro: 'Rota não encontrada.' }));
 
 const PUB = path.join(__dirname, 'public');
+// Blog público (sem login): /blog, artigos, categorias, RSS, sitemap e robots.
+app.use(require('./src/routes/blog'));
 app.get('/assinar/:token', (req, res) => res.sendFile(path.join(PUB, 'assinar.html')));
 app.get('/v/:token', (req, res) => res.sendFile(path.join(PUB, 'imovel.html')));
 app.use(express.static(PUB, { index: 'index.html', maxAge: 0 }));
