@@ -14,9 +14,9 @@ const PASTA = path.join(__dirname, '..', 'data', 'raspagem');
 const SIMULAR = process.argv.includes('--simular');
 const EXEMPLO = 'Imóvel de exemplo para testar o sistema';
 
-const PREFIXO = { 'Apartamento': 'AP', 'Cobertura': 'CB', 'Casa': 'CA', 'Casa em condomínio': 'CC', 'Sala comercial': 'SL', 'Loja': 'LJ', 'Galpão': 'GA', 'Terreno': 'TE', 'Chácara': 'CH' };
+const PREFIXO = { 'Apartamento': 'AP', 'Cobertura': 'CB', 'Casa': 'CA', 'Casa em condomínio': 'CC', 'Sobrado': 'SO', 'Sala comercial': 'SL', 'Loja': 'LJ', 'Ponto comercial': 'PT', 'Prédio': 'PR', 'Hotel': 'HO', 'Galpão': 'GA', 'Terreno': 'TE', 'Chácara': 'CH' };
 const TIPO = {
-  'Apartamento': 'Apartamento', 'Cobertura': 'Cobertura', 'Casa': 'Casa', 'Sobrado': 'Casa', 'Casa em condomínio': 'Casa em condomínio',
+  'Apartamento': 'Apartamento', 'Cobertura': 'Cobertura', 'Casa': 'Casa', 'Sobrado': 'Sobrado', 'Casa em condomínio': 'Casa em condomínio',
   'Terreno': 'Terreno', 'Terreno em condomínio': 'Terreno', 'Sala comercial': 'Sala comercial', 'Galpão': 'Galpão', 'Chácara': 'Chácara', 'Loja': 'Loja',
 };
 const PREFIXO_SITE = { AP: 'Apartamento', AD: 'Apartamento', CB: 'Cobertura', CA: 'Casa', SO: 'Casa', CC: 'Casa em condomínio', TE: 'Terreno', SL: 'Sala comercial', GA: 'Galpão', CH: 'Chácara', LJ: 'Loja' };
@@ -31,8 +31,11 @@ function proximoCodigo(tipo) {
   return p + String((r0.n || 0) + 1).padStart(4, '0');
 }
 
+// tipo original do site para os casos que não são casa/apto/terreno
+const TIPO_SITE = { 'Hotel': 'Hotel', 'Prédio': 'Prédio', 'Ponto': 'Ponto comercial', 'Salão': 'Loja', 'Loja': 'Loja', 'Conjunto': 'Sala comercial', 'Sala': 'Sala comercial', 'Barracão': 'Galpão' };
 function tipoDo(d, ref) {
-  if (TIPO[d.tipo]) return d.tipo === 'Casa' && d.condominio_nome ? 'Casa em condomínio' : TIPO[d.tipo];
+  if (TIPO_SITE[d.tipo_site]) return TIPO_SITE[d.tipo_site];
+  if (TIPO[d.tipo]) return TIPO[d.tipo];
   return PREFIXO_SITE[String(ref || '').slice(0, 2)] || 'Casa';
 }
 
@@ -74,7 +77,7 @@ for (const d of lista) {
     tipo, status: 'publicado', cep: t(String(d.cep || '').replace(/\D/g, ''), 8), logradouro: t(d.logradouro, 150), numero: t(d.numero, 20),
     bairro: t(d.bairro, 80), cidade: t(d.cidade, 80) || 'Campinas', uf: t(d.uf, 2) || 'SP', lat: n(d.lat), lon: n(d.lon),
     condominio_id: condominio(d), quartos: n(d.quartos), suites: n(d.suites), vagas: n(d.vagas),
-    area_util: n(d.area_util), area_total: n(d.area_total), valor: n(d.valor), valor_condominio: n(d.valor_condominio), iptu: n(d.iptu),
+    area_util: n(d.area_util), area_total: n(d.area_total), valor: n(d.valor), valor_condominio: n(d.valor_condominio), iptu: n(d.iptu) && d.iptu_periodicidade === 'mensal' ? Math.round(n(d.iptu) * 12 * 100) / 100 : n(d.iptu), // sistema guarda IPTU anual
     descricao: descricaoDe(d, ref),
   };
   const fotos = (d.fotos || []).map((f) => (typeof f === 'string' ? f : f.arquivo)).filter(Boolean)

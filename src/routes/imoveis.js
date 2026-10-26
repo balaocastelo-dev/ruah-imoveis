@@ -15,7 +15,7 @@ const r = express.Router();
 r.use(A.exigeLogin);
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 25 * 1024 * 1024, files: 30, fields: 30, fieldNameSize: 100, fieldSize: 100000, parts: 70 } });
 
-const PREFIXO = { 'Apartamento': 'AP', 'Cobertura': 'CB', 'Casa': 'CA', 'Casa em condomínio': 'CC', 'Sala comercial': 'SL', 'Loja': 'LJ', 'Galpão': 'GA', 'Terreno': 'TE', 'Chácara': 'CH' };
+const PREFIXO = { 'Apartamento': 'AP', 'Cobertura': 'CB', 'Casa': 'CA', 'Casa em condomínio': 'CC', 'Sobrado': 'SO', 'Sala comercial': 'SL', 'Loja': 'LJ', 'Ponto comercial': 'PT', 'Prédio': 'PR', 'Hotel': 'HO', 'Galpão': 'GA', 'Terreno': 'TE', 'Chácara': 'CH' };
 const TIPOS = Object.keys(PREFIXO);
 const STATUS = ['captacao', 'aguardando_autorizacao', 'publicado', 'off_market', 'vendido', 'suspenso'];
 
