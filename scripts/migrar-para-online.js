@@ -31,8 +31,14 @@ const ORDEM = ['usuarios', 'config', 'condominios', 'proprietarios', 'imoveis', 
       const sobra = colsLite.filter((c) => !colsPg.includes(c));
       if (sobra.length) console.log(`  aviso: ${t} tem colunas só no local (não copiadas): ${sobra.join(', ')}`);
       const linhas = lite.prepare(`SELECT ${cols.join(',')} FROM ${t}`).all();
-      const sql = `INSERT INTO ${t}(${cols.join(',')}) VALUES(${cols.map((_, i) => '$' + (i + 1)).join(',')})`;
-      for (const l of linhas) await pg.query(sql, cols.map((c) => l[c]));
+      // em lotes: menos idas e vindas até o servidor (o banco fica nos EUA)
+      const LOTE = Math.max(1, Math.floor(30000 / cols.length));
+      for (let k = 0; k < linhas.length; k += LOTE) {
+        const parte = linhas.slice(k, k + LOTE);
+        const vals = [], params = [];
+        parte.forEach((l, li) => { vals.push('(' + cols.map((c, ci) => '$' + (li * cols.length + ci + 1)).join(',') + ')'); cols.forEach((c) => params.push(l[c])); });
+        await pg.query(`INSERT INTO ${t}(${cols.join(',')}) VALUES ${vals.join(',')}`, params);
+      }
       if (cols.includes('id')) await pg.query(`SELECT setval(pg_get_serial_sequence('ruah.${t}','id'), (SELECT coalesce(max(id),0)+1 FROM ${t}), false)`);
       console.log(`- ${t}: ${linhas.length} registro(s)`);
     }
