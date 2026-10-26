@@ -10,7 +10,8 @@
   },
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning server.js",
-    "test": "node test/smoke.js && node test/blog.js",
+    "test": "node test/smoke.js && node test/blog.js && node test/portal.js",
+    "portal": "node scripts/portal-publicar.mjs",
     "blog": "node scripts/blog-publicar.mjs"
   },
   "dependencies": {

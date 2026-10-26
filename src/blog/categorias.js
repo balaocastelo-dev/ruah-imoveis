@@ -40,9 +40,9 @@ const CHAMADAS = {
   },
   'alto-padrao': {
     titulo: 'Veja os imóveis à venda pela RUAH',
-    texto: 'Casas e apartamentos à venda em Campinas, com fotos e detalhes no site da imobiliária.',
+    texto: 'Casas e apartamentos à venda em Campinas, com fotos, ficha completa e contato direto com o corretor.',
     rotulo: 'Ver imóveis',
-    acao: 'site',
+    acao: 'portal',
   },
   visita: {
     titulo: 'Gostou de algum imóvel?',

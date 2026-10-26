@@ -30,7 +30,10 @@ function relacionados(artigo, todos) {
 }
 
 router.get('/robots.txt', (req, res) => res.type('text/plain').send(paginas.robots(req)));
-router.get('/sitemap.xml', async (req, res) => res.type('application/xml').send(paginas.sitemap(req, await diario.listar())));
+router.get('/sitemap.xml', async (req, res) => {
+  const imoveis = await require('../portal/fonte').noAr().catch(() => []);
+  res.type('application/xml').send(paginas.sitemap(req, await diario.listar(), imoveis));
+});
 router.get('/blog/rss.xml', async (req, res) => res.type('application/rss+xml').send(paginas.rss(req, await diario.listar())));
 
 router.get('/blog', async (req, res) => html(res, paginas.paginaInicial(req, await diario.listar())));

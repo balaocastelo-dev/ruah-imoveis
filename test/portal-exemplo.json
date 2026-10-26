@@ -1,0 +1,44 @@
+{
+  "codigo": "CA9001",
+  "slug": "casa-em-condominio-3-suites-jardim-exemplo-campinas-ca9001",
+  "titulo": "Casa em condomínio com 3 suítes e piscina no Jardim Exemplo",
+  "resumo": "Casa térrea de 3 suítes no Jardim Exemplo, em Campinas: sala integrada ao jardim, cozinha aberta, piscina e área gourmet num lote plano e reservado.",
+  "capa": { "foto": 9101, "alt": "Fachada da casa térrea com jardim gramado na frente" },
+  "blocos": [
+    { "tipo": "paragrafo", "texto": "Esta casa térrea no Jardim Exemplo foi pensada para quem quer viver tudo no mesmo nível: as três suítes, a sala e a cozinha ficam no térreo, abertas para o jardim. As fotos mostram uma casa clara, com piso contínuo e janelas grandes voltadas para a área externa." },
+    { "tipo": "paragrafo", "texto": "São 240 m² úteis num lote de 450 m², com duas vagas cobertas. A planta separa bem a parte social da íntima, o que ajuda quem recebe visitas com frequência ou trabalha em casa." },
+    { "tipo": "resumo", "titulo": "Destaques", "itens": ["Casa térrea, tudo no mesmo nível", "3 suítes, uma delas com closet", "Sala integrada ao jardim", "Piscina e área gourmet", "2 vagas cobertas"] },
+    { "tipo": "titulo", "nivel": 2, "texto": "A área social" },
+    { "tipo": "paragrafo", "texto": "A sala ocupa a frente da casa e se abre para a varanda por portas de vidro de correr. Pelas fotos, o espaço comporta estar e jantar sem aperto, e a luz entra pelos dois lados ao longo do dia." },
+    { "tipo": "paragrafo", "texto": "A cozinha é aberta para a sala, com bancada central e armários planejados do piso ao teto. Ao lado fica a área de serviço, separada por porta, o que mantém a parte social livre de varal e máquina." },
+    { "tipo": "fotos", "fotos": [ { "foto": 9102, "legenda": "Sala de estar e jantar integradas" }, { "foto": 9103, "legenda": "Cozinha aberta com bancada central" } ] },
+    { "tipo": "titulo", "nivel": 2, "texto": "As suítes" },
+    { "tipo": "paragrafo", "texto": "As três suítes ficam num corredor reservado, no fundo da casa. A maior tem closet e banheiro com duas cubas; as outras duas têm armários embutidos e janelas para o jardim lateral." },
+    { "tipo": "paragrafo", "texto": "Os banheiros seguem o mesmo padrão de acabamento, com bancadas em pedra clara e box de vidro, como se vê nas fotos." },
+    { "tipo": "titulo", "nivel": 2, "texto": "Jardim, piscina e área gourmet" },
+    { "tipo": "paragrafo", "texto": "O fundo do lote é plano e gramado. A piscina fica no centro, com deque de madeira em volta, e a área gourmet coberta tem churrasqueira e bancada, ligada à cozinha por uma porta lateral." },
+    { "tipo": "fotos", "fotos": [ { "foto": 9105, "legenda": "Piscina com deque de madeira" }, { "foto": 9106, "legenda": "Área gourmet coberta com churrasqueira" } ] },
+    { "tipo": "paragrafo", "texto": "Para quem tem crianças ou animais, o jardim cercado é um ponto a favor. Para quem prefere pouca manutenção, vale perguntar ao corretor sobre o custo de cuidar do gramado e da piscina." },
+    { "tipo": "chamada", "tema": "visita" },
+    { "tipo": "titulo", "nivel": 2, "texto": "Para quem é esta casa" },
+    { "tipo": "paragrafo", "texto": "É uma casa para famílias que querem espaço sem escadas, para quem recebe amigos com frequência e para quem procura um condomínio com área verde em Campinas. Os números da ficha abaixo vêm do cadastro do imóvel e são atualizados pelo corretor." }
+  ],
+  "galeria": [
+    { "foto": 9101, "legenda": "Fachada com jardim gramado", "ambiente": "fachada" },
+    { "foto": 9102, "legenda": "Sala de estar e jantar integradas", "ambiente": "sala" },
+    { "foto": 9103, "legenda": "Cozinha aberta com bancada central", "ambiente": "cozinha" },
+    { "foto": 9104, "legenda": "Suíte principal com closet", "ambiente": "suite" },
+    { "foto": 9105, "legenda": "Piscina com deque de madeira", "ambiente": "piscina" },
+    { "foto": 9106, "legenda": "Área gourmet coberta com churrasqueira", "ambiente": "gourmet" },
+    { "foto": 9107, "legenda": "Banheiro com bancada de pedra clara", "ambiente": "banheiro" }
+  ],
+  "perguntas": [
+    { "pergunta": "A casa tem escadas?", "resposta": "Não. É térrea: as suítes, a sala e a cozinha ficam no mesmo nível." },
+    { "pergunta": "Quantas vagas de garagem?", "resposta": "Duas vagas cobertas, conforme a ficha do imóvel." },
+    { "pergunta": "Como agendar uma visita?", "resposta": "Pelo formulário desta página ou pelo WhatsApp. Um corretor da RUAH confirma o dia e o horário." }
+  ],
+  "redes": {
+    "legenda": "Casa térrea com 3 suítes, piscina e área gourmet no Jardim Exemplo, em Campinas. Tudo no mesmo nível, com a sala aberta para o jardim. Fotos e ficha completa no link da bio.",
+    "hashtags": ["casaemcondominio", "campinas", "casaterrea", "imoveiscampinas", "piscina", "ruahimobiliaria"]
+  }
+}

@@ -31,13 +31,14 @@ function whatsapp(mensagem) {
 function linkDaChamada(c) {
   if (c.acao === 'instagram') return INSTAGRAM_RUAH;
   if (c.acao === 'whatsapp') return whatsapp(c.mensagem) || SITE_RUAH;
+  if (c.acao === 'portal') return '/imoveis';
   return SITE_RUAH;
 }
 
 function chamada(tema) {
   const c = CHAMADAS[tema] || CHAMADAS.geral;
   return `<aside class="chamada"><div><p class="chamada-t">${esc(c.titulo)}</p><p>${esc(c.texto)}</p></div>
-<a class="botao" href="${esc(linkDaChamada(c))}" target="_blank" rel="noopener">${esc(c.rotulo)}</a></aside>`;
+<a class="botao" href="${esc(linkDaChamada(c))}"${c.acao === 'portal' ? '' : ' target="_blank" rel="noopener"'}>${esc(c.rotulo)}</a></aside>`;
 }
 
 function bloco(b, ids) {
@@ -103,7 +104,7 @@ ${ld.map((o) => `<script type="application/ld+json">${json(o)}</script>`).join('
 <main id="conteudo">${corpo}</main>
 <footer class="rodape">
   <div><p class="rodape-n">RUAH Investimentos Imobiliários</p><p>Imobiliária de venda em Campinas, SP.${process.env.BLOG_CRECI ? ` CRECI ${esc(process.env.BLOG_CRECI)}.` : ''}</p></div>
-  <nav aria-label="RUAH"><a href="${SITE_RUAH}" target="_blank" rel="noopener">Imóveis à venda</a><a href="${INSTAGRAM_RUAH}" target="_blank" rel="noopener">Instagram</a>${whatsapp('Olá! Vim pelo blog da RUAH.') ? `<a href="${esc(whatsapp('Olá! Vim pelo blog da RUAH.'))}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<a href="/blog/rss.xml">RSS</a></nav>
+  <nav aria-label="RUAH"><a href="/imoveis">Imóveis à venda</a><a href="${INSTAGRAM_RUAH}" target="_blank" rel="noopener">Instagram</a>${whatsapp('Olá! Vim pelo blog da RUAH.') ? `<a href="${esc(whatsapp('Olá! Vim pelo blog da RUAH.'))}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<a href="/blog/rss.xml">RSS</a></nav>
   <p class="rodape-p">Os textos deste blog são informativos e não substituem a orientação de arquiteto, engenheiro, advogado ou contador. As capas são imagens ilustrativas geradas por IA.</p>
 </footer>
 <script src="/blog-assets/blog.js" defer></script>
@@ -201,9 +202,11 @@ ${artigos.slice(0, 30).map((a) => `<item><title>${x(a.titulo)}</title><link>${x(
 </channel></rss>`;
 }
 
-function sitemap(req, artigos) {
+function sitemap(req, artigos, imoveis = []) {
   const base = urlBase(req);
   const urls = [
+    `<url><loc>${esc(base)}/imoveis</loc></url>`,
+    ...imoveis.map((x) => `<url><loc>${esc(base)}/imoveis/${x.pagina.slug}</loc>${x.pagina.atualizadoEm || x.pagina.publicadoEm ? `<lastmod>${x.pagina.atualizadoEm || x.pagina.publicadoEm}</lastmod>` : ''}</url>`),
     `<url><loc>${esc(base)}/blog</loc>${artigos[0] ? `<lastmod>${artigos[0].publicadoEm}</lastmod>` : ''}</url>`,
     ...CATEGORIAS.map((c) => `<url><loc>${esc(base)}/blog/categoria/${c.slug}</loc></url>`),
     ...artigos.map((a) => `<url><loc>${esc(base)}/blog/${a.slug}</loc><lastmod>${a.publicadoEm}</lastmod></url>`),
@@ -213,8 +216,8 @@ function sitemap(req, artigos) {
 
 function robots(req) {
   const base = urlBase(req);
-  // Só o blog é público. O sistema (login, imóveis, links off-market) fica fora da busca.
-  return `User-agent: *\nAllow: /blog\nAllow: /blog-assets/\nDisallow: /\n\nSitemap: ${base}/sitemap.xml\n`;
+  // Só o blog e o portal são públicos. O sistema (login, cadastro, links off-market) fica fora da busca.
+  return `User-agent: *\nAllow: /blog\nAllow: /blog-assets/\nAllow: /imoveis\nAllow: /portal-assets/\nDisallow: /imoveis/favoritos\nDisallow: /imoveis/dados.json\nDisallow: /\n\nSitemap: ${base}/sitemap.xml\n`;
 }
 
 module.exports = { paginaInicial, paginaArtigo, paginaNaoAchada, rss, sitemap, robots, NOME };
