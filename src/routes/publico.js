@@ -85,10 +85,9 @@ r.get('/imovel/:token', limite(60), (req, res) => {
 r.get('/imovel/:token/foto/:fid', limite(300), (req, res) => {
   const k = linkValido(req.params.token);
   const f = one("SELECT * FROM arquivos WHERE id=? AND imovel_id=? AND categoria='Fotos' AND mime LIKE 'image/%'", req.params.fid, k.imovel_id) || falha(404, 'Foto não encontrada.');
-  const p = path.join(cfg.DATA_DIR, f.caminho_local);
-  if (!fs.existsSync(p)) falha(404, 'Foto não encontrada.');
+  const buf = require('../services/conteudo').ler(f) || falha(404, 'Foto não encontrada.');
   res.setHeader('Content-Type', f.mime); res.setHeader('Cache-Control', 'private, max-age=3600'); res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.end(fs.readFileSync(p));
+  res.end(buf);
 });
 
 module.exports = r;

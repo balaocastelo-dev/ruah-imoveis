@@ -38,9 +38,8 @@ r.get('/drive/callback', async (req, res) => {
 r.get('/arquivos/:id', (req, res) => {
   const a = one('SELECT * FROM arquivos WHERE id=?', req.params.id) || falha(404, 'Arquivo não encontrado.');
   imovelPermitido(req.usuario, a.imovel_id);
-  const p = path.join(cfg.DATA_DIR, a.caminho_local);
-  if (!p.startsWith(cfg.DATA_DIR) || !fs.existsSync(p)) falha(404, 'Arquivo não está mais no PC.');
-  enviaArquivo(res, a.nome, a.mime, fs.readFileSync(p), req.query.baixar);
+  const buf = require('../services/conteudo').ler(a) || falha(404, 'Arquivo não encontrado no armazenamento.');
+  enviaArquivo(res, a.nome, a.mime, buf, req.query.baixar);
 });
 
 // Arquivo colocado direto no Drive: só abre se estiver dentro da pasta deste imóvel.

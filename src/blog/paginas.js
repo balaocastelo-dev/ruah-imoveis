@@ -28,23 +28,17 @@ function rico(texto) {
   return desenhar(lerTextoRico(texto));
 }
 
-function whatsapp(mensagem) {
-  let n = String(cfg.WHATSAPP_RUAH || '').replace(/\D/g, '');
-  if (!n) return null;
-  if (n.length <= 11) n = `55${n}`;
-  return `https://wa.me/${n}?text=${encodeURIComponent(mensagem || '')}`;
-}
-
 function linkDaChamada(c) {
-  if (c.acao === 'blog') return { href: '/blog', fora: false };
-  if (c.acao === 'whatsapp') return { href: whatsapp(c.mensagem) || SITE_RUAH, fora: true };
-  return { href: SITE_RUAH, fora: true };
+  // Tudo fica dentro do site da RUAH: a vitrine do portal, o próprio blog ou o contato do blog.
+  if (c.acao === 'portal') return '/imoveis';
+  if (c.acao === 'blog') return '/blog';
+  return '#contato';
 }
 
 function chamada(tema) {
   const c = CHAMADAS[tema] || CHAMADAS.geral;
   return `<aside class="chamada"><div><p class="chamada-t">${esc(c.titulo)}</p><p>${esc(c.texto)}</p></div>
-${(({ href, fora }) => `<a class="botao" href="${esc(href)}"${fora ? ' target="_blank" rel="noopener"' : ''}>${esc(c.rotulo)}</a>`)(linkDaChamada(c))}</aside>`;
+<a class="botao" href="${esc(linkDaChamada(c))}"${c.acao === 'contato' ? ` data-motivo="${esc(c.motivo || 'duvida')}"` : ''}>${esc(c.rotulo)}</a></aside>`;
 }
 
 function bloco(b, ids) {
@@ -67,6 +61,30 @@ ${b.nota || b.fonte ? `<p class="nota">${b.nota ? rico(b.nota) : ''}${b.fonte ? 
     case 'chamada': return chamada(b.tema);
     default: return '';
   }
+}
+
+/** O contato do blog: o leitor fala com a RUAH sem sair do site (vira lead no CRM). */
+function formularioDeContato(req) {
+  const pagina = (/^\/blog\/([a-z0-9-]+)$/.exec(req.path) || [])[1] || '';
+  return `<section class="contato" id="contato" aria-labelledby="contato-t">
+<div class="contato-txt"><h2 id="contato-t">Fale com a RUAH</h2>
+<p>Quer comprar, vender ou tirar uma dúvida? Deixe seu contato e um corretor responde em horário comercial. Para ver os imóveis à venda, abra a <a href="/imoveis">vitrine da RUAH</a>.</p></div>
+<form class="contato-form" data-contato-blog novalidate>
+  <input type="hidden" name="pagina" value="${esc(pagina === 'categoria' ? '' : pagina)}">
+  <label class="armadilha" aria-hidden="true">Empresa<input name="empresa" tabindex="-1" autocomplete="off"></label>
+  <fieldset class="motivos"><legend>Você quer</legend>
+    <label><input type="radio" name="motivo" value="comprar" checked> Comprar</label>
+    <label><input type="radio" name="motivo" value="vender"> Vender</label>
+    <label><input type="radio" name="motivo" value="duvida"> Tirar uma dúvida</label>
+  </fieldset>
+  <label class="campo"><span>Nome</span><input name="nome" required autocomplete="name" maxlength="120"></label>
+  <label class="campo"><span>WhatsApp ou telefone</span><input name="telefone" required inputmode="tel" autocomplete="tel" maxlength="20" placeholder="(19) 99999-9999"></label>
+  <label class="campo largo"><span>E-mail <i>(opcional)</i></span><input name="email" type="email" autocomplete="email" maxlength="120"></label>
+  <label class="campo largo"><span>Mensagem <i>(opcional)</i></span><textarea name="mensagem" rows="3" maxlength="1000" placeholder="O que você procura: bairro, tipo de imóvel, quartos…"></textarea></label>
+  <label class="aceite largo"><input type="checkbox" name="aceite" value="1" required> Concordo que a RUAH use estes dados só para falar comigo sobre imóveis. Posso pedir para sair a qualquer momento.</label>
+  <button class="botao largo" type="submit">Enviar para a RUAH</button>
+  <p class="contato-msg largo" role="status" aria-live="polite" hidden></p>
+</form></section>`;
 }
 
 function urlBase(req) {
@@ -108,9 +126,10 @@ ${ld.map((o) => `<script type="application/ld+json">${json(o)}</script>`).join('
   <nav class="cats" aria-label="Categorias">${CATEGORIAS.map((c) => `<a href="/blog/categoria/${c.slug}"${req.path === `/blog/categoria/${c.slug}` ? ' aria-current="page"' : ''}>${esc(c.nome)}</a>`).join('')}</nav>
 </header>
 <main id="conteudo">${corpo}</main>
+${formularioDeContato(req)}
 <footer class="rodape">
   <div><p class="rodape-n">RUAH Investimentos Imobiliários</p><p>Imobiliária de venda em Campinas, SP.${process.env.BLOG_CRECI ? ` CRECI ${esc(process.env.BLOG_CRECI)}.` : ''}</p></div>
-  <nav aria-label="RUAH"><a href="${SITE_RUAH}" target="_blank" rel="noopener">Imóveis à venda</a>${whatsapp('Olá! Vim pelo blog da RUAH.') ? `<a href="${esc(whatsapp('Olá! Vim pelo blog da RUAH.'))}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<a href="/blog/rss.xml">RSS</a></nav>
+  <nav aria-label="RUAH"><a href="/imoveis">Imóveis à venda</a><a href="#contato" data-motivo="duvida">Fale com a RUAH</a><a href="/blog/rss.xml">RSS</a></nav>
   <p class="rodape-p">Os textos deste blog são informativos e não substituem a orientação de arquiteto, engenheiro, advogado ou contador. As capas são imagens ilustrativas geradas por IA.</p>
 </footer>
 <script src="/blog-assets/blog.js" defer></script>
@@ -207,9 +226,11 @@ ${artigos.slice(0, 30).map((a) => `<item><title>${x(a.titulo)}</title><link>${x(
 </channel></rss>`;
 }
 
-function sitemap(req, artigos) {
+function sitemap(req, artigos, imoveis = []) {
   const base = urlBase(req);
   const urls = [
+    `<url><loc>${esc(base)}/imoveis</loc></url>`,
+    ...imoveis.map((x) => `<url><loc>${esc(base)}/imoveis/${x.pagina.slug}</loc>${x.pagina.atualizadoEm || x.pagina.publicadoEm ? `<lastmod>${x.pagina.atualizadoEm || x.pagina.publicadoEm}</lastmod>` : ''}</url>`),
     `<url><loc>${esc(base)}/blog</loc>${artigos[0] ? `<lastmod>${artigos[0].publicadoEm}</lastmod>` : ''}</url>`,
     ...CATEGORIAS.map((c) => `<url><loc>${esc(base)}/blog/categoria/${c.slug}</loc></url>`),
     ...artigos.map((a) => `<url><loc>${esc(base)}/blog/${a.slug}</loc><lastmod>${a.publicadoEm}</lastmod></url>`),
@@ -219,8 +240,8 @@ function sitemap(req, artigos) {
 
 function robots(req) {
   const base = urlBase(req);
-  // Só o blog é público. O sistema (login, imóveis, links off-market) fica fora da busca.
-  return `User-agent: *\nAllow: /blog\nAllow: /blog-assets/\nDisallow: /\n\nSitemap: ${base}/sitemap.xml\n`;
+  // Só o blog e o portal são públicos. O sistema (login, cadastro, links off-market) fica fora da busca.
+  return `User-agent: *\nAllow: /blog\nAllow: /blog-assets/\nAllow: /imoveis\nAllow: /portal-assets/\nDisallow: /imoveis/favoritos\nDisallow: /imoveis/dados.json\nDisallow: /\n\nSitemap: ${base}/sitemap.xml\n`;
 }
 
 module.exports = { paginaInicial, paginaArtigo, paginaNaoAchada, rss, sitemap, robots, NOME };

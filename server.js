@@ -14,7 +14,8 @@ const publico = require('./src/routes/publico');
 
 const app = express();
 app.disable('x-powered-by');
-app.set('trust proxy', 'loopback'); // IP real quando houver túnel local (cloudflared)
+// IP real do visitante: atrás da Vercel (link online) ou de túnel local (cloudflared).
+app.set('trust proxy', process.env.VERCEL ? 1 : 'loopback');
 
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -31,6 +32,8 @@ app.use('/webhook/whatsapp', publico.webhook);
 
 app.use(express.json({ limit: '1mb' }));
 app.use('/api', mesmaOrigem);
+app.use('/api/publico/portal', require('./src/routes/portal').api);
+app.use('/api/publico/blog', require('./src/routes/blog').api);
 app.use('/api/publico', publico);
 const ABERTAS = new Set(['/setup', '/login', '/logout', '/drive/callback']);
 app.use('/api', (req, res, next) => (ABERTAS.has(req.path) ? next() : exigeLogin(req, res, next)));
@@ -46,11 +49,20 @@ app.get('/api/blog/:slug/redes', async (req, res) => {
   if (!r) return res.status(404).json({ erro: 'Texto não encontrado.' });
   res.json(r);
 });
+// Portal: a situação da página de cada imóvel, para a tela do sistema.
+app.get('/api/portal', async (req, res) => res.json(await require('./src/portal/fonte').situacao()));
+app.get('/api/portal/:codigo/redes', async (req, res) => {
+  const x = await require('./src/portal/fonte').porCodigo(String(req.params.codigo).toUpperCase());
+  if (!x || !x.pagina.redes) return res.status(404).json({ erro: 'Página não encontrada.' });
+  res.json({ legenda: `${x.pagina.redes.legenda}\n\n${require('./src/portal/paginas').urlBase(req)}/imoveis/${x.pagina.slug}`, hashtags: x.pagina.redes.hashtags.map((h) => `#${h}`).join(' ') });
+});
 app.use('/api', (req, res) => res.status(404).json({ erro: 'Rota não encontrada.' }));
 
 const PUB = path.join(__dirname, 'public');
 // Blog público (sem login): /blog, artigos, categorias, RSS, sitemap e robots.
 app.use(require('./src/routes/blog'));
+// Portal do visitante (sem login): /imoveis, a página única de cada imóvel, fotos e favoritos.
+app.use(require('./src/routes/portal'));
 app.get('/assinar/:token', (req, res) => res.sendFile(path.join(PUB, 'assinar.html')));
 app.get('/v/:token', (req, res) => res.sendFile(path.join(PUB, 'imovel.html')));
 app.use(express.static(PUB, { index: 'index.html', maxAge: 0 }));
@@ -74,6 +86,8 @@ if (require.main === module) {
     ips.forEach((ip) => console.log(`   Na rede (celular): http://${ip}:${cfg.PORT}`));
     console.log('   Para parar: feche esta janela');
     console.log('  ==============================================\n');
+    // Radar automático (alertas por e-mail e monitor dos portais) roda no PC;
+    // com o banco online, o que ele encontra aparece também no link da Vercel.
     require('./src/services/alertas').iniciar();
     require('./src/services/portais').iniciar();
   });

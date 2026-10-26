@@ -54,4 +54,41 @@
       else window.prompt('Copie o link:', url);
     });
   });
+
+  // Contato: as chamadas levam ao formulário já com o motivo marcado; o envio vira lead no CRM.
+  var form = document.querySelector('[data-contato-blog]');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-motivo]');
+    if (!b || !form) return;
+    e.preventDefault();
+    var r = form.querySelector('input[name=motivo][value="' + b.getAttribute('data-motivo') + '"]');
+    if (r) r.checked = true;
+    var sec = document.getElementById('contato');
+    sec.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(function () { var n = form.querySelector('[name=nome]'); if (n) n.focus({ preventScroll: true }); }, 450);
+  });
+  if (form) form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var msg = form.querySelector('.contato-msg'), botao = form.querySelector('button[type=submit]');
+    var d = {};
+    Array.prototype.forEach.call(form.querySelectorAll('input,textarea'), function (c) {
+      if (!c.name) return;
+      if (c.type === 'radio') { if (c.checked) d[c.name] = c.value; return; }
+      d[c.name] = c.type === 'checkbox' ? c.checked : c.value;
+    });
+    var aviso = function (t, erro) { msg.hidden = false; msg.textContent = t; msg.classList.toggle('erro', !!erro); };
+    if (!d.nome.trim()) return aviso('Diga seu nome.', true);
+    if (d.telefone.replace(/\D/g, '').length < 10) return aviso('Confira o telefone, com DDD.', true);
+    if (!d.aceite) return aviso('Marque que concorda com o uso dos dados para o contato.', true);
+    botao.disabled = true; botao.textContent = 'Enviando…';
+    fetch('/api/publico/blog/contato', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.j && r.j.erro || 'Não foi possível enviar.');
+        form.classList.add('enviado');
+        aviso('Recebemos seu contato. Um corretor da RUAH responde em breve, em horário comercial.');
+        botao.textContent = 'Enviado';
+      })
+      .catch(function (err) { aviso(err.message || 'Não foi possível enviar. Tente de novo.', true); botao.disabled = false; botao.textContent = 'Enviar para a RUAH'; });
+  });
 })();

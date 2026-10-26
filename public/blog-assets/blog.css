@@ -175,6 +175,32 @@ tbody th{font-weight:600}
 .relacionados{border-top:1px solid var(--linha);margin-top:72px;padding-top:36px}
 .relacionados h2{font-family:var(--serifa);font-weight:500;font-size:40px;margin:0 0 26px}
 
+/* ---- contato ---- */
+.contato{max-width:var(--largura);margin:96px auto 0;padding:44px 20px 0;border-top:1px solid var(--linha);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px 56px}
+.contato h2{font-family:var(--serifa);font-weight:500;font-size:clamp(36px,4.4vw,52px);line-height:1.02;margin:0 0 14px}
+.contato-txt p{color:var(--pedra);margin:0;max-width:44ch}
+.contato-form{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.contato-form .largo{grid-column:1/-1}
+.armadilha{position:absolute;left:-9999px}
+.motivos{grid-column:1/-1;border:0;padding:0;margin:0;display:flex;gap:8px;flex-wrap:wrap}
+.motivos legend{font-size:14px;color:var(--pedra);margin-bottom:8px;padding:0}
+.motivos label{position:relative;cursor:pointer}
+.motivos input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.motivos label{border:1px solid var(--linha);border-radius:999px;padding:8px 16px;font-size:15px;background:var(--papel)}
+.motivos label:has(input:checked){border-color:var(--ouro);background:color-mix(in srgb,var(--ouro) 14%,var(--papel))}
+.motivos label:has(input:focus-visible){outline:2px solid var(--ouro);outline-offset:2px}
+.campo{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--pedra)}
+.campo i{font-style:normal;opacity:.8}
+.campo input,.campo textarea{font:inherit;font-size:16px;color:var(--grafite);background:var(--papel);border:1px solid var(--linha);border-radius:6px;padding:11px 12px}
+.campo input:focus,.campo textarea:focus{border-color:var(--ouro);outline:none}
+.aceite{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--pedra);line-height:1.45}
+.aceite input{margin-top:3px;accent-color:var(--ouro)}
+.contato-msg{margin:0;font-size:15px;color:var(--salvia)}
+.contato-msg.erro{color:#A63D32}
+.contato-form.enviado .campo,.contato-form.enviado .motivos,.contato-form.enviado .aceite{opacity:.5;pointer-events:none}
+@media (max-width:820px){.contato{grid-template-columns:1fr;margin-top:64px}.contato-form{grid-template-columns:1fr}}
+.contato + .rodape{margin-top:56px}
+
 /* ---- rodapé ---- */
 .rodape{max-width:var(--largura);margin:96px auto 0;padding:36px 20px 48px;border-top:1px solid var(--linha);display:grid;grid-template-columns:1fr auto;gap:16px 40px;font-size:14.5px;color:var(--pedra)}
 .rodape p{margin:0}

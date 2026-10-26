@@ -97,8 +97,8 @@ ACT.sair = async () => { await api('POST', '/api/logout').catch(() => {}); ME = 
 const MENU = [
   ['Operação', [['#/painel', 'Painel'], ['#/imoveis', 'Imóveis'], ['#/imoveis/novo', 'Novo imóvel']]],
   ['Vendas', [['#/leads', 'CRM e funil'], ['#/whats', 'WhatsApp', 'whats'], ['#/visitas', 'Visitas']]],
-  ['Captação', [['#/radar', 'Radar de captação', 'radar'], ['#/radar/novo', 'Nova oportunidade']]],
-  ['Conteúdo', [['#/blog', 'Blog Sopro']]],
+  ['Captação', [['#/radar', 'Radar de captação', 'radar']]],
+  ['Conteúdo', [['#/portal', 'Portal de imóveis'], ['#/blog', 'Blog Sopro']]],
   ['Sistema', [['#/configuracoes', 'Configurações']]],
 ];
 function shell() {
@@ -122,7 +122,7 @@ async function atualizaBadge() {
 function marcaNav(h) {
   $$('#nav a').forEach((a) => {
     const n = a.dataset.nav;
-    const pai = { '#/imoveis': '#/imoveis/novo', '#/radar': '#/radar/novo' };
+    const pai = { '#/imoveis': '#/imoveis/novo' };
     const on = h === n || (pai[n] ? h.startsWith(n + '/') && h !== pai[n] : !Object.values(pai).includes(n) && h.startsWith(n + '/'));
     a.classList.toggle('on', on);
   });
@@ -149,17 +149,42 @@ async function rota() {
     else if (p[0] === 'leads') await telaLeads();
     else if (p[0] === 'whats') await telaWhats(p[1] ? +p[1] : null);
     else if (p[0] === 'visitas') await telaVisitas();
-    else if (p[0] === 'radar' && p[1] === 'novo') await telaOpForm(null, new URLSearchParams(qs || ''));
+    else if (p[0] === 'radar' && p[1] === 'novo') { location.replace('#/radar'); return; }
     else if (p[0] === 'radar' && p[1] === 'aprovacoes') await telaAprovacoes();
     else if (p[0] === 'radar' && p[1] && p[2] === 'editar') await telaOpForm(+p[1]);
     else if (p[0] === 'radar' && p[1]) await telaOp(+p[1]);
     else if (p[0] === 'radar') await telaRadar(new URLSearchParams(qs || ''));
     else if (p[0] === 'blog') await telaBlog();
+    else if (p[0] === 'portal') await telaPortal();
     else if (p[0] === 'configuracoes') await telaConfig(new URLSearchParams(qs || ''));
     else await telaPainel();
   } catch (e) { if (seq === rotaSeq && document.body.contains(main)) main.innerHTML = `<div class="empty">${esc(e.message)}</div>`; }
   window.scrollTo(0, 0);
 }
+
+// ---------- portal ----------
+async function telaPortal() {
+  const l = await api('GET', '/api/portal');
+  const NOME = { 'no-ar': ['ok', 'no ar'], desatualizada: ['info', 'no ar · será reescrita'], 'sem-pagina': ['warn', 'esperando a página'], reprovada: ['bad', 'fora do ar · será reescrita'], 'sem-arquivo': ['bad', 'fora do ar'] };
+  const n = (e) => l.filter((x) => x.estado === e).length;
+  const ordem = ['reprovada', 'sem-arquivo', 'sem-pagina', 'desatualizada', 'no-ar'];
+  l.sort((a, b) => ordem.indexOf(a.estado) - ordem.indexOf(b.estado) || String(a.codigo).localeCompare(b.codigo));
+  $('#main').innerHTML = `<div class="eyebrow">Conteúdo</div><h1>Portal de imóveis</h1>
+  <p class="lead">O portal público mostra os imóveis com status <b>publicado</b> e foto. Cada um ganha uma página única, escrita a partir das fotos e da ficha por uma tarefa automática; o imóvel só aparece depois que a página passa na conferência. Valor, áreas e quartos vêm sempre da ficha, ao vivo: se a ficha mudar e o texto passar a discordar, a página sai do ar e é reescrita. Quem clica em "Tenho interesse" ou "Agendar visita" entra no CRM com origem <b>Portal RUAH</b>.</p>
+  <div class="row" style="margin-bottom:16px;flex-wrap:wrap"><a class="btn pri" href="/imoveis" target="_blank" rel="noopener">Abrir o portal</a>
+  <span class="pill ok">${n('no-ar') + n('desatualizada')} no ar</span><span class="pill warn">${n('sem-pagina')} esperando página</span>${n('reprovada') + n('sem-arquivo') ? `<span class="pill bad">${n('reprovada') + n('sem-arquivo')} fora do ar</span>` : ''}</div>
+  ${l.length ? `<div class="card"><div class="list">${l.map((x) => { const [c, t] = NOME[x.estado] || ['info', x.estado]; const no = x.estado === 'no-ar' || x.estado === 'desatualizada'; return `<div class="item" style="flex-wrap:wrap">
+    <div style="flex:1;min-width:240px"><div class="t"><span class="mono">${esc(x.codigo)}</span> · ${no ? `<a href="/imoveis/${esc(x.slug)}" target="_blank" rel="noopener">${esc(x.titulo)}</a>` : esc(x.titulo || x.tipo)}</div>
+    <div class="muted small">${esc(x.tipo)} · ${esc([x.bairro, x.cidade].filter(Boolean).join(', '))} · ${x.fotos} fotos${x.erros ? ` · <span title="${esc(x.erros.join(' | '))}">${esc(x.erros[0])}</span>` : ''}</div></div>
+    <span class="pill ${c}">${t}</span>${no ? `<button class="btn sm" data-act="portal-legenda" data-codigo="${esc(x.codigo)}">Copiar legenda</button>` : ''}</div>`; }).join('')}</div></div>`
+    : '<div class="card"><div class="empty">Nenhum imóvel com status publicado e foto.</div></div>'}`;
+}
+ACT['portal-legenda'] = async (el) => {
+  const r = await api('GET', `/api/portal/${encodeURIComponent(el.dataset.codigo)}/redes`);
+  const texto = `${r.legenda}\n\n${r.hashtags}`;
+  try { await navigator.clipboard.writeText(texto); el.textContent = 'Legenda copiada'; } catch { window.prompt('Copie a legenda:', texto); }
+  setTimeout(() => { el.textContent = 'Copiar legenda'; }, 2000);
+};
 
 // ---------- blog ----------
 async function telaBlog() {

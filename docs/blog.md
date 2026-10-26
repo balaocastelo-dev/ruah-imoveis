@@ -27,9 +27,11 @@ Campinas e mercado imobiliário. Todo texto leva uma legenda pronta para as rede
 
 Nenhuma página do blog tem link para fora. Link para fora no texto aparece como texto comum,
 as fontes são citadas pelo nome e pelo site sem link, não há chamada nem rodapé de Instagram e o
-compartilhar só copia o link. Os únicos botões que saem do blog levam à RUAH: o site
-ruahimobiliaria.com.br e a conversa no WhatsApp da RUAH. A régua reprova texto novo com link
-para fora, e o teste `node test/blog.js` confere as páginas.
+compartilhar só copia o link. Os convites levam à vitrine do portal (/imoveis), a mais textos do
+blog ou ao formulário "Fale com a RUAH", que fica no fim de toda página do blog e vira lead no CRM
+(origem "Blog RUAH", com o motivo: comprar, vender ou dúvida). Não há link para
+ruahimobiliaria.com.br nem para o WhatsApp. A régua reprova texto novo com link para fora, e o
+teste `node test/blog.js` confere que nenhuma página tem link para fora.
 
 ## Configuração (.env)
 
@@ -39,7 +41,6 @@ BLOG_URL=                   # endereço público (domínio ou túnel). Vazio = o
 BLOG_NOME=Sopro
 BLOG_LEGENDA=Casa, arquitetura e bem-estar, pela RUAH
 BLOG_CRECI=                 # aparece no rodapé
-WHATSAPP_RUAH=              # as chamadas abrem o WhatsApp com mensagem pronta; vazio = site da RUAH
 ```
 
 ## Para o blog trazer gente da internet

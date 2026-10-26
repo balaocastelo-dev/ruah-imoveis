@@ -16,40 +16,39 @@ const SLUGS = new Set(CATEGORIAS.map((c) => c.slug));
 const nomeDaCategoria = (slug) => (CATEGORIAS.find((c) => c.slug === slug) || {}).nome || slug;
 
 const SITE_RUAH = 'https://www.ruahimobiliaria.com.br';
-const INSTAGRAM_RUAH = 'https://www.instagram.com/ruahimobiliaria/';
 
 /**
- * Temas de chamada. O leitor nunca sai para fora da RUAH: `acao` 'whatsapp' abre a
- * conversa com a RUAH (WHATSAPP_RUAH no .env; sem número, o site da RUAH), 'site'
- * leva a ruahimobiliaria.com.br e 'blog' fica no próprio blog.
+ * Temas de chamada. O leitor nunca sai do site da RUAH (decisão do Thiago, 26/10/2026):
+ *   'contato' abre o formulário do próprio blog (vira lead no CRM, com o motivo);
+ *   'portal'  leva à vitrine de imóveis à venda (/imoveis);
+ *   'blog'    fica no blog.
  */
 const CHAMADAS = {
   comprar: {
     titulo: 'Procurando um imóvel em Campinas?',
-    texto: 'Converse com a equipe da RUAH. O atendimento é feito por pessoas, do primeiro contato à assinatura.',
-    rotulo: 'Falar com a RUAH',
-    acao: 'whatsapp',
-    mensagem: 'Olá! Li o blog da RUAH e quero ajuda para encontrar um imóvel.',
+    texto: 'Conte o que você procura e um corretor da RUAH responde. O atendimento é feito por pessoas, do primeiro contato à assinatura.',
+    rotulo: 'Falar com um corretor',
+    acao: 'contato',
+    motivo: 'comprar',
   },
   vender: {
     titulo: 'Vai vender o seu imóvel?',
-    texto: 'A RUAH trabalha com a venda de imóveis em Campinas e região. Conte o que você tem e converse com a equipe.',
+    texto: 'A RUAH trabalha com a venda de imóveis em Campinas e região. Deixe seu contato e conte o que você tem.',
     rotulo: 'Quero vender',
-    acao: 'whatsapp',
-    mensagem: 'Olá! Li o blog da RUAH e quero conversar sobre a venda do meu imóvel.',
+    acao: 'contato',
+    motivo: 'vender',
   },
   'alto-padrao': {
     titulo: 'Veja os imóveis à venda pela RUAH',
-    texto: 'Casas e apartamentos à venda em Campinas, com fotos e detalhes no site da imobiliária.',
+    texto: 'Casas e apartamentos à venda em Campinas, com fotos, ficha completa e contato direto com o corretor.',
     rotulo: 'Ver imóveis',
-    acao: 'site',
+    acao: 'portal',
   },
   visita: {
-    titulo: 'Gostou de algum imóvel?',
-    texto: 'Marque uma visita com a equipe da RUAH e veja de perto o que leu aqui.',
-    rotulo: 'Marcar visita',
-    acao: 'whatsapp',
-    mensagem: 'Olá! Li o blog da RUAH e quero marcar uma visita.',
+    titulo: 'Quer ver um imóvel de perto?',
+    texto: 'Escolha o imóvel na vitrine da RUAH e peça a visita na página dele: um corretor confirma o dia com você.',
+    rotulo: 'Ver imóveis à venda',
+    acao: 'portal',
   },
   blog: {
     titulo: 'Mais ideias para a sua casa',
@@ -59,10 +58,10 @@ const CHAMADAS = {
   },
   geral: {
     titulo: 'Fale com a RUAH',
-    texto: 'Imobiliária de venda em Campinas. Tire suas dúvidas com a equipe.',
-    rotulo: 'Conversar',
-    acao: 'whatsapp',
-    mensagem: 'Olá! Li o blog da RUAH e tenho uma dúvida.',
+    texto: 'Imobiliária de venda em Campinas. Deixe sua dúvida e um corretor responde.',
+    rotulo: 'Enviar minha dúvida',
+    acao: 'contato',
+    motivo: 'duvida',
   },
 };
 // 'instagram' levava o leitor para fora do site; os textos que já usam esse tema mostram a chamada do blog.
@@ -83,6 +82,6 @@ function capaDaRotina(src, slug) {
 }
 
 module.exports = {
-  CATEGORIAS, SLUGS, nomeDaCategoria, CHAMADAS, TEMAS, SITE_RUAH, INSTAGRAM_RUAH,
+  CATEGORIAS, SLUGS, nomeDaCategoria, CHAMADAS, TEMAS, SITE_RUAH,
   RAMO_DE_CONTEUDO, DONO_REPO, ENDERECO_DO_RAMO, arquivoDaCapa, enderecoDaCapa, capaDaRotina,
 };

@@ -56,10 +56,10 @@ const ramo = http.createServer((req, res) => {
     const art = await get(`/blog/${base.slug}`);
     assert.equal(art.s, 200); assert.ok(art.t.includes('<h1>')); assert.ok(art.t.includes('application/ld+json')); assert.ok(art.t.includes('og:image'));
     console.log('ok · artigo com texto no HTML, JSON-LD e og:image');
-    // O leitor não sai do site da RUAH: só links do blog, do site da RUAH e do WhatsApp da RUAH.
+    // O leitor não sai do site da RUAH: só links do próprio site (blog, vitrine /imoveis, contato).
     for (const pag of [art.t, ini.t]) {
       const fora = [...pag.matchAll(/<a\s[^>]*href="([^"]+)"/g)].map((m) => m[1])
-        .filter((h) => !h.startsWith('/') && !h.startsWith('#') && !/^https:\/\/(www\.)?ruahimobiliaria\.com\.br/.test(h) && !/^https:\/\/wa\.me\/55/.test(h));
+        .filter((h) => !h.startsWith('/') && !h.startsWith('#'));
       assert.deepEqual(fora, [], `link para fora: ${fora.join(', ')}`);
     }
     const { paginaArtigo } = require('../src/blog/paginas');
@@ -76,6 +76,14 @@ const ramo = http.createServer((req, res) => {
     const sm = await get('/sitemap.xml'); assert.ok(sm.t.includes(`/blog/${base.slug}`) && !sm.t.includes('agendado'));
     const rb = await get('/robots.txt'); assert.ok(/Disallow: \//.test(rb.t) && /Allow: \/blog/.test(rb.t)); console.log('ok · RSS, sitemap e robots (sistema fora da busca)');
     assert.equal((await get('/api/blog')).s, 401); console.log('ok · /api/blog pede login');
+    assert.ok(art.t.includes('id="contato"') && art.t.includes('data-contato-blog')); console.log('ok · formulário de contato na página');
+    const env = (b) => fetch(url + '/api/publico/blog/contato', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: url }, body: JSON.stringify(b) });
+    assert.equal((await env({ nome: 'Ana', telefone: '123', aceite: true })).status, 400);
+    const r = await env({ nome: 'Ana Teste', telefone: '(19) 98888-1234', motivo: 'vender', mensagem: 'Casa no Cambuí', aceite: true, pagina: base.slug });
+    assert.equal(r.status, 200, await r.text());
+    const { one } = require('../src/db');
+    const lead = one("SELECT * FROM leads WHERE telefone='5519988881234'");
+    assert.ok(lead && lead.origem === 'Blog RUAH'); console.log('ok · contato do blog vira lead no CRM (origem Blog RUAH)');
     console.log('\nBlog OK');
     process.exit(0);
   } catch (e) { console.error('FALHOU', e.message); process.exit(1); }

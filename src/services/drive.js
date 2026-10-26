@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const cfg = require('../config');
 const { getConfig, setConfig, one, run, all } = require('../db');
+const conteudo = require('./conteudo');
 const { cifrar, decifrar } = require('../auth');
 
 const SUBPASTAS = ['Fotos', 'Documentos do proprietário', 'Matrícula e certidões', 'Autorização de venda', 'Contratos', 'Propostas', 'Vídeo e anúncios'];
@@ -127,6 +128,15 @@ async function salvarArquivo({ imovelId, categoria, nome, mime, buffer, usuarioI
   if (!SUBPASTAS.includes(categoria)) throw new Error('Categoria de arquivo inválida.');
   const im = one('SELECT codigo FROM imoveis WHERE id=?', imovelId);
   const seguro = nome.replace(/[\/\\:*?"<>|\x00-\x1f]/g, '_').slice(0, 150);
+  if (conteudo.PG) {
+    const r = run('INSERT INTO arquivos(imovel_id,categoria,nome,mime,tamanho,caminho_local,enviado_por) VALUES(?,?,?,?,?,?,?)',
+      imovelId, categoria, seguro, mime, buffer.length, null, usuarioId ?? null);
+    const id = Number(r.lastInsertRowid);
+    conteudo.gravar(id, buffer);
+    let aviso = null;
+    if (conectado()) { try { await enviarAoDrive(id); } catch (e) { aviso = e.message; } }
+    return { id, aviso };
+  }
   const dir = pastaLocal(im.codigo, categoria);
   fs.mkdirSync(dir, { recursive: true });
   let destino = path.join(dir, seguro);
@@ -146,7 +156,8 @@ async function enviarAoDrive(arquivoId) {
   const a = one('SELECT * FROM arquivos WHERE id=?', arquivoId);
   if (a.drive_id) return a;
   const { sub } = await garantePastaImovel(a.imovel_id);
-  const buf = fs.readFileSync(path.join(cfg.DATA_DIR, a.caminho_local));
+  const buf = conteudo.ler(a);
+  if (!buf) throw new Error(`Arquivo ${a.nome} sem conteúdo guardado.`);
   const f = await upload(sub[a.categoria], a.nome, a.mime, buf);
   run('UPDATE arquivos SET drive_id=?, drive_link=? WHERE id=?', f.id, f.webViewLink, arquivoId);
   return { ...a, drive_id: f.id };
