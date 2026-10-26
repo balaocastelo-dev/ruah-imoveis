@@ -54,6 +54,31 @@ function curl(url, destino) {
   try { return execFileSync('curl', args, { encoding: destino ? undefined : 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 }); }
   catch (e) { throw new Error(`${url}: ${String(e.stderr || e.message).trim()}`); }
 }
+/** Folhas de contato (4 fotos por folha, com o número da foto em amarelo), se o Python com Pillow existir. */
+const FOLHAS_PY = `
+import sys, glob, re
+from PIL import Image, ImageDraw, ImageFont
+d = sys.argv[1]
+fs = sorted(glob.glob(d + '/foto-*.jpg'), key=lambda f: int(re.findall(r'(\\d+)\\.jpg$', f)[0]))
+try: fonte = ImageFont.load_default(size=30)
+except TypeError: fonte = ImageFont.load_default()
+for k in range(0, len(fs), 4):
+    W, H = 800, 560
+    folha = Image.new('RGB', (W * 2, H * 2), 'white'); de = ImageDraw.Draw(folha)
+    for i, f in enumerate(fs[k:k + 4]):
+        im = Image.open(f).convert('RGB'); im.thumbnail((W - 8, H - 8)); x, y = (i % 2) * W, (i // 2) * H
+        folha.paste(im, (x + 4, y + 4)); de.rectangle([x + 4, y + 4, x + 150, y + 44], fill='black')
+        de.text((x + 12, y + 8), re.findall(r'(\\d+)\\.jpg$', f)[0], fill='yellow', font=fonte)
+    folha.save(d + '/folha-%d.jpg' % (k // 4 + 1), quality=85)
+print(len(fs))
+`;
+function folhas(dir) {
+  for (const py of ['python3', 'python']) {
+    try { execFileSync(py, ['-c', FOLHAS_PY, dir], { stdio: ['ignore', 'pipe', 'pipe'] }); return fs.readdirSync(dir).filter((n) => n.startsWith('folha-')).length; } catch { /* tenta o próximo */ }
+  }
+  return 0;
+}
+
 function lerDados() {
   try {
     const d = JSON.parse(curl(`${PORTAL}/imoveis/dados.json?t=${Date.now()}`));
@@ -167,7 +192,8 @@ if (comando === 'listar' || comando === 'preparar') {
         for (const f of im.fotos) {
           try { curl(f.url, path.join(dir, `foto-${f.foto}.jpg`)); baixadas += 1; } catch (e) { console.error(`  (não baixou a foto ${f.foto}: ${e.message})`); }
         }
-        console.log(`- ${im.codigo} · ${im.tipo} · ${[im.bairro, im.cidade].filter(Boolean).join(', ')} · ${ESTADOS[im.pagina.estado]} · ${baixadas}/${im.fotos.length} fotos em ${dir}${fs.existsSync(path.join(dir, 'pagina-anterior.json')) ? ' (tem pagina-anterior.json)' : ''}`);
+        const nf = baixadas ? folhas(dir) : 0;
+        console.log(`- ${im.codigo} · ${im.tipo} · ${[im.bairro, im.cidade].filter(Boolean).join(', ')} · ${ESTADOS[im.pagina.estado]} · ${baixadas}/${im.fotos.length} fotos em ${dir}${nf ? ` (+ ${nf} folha(s) de contato: folha-1.jpg…)` : ''}${fs.existsSync(path.join(dir, 'pagina-anterior.json')) ? ' (tem pagina-anterior.json)' : ''}`);
         if (im.pagina.erros) console.log(`    motivo: ${im.pagina.erros.join(' | ')}`);
       }
       console.log(`\nDepois da fila desta vez, ainda faltarão ${Math.max(0, fila.length - lote.length)}.`);
