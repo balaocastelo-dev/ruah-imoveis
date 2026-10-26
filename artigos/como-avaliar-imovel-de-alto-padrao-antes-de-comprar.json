@@ -1,0 +1,379 @@
+{
+  "slug": "como-avaliar-imovel-de-alto-padrao-antes-de-comprar",
+  "titulo": "Como avaliar um imóvel de alto padrão antes de comprar: o checklist",
+  "resumo": "Como avaliar um imóvel de alto padrão: entorno, sol, construção, instalações, condomínio, documentos e manutenção, e quando chamar engenheiro ou advogado.",
+  "categoria": "alto-padrao",
+  "etiquetas": [
+    "compra",
+    "alto padrão",
+    "vistoria",
+    "documentação",
+    "condomínio"
+  ],
+  "capa": null,
+  "publicadoEm": "2026-10-26T10:29:45.038Z",
+  "redes": {
+    "legenda": "Acabamento bonito convence na visita, mas não conta a história inteira de um imóvel de alto padrão. Para onde a sala está voltada? A construção está averbada na matrícula? O condomínio tem orçamento aprovado em assembleia e fundo de reserva? Juntamos num checklist o que olhar antes de comprar: entorno, luz, estrutura, instalações, condomínio, documentos e custo de manutenção. E dizemos em que ponto vale chamar engenheiro e advogado. O guia completo está no blog, link na bio.",
+    "hashtags": [
+      "altopadrao",
+      "comprarimovel",
+      "arquitetura",
+      "casanova",
+      "imoveis",
+      "vistoria",
+      "campinas"
+    ]
+  },
+  "seo": {
+    "titulo": "Como avaliar um imóvel de alto padrão antes de comprar"
+  },
+  "blocos": [
+    {
+      "tipo": "paragrafo",
+      "texto": "Na primeira visita a um imóvel de alto padrão, quase tudo chama a atenção ao mesmo tempo: o pé-direito, a pedra da bancada, o jardim, a vista. É justamente aí que vale ter método. Saber **como avaliar um imóvel de alto padrão antes de comprar** separa o que é bonito do que é bom, e o que é bom hoje do que continuará bom daqui a vinte anos."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "A resposta curta: olhe o imóvel em camadas. Primeiro o entorno e a luz, que não se mudam depois. Depois a construção e as instalações, com um engenheiro ou arquiteto. Em seguida o condomínio e a documentação, com advogado e com as certidões em mãos. Por fim, faça a conta da manutenção, que no alto padrão costuma pesar mais do que se imagina."
+    },
+    {
+      "tipo": "resumo",
+      "itens": [
+        "Localização, entorno e orientação solar não se corrigem com reforma: avalie primeiro e em horários diferentes.",
+        "Estrutura, impermeabilização, esquadrias e instalações pedem vistoria de engenheiro ou arquiteto, de preferência com laudo.",
+        "No condomínio, leia convenção, regimento, atas e orçamento; quem compra responde pelas dívidas condominiais da unidade.",
+        "Matrícula atualizada, certidões, habite-se, averbação da construção e IPTU em dia passam pelo crivo de um advogado."
+      ]
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Localização e entorno: o que nenhuma reforma corrige"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Acabamento se troca; rua, vizinhança e caminho até a escola, não. Antes de entrar na casa, dê uma volta a pé pelo quarteirão em dias e horários diferentes. Repare no barulho de vias movimentadas, bares e obras, no fluxo de carros na hora do rush, na iluminação pública à noite e na distância real, em minutos, até os lugares da sua rotina."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Vale também olhar para o que ainda pode mudar. Um terreno vazio ao lado pode virar um prédio que tira a vista e o sol; uma rua tranquila pode ganhar comércio. A Prefeitura é quem define o que se pode construir em cada área, e um arquiteto consegue ler essas regras para você. Para conhecer melhor a cidade, a seção [Campinas e região](/blog/categoria/campinas) do blog ajuda."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Mas não transforme isso em busca do bairro perfeito. Todo endereço tem trocas: mais verde costuma vir com mais carro, mais serviço a pé costuma vir com mais movimento. O que importa é que o entorno combine com a forma como você vive hoje e pretende viver nos próximos anos."
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Implantação, luz e orientação solar: decida pela casa vivida"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Implantação é a forma como a casa ou o apartamento se coloca no terreno: para onde estão voltadas as salas, os quartos e o jardim, e o que fica de frente para a rua. No Brasil, que está no hemisfério sul, a face norte recebe mais sol ao longo do ano, sobretudo no inverno, e a face sul recebe menos sol direto."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "A face leste concentra o sol da manhã, mais ameno, e a oeste recebe o sol da tarde, mais quente. Isso tem consequência prática: uma sala envidraçada voltada para oeste pode ser linda às 10h e pedir ar-condicionado às 16h. Já um quarto voltado para o sul tende a ser mais fresco no verão e mais úmido e frio no inverno."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Para descobrir a orientação, a planta de arquitetura costuma trazer a seta do norte; uma bússola no celular ou o próprio mapa da região também dão uma boa ideia. O melhor teste, porém, é voltar ao imóvel em outro horário e ver onde a luz bate, quanto tempo ela fica e que sombra prédios e árvores vizinhos fazem."
+    },
+    {
+      "tipo": "tabela",
+      "colunas": [
+        "Face",
+        "Como costuma ser a luz",
+        "O que observar na visita"
+      ],
+      "linhas": [
+        [
+          "Norte",
+          "Mais sol ao longo do ano, sobretudo no inverno",
+          "Se há beiral, brise ou varanda que filtre o sol do verão"
+        ],
+        [
+          "Leste",
+          "Sol da manhã, mais ameno",
+          "Bom lado para quartos de quem acorda cedo"
+        ],
+        [
+          "Oeste",
+          "Sol da tarde, mais intenso e quente",
+          "Proteção nas janelas e conforto da sala no fim da tarde"
+        ],
+        [
+          "Sul",
+          "Pouco sol direto",
+          "Umidade, mofo em cantos e temperatura no inverno"
+        ]
+      ],
+      "titulo": "Orientação solar no hemisfério sul: o que esperar de cada face",
+      "fonte": {
+        "nome": "Como saber a posição solar de um imóvel ou terreno — Portas",
+        "url": "https://portas.com.br/morar-bem/dicas-lar/como-saber-a-posicao-solar-de-um-imovel-ou-terreno/"
+      },
+      "nota": "Orientação geral; prédios vizinhos, árvores e o desenho das janelas mudam o resultado em cada imóvel."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Mas não descarte um imóvel só pela orientação. Um bom projeto compensa a face menos favorável com beirais, brises, vidros adequados e ventilação cruzada. Quem gosta de luz natural e de verde dentro de casa encontra ideias em [biofilia em casa](/blog/biofilia-em-casa-como-trazer-natureza-para-dentro), que mostra como a vista e o sol mudam a sensação de um ambiente."
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Qualidade construtiva: onde o olho treinado faz diferença"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "No alto padrão, o acabamento costuma ser bom em quase todo lugar; a diferença está no que não aparece. Estrutura, impermeabilização, esquadrias e instalações são os pontos que, se falharem, custam caro e incomodam por muito tempo. Por isso a vistoria técnica, feita por engenheiro civil ou arquiteto, é a parte do checklist que menos vale a pena economizar."
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 3,
+      "texto": "Estrutura e impermeabilização"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Fissuras inclinadas em paredes, portas que não fecham, pisos desnivelados e trincas em vigas pedem avaliação de engenheiro antes de qualquer conversa sobre preço. Na impermeabilização, procure manchas, bolhas na pintura e eflorescência, aquele pó branco que surge onde a água passa, em tetos sob terraços, banheiros, floreiras e piscinas. Pergunte também quando foi a última revisão da cobertura."
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 3,
+      "texto": "Esquadrias e acabamentos"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Esquadrias são as janelas e portas externas, com seus caixilhos e vidros. Abra e feche cada uma: devem correr sem esforço, travar bem e vedar contra vento e chuva. Repare nas borrachas, nos trilhos e em sinais de infiltração no peitoril. Nos acabamentos, procure peças ocas no piso, rejuntes soltos e bancadas trincadas; um bom vistoriador costuma levar ferramentas simples para isso."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Se o imóvel for novo, recém-entregue pela construtora, a vistoria tem regras e prazos próprios, que explicamos em [o que conferir na vistoria de entrega](/blog/imovel-novo-o-que-conferir-na-vistoria-de-entrega). Para edifícios residenciais novos, a ABNT NBR 15575, a chamada Norma de Desempenho, fixa níveis mínimos de conforto acústico, térmico, durabilidade e manutenção; ela entrou em vigor em julho de 2013 e não alcança obras já iniciadas antes disso."
+    },
+    {
+      "tipo": "chamada",
+      "tema": "alto-padrao"
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Instalações: o que perguntar antes de se apaixonar"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Instalações elétricas, hidráulicas, de gás, de ar-condicionado e de automação são o sistema nervoso da casa. Pergunte a idade de cada uma e se houve reforma, peça os projetos e veja o quadro de energia: disjuntores identificados e espaço para crescer são bom sinal. Em casas mais antigas, a fiação pode não comportar a carga de cozinha elétrica, aquecimento e vários aparelhos de ar."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Na hidráulica, teste a pressão em mais de uma torneira aberta ao mesmo tempo, procure manchas sob as pias e pergunte sobre o aquecimento de água. Piscina, aquecimento solar, gerador e sistemas de segurança também entram na conta. Mas não abra paredes, não mexa no gás nem no quadro elétrico por conta própria: isso é trabalho para profissional habilitado, com ART ou RRT."
+    },
+    {
+      "tipo": "destaque",
+      "tom": "atencao",
+      "texto": "ART (Anotação de Responsabilidade Técnica) e RRT (Registro de Responsabilidade Técnica) são os registros que identificam o engenheiro ou o arquiteto responsável por um serviço. Peça o documento quando contratar a vistoria e quando o vendedor citar reformas: ele diz quem respondeu pela obra.",
+      "titulo": "ART e RRT: a assinatura que protege você"
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Condomínio: avalie as contas antes da área de lazer"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Em apartamento ou casa em condomínio, você compra também uma parte de uma coletividade com regras e caixa próprios. Peça a convenção, que traz as regras de fundo, e o regimento interno, que trata do dia a dia: obras, animais, horários, uso das áreas comuns. Leia com calma, porque elas valem para você no dia em que assinar a escritura."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Depois, olhe as contas. Pelo Código Civil, o condômino contribui para as despesas na proporção da sua fração ideal, salvo outro critério na convenção, e o orçamento das despesas ordinárias é aprovado em assembleia anual. Peça as atas dos últimos anos, o orçamento aprovado, a prestação de contas, o saldo do fundo de reserva e a taxa de inadimplência."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Atas contam histórias: obras grandes aprovadas e ainda não cobradas, ações judiciais, discussões repetidas sobre fachada, elevadores ou impermeabilização. Uma cota extra aprovada pouco antes da venda pode cair no seu bolso. E há um ponto que pesa: segundo o artigo 1.345 do Código Civil, quem compra a unidade responde pelas dívidas do vendedor com o condomínio, inclusive multas e juros."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Por isso, peça ao condomínio uma declaração de quitação da unidade, assinada pelo síndico ou pela administradora, e deixe o advogado conferir. Também vale saber se o prédio passou por inspeção predial. Desde 2020 existe uma norma da ABNT para isso, a NBR 16747, que padroniza a avaliação global do edifício e da sua manutenção, feita por profissionais habilitados."
+    },
+    {
+      "tipo": "pros-contras",
+      "pros": [
+        "Áreas comuns amplas e bem cuidadas, que ampliam o espaço de convívio",
+        "Portaria, segurança e manutenção organizadas pela administração",
+        "Mais opções para crianças e para quem recebe visitas"
+      ],
+      "contras": [
+        "Taxa condominial mais alta e mais itens para manter ao longo dos anos",
+        "Mais equipamentos que envelhecem juntos e pedem obras grandes",
+        "Regras de uso e decisões coletivas que nem sempre seguem a sua preferência"
+      ],
+      "titulo": "Condomínio com muita estrutura de lazer: o que pesa"
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Documentação: o que conferir com advogado antes de assinar"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "A **matrícula** é a ficha do imóvel no Registro de Imóveis: diz quem é o dono, o que existe no terreno e se há ônus, como hipoteca, alienação fiduciária ou penhora. Peça a certidão atualizada. Pela Lei de Registros Públicos, qualquer pessoa pode pedir certidão ao cartório sem explicar o motivo, e ela não pode demorar mais de cinco dias."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Na escritura, a Lei nº 7.433/1985 manda o tabelião registrar a apresentação do comprovante do ITBI, o imposto municipal sobre a transmissão, das certidões fiscais e das certidões de propriedade e de ônus reais. Na prática, o advogado costuma pedir mais: certidões pessoais do vendedor, como as de ações na Justiça e de protesto, conforme o caso."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Em casas, olhe com atenção a **averbação da construção**: é a anotação, na matrícula, de que existe ali uma edificação com tal área. Para fazê-la, o cartório costuma pedir o certificado de conclusão da Prefeitura, o conhecido **habite-se**, e a certidão do INSS relativa à obra. Se a casa construída é maior que a área averbada, há algo a regularizar."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Confira também o IPTU: a certidão negativa de débitos municipais do imóvel e se a área cadastrada na Prefeitura bate com a da matrícula e com a realidade. Ampliações sem aprovação, piscinas e edículas não registradas são comuns e podem travar um financiamento ou uma venda futura. Mas cada caso tem suas regras: quem decide se o risco é aceitável é o advogado."
+    },
+    {
+      "tipo": "tabela",
+      "colunas": [
+        "Documento",
+        "Onde se obtém",
+        "Para que serve"
+      ],
+      "linhas": [
+        [
+          "Certidão de matrícula atualizada",
+          "Registro de Imóveis",
+          "Mostra dono, área averbada e ônus como hipoteca ou penhora"
+        ],
+        [
+          "Habite-se ou certificado de conclusão",
+          "Prefeitura",
+          "Atesta que a obra foi concluída e aprovada"
+        ],
+        [
+          "Certidão negativa de débitos do IPTU",
+          "Prefeitura",
+          "Mostra se há imposto atrasado sobre o imóvel"
+        ],
+        [
+          "Declaração de quitação condominial",
+          "Síndico ou administradora",
+          "Confirma que a unidade não deve ao condomínio"
+        ],
+        [
+          "Convenção, regimento e atas",
+          "Condomínio",
+          "Regras, decisões, obras e contas aprovadas"
+        ],
+        [
+          "Certidões pessoais do vendedor",
+          "Fóruns e cartórios de protesto",
+          "Indicam ações ou dívidas que podem atingir o imóvel"
+        ]
+      ],
+      "titulo": "Documentos que costumam entrar na análise",
+      "fonte": {
+        "nome": "Lei nº 7.433/1985 — Planalto",
+        "url": "https://www.planalto.gov.br/ccivil_03/leis/l7433.htm"
+      },
+      "nota": "Lista geral, com base na Lei nº 7.433/1985, na Lei de Registros Públicos e no Código Civil; o advogado define quais certidões cada negócio exige."
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Custos de manutenção: a conta que vem depois da chave"
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Quanto mais metros, vidro, jardim e equipamento, maior a manutenção. Piscina, paisagismo, ar-condicionado central, automação, elevador privativo e fachadas de vidro ou madeira pedem revisões periódicas. A ABNT tem uma norma de referência para a manutenção de edificações, a NBR 5674, citada inclusive nas inspeções prediais. Peça ao vendedor o histórico de manutenção e as notas das últimas revisões."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Some ao orçamento mensal a taxa de condomínio, o IPTU, os contratos de manutenção, energia e água, e uma reserva para o que vence no médio prazo, como pintura externa, impermeabilização e troca de equipamentos. No mobiliário, a lógica é a mesma: peças bem feitas duram mais, como mostramos em [como reconhecer mobiliário de qualidade](/blog/mobiliario-de-alto-padrao-como-reconhecer-qualidade)."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Mas não se assuste com a lista. Manutenção em dia é sinal de imóvel bem cuidado, e um vendedor que guarda notas, manuais e projetos costuma estar entregando uma casa sem surpresas. O alerta vem da ausência: nenhum registro, nenhum projeto e respostas vagas sobre a última vez que alguém olhou o telhado."
+    },
+    {
+      "tipo": "titulo",
+      "nivel": 2,
+      "texto": "Quando chamar engenheiro, arquiteto ou advogado"
+    },
+    {
+      "tipo": "lista",
+      "ordenada": true,
+      "itens": [
+        "**Antes da proposta:** visite o imóvel em horários diferentes e caminhe pelo entorno.",
+        "**Com a proposta encaminhada:** contrate a vistoria de um engenheiro civil ou arquiteto, com ART ou RRT e laudo por escrito.",
+        "**Em paralelo:** peça ao advogado a análise da matrícula, das certidões, do habite-se, da averbação e do IPTU.",
+        "**No condomínio:** leia convenção, regimento, atas e orçamento, e peça a declaração de quitação da unidade.",
+        "**Antes de assinar:** confira com o advogado se o contrato trata do que a vistoria e as certidões apontaram."
+      ]
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "Engenheiro ou arquiteto respondem pela casa física: estrutura, umidade, instalações e reformas feitas sem projeto. O advogado responde pela casa jurídica: quem pode vender, o que pesa sobre o imóvel e o que o contrato garante. O cartório tira dúvidas sobre registro. Nenhum deles substitui o outro, e o custo dessas consultas costuma ser pequeno perto do que elas evitam."
+    },
+    {
+      "tipo": "paragrafo",
+      "texto": "A RUAH Investimentos Imobiliários é uma imobiliária de Campinas que trabalha com a venda de imóveis e atende quem quer comprar e quem quer vender, com atendimento feito por pessoas da equipe. Se você está procurando um imóvel de alto padrão e quer conversar sobre o que olhar em cada visita, fale com a gente. Avaliar com método é o que transforma uma casa bonita numa boa compra."
+    },
+    {
+      "tipo": "chamada",
+      "tema": "comprar"
+    }
+  ],
+  "perguntas": [
+    {
+      "pergunta": "Preciso mesmo de vistoria técnica num imóvel de alto padrão?",
+      "resposta": "Sim, e talvez mais do que num imóvel simples. Há mais sistemas para avaliar, como impermeabilização de terraços, esquadrias grandes, piscina e automação. Um engenheiro ou arquiteto, com ART ou RRT, aponta problemas que a visita comum não revela."
+    },
+    {
+      "pergunta": "Quem compra paga as dívidas de condomínio do antigo dono?",
+      "resposta": "Pelo artigo 1.345 do Código Civil, o comprador responde pelos débitos da unidade com o condomínio, inclusive multas e juros. Por isso vale exigir a declaração de quitação antes da escritura e deixar o advogado conferir o caso."
+    },
+    {
+      "pergunta": "O que é averbação da construção e por que importa?",
+      "resposta": "É a anotação, na matrícula do imóvel, da edificação que existe sobre o terreno. Sem ela, ou com área menor que a real, o registro não reflete a casa que você está comprando, o que pode complicar financiamento e venda futura. A regularização costuma exigir habite-se e certidão do INSS da obra."
+    },
+    {
+      "pergunta": "Qual a melhor orientação solar para a sala?",
+      "resposta": "Não há uma única resposta. No hemisfério sul, a face norte recebe mais sol no inverno e a oeste recebe o sol mais quente da tarde. O ideal depende do seu clima, do seu horário de uso e de como o projeto protege as janelas."
+    }
+  ],
+  "fontes": [
+    {
+      "nome": "Lei nº 7.433/1985 (requisitos da escritura pública) — Planalto",
+      "url": "https://www.planalto.gov.br/ccivil_03/leis/l7433.htm",
+      "data": "outubro de 2026"
+    },
+    {
+      "nome": "Lei nº 6.015/1973, Lei de Registros Públicos (arts. 16 a 19, certidões) — Planalto",
+      "url": "https://www.planalto.gov.br/ccivil_03/leis/l6015compilada.htm",
+      "data": "outubro de 2026"
+    },
+    {
+      "nome": "As despesas comuns e a garantia de funcionamento (Código Civil, arts. 1.336, 1.345 e 1.350) — IRIB",
+      "url": "https://irib.org.br/obras/as-despesas-comuns-e-a-garantia-de-funcionamento",
+      "data": "outubro de 2026"
+    },
+    {
+      "nome": "Averbação de construção, habite-se e CND do INSS (decisão da 1ª Vara de Registros Públicos de SP) — 26º Tabelionato de Notas",
+      "url": "https://www.26notas.com.br/blog/?p=5053",
+      "data": "outubro de 2026"
+    },
+    {
+      "nome": "NBR 15575:2013, Norma de Desempenho, passa a valer em julho — CBIC",
+      "url": "https://cbic.org.br/nbr-155752013-norma-de-desempenho-edificacoes-habitacionais-passa-a-valer-em-julho/",
+      "data": "outubro de 2026"
+    },
+    {
+      "nome": "Publicada a norma ABNT NBR 16747 de inspeção predial — CBIC",
+      "url": "https://cbic.org.br/publicada-a-norma-abnt-nbr-16747-de-inspecao-predial/",
+      "data": "outubro de 2026"
+    },
+    {
+      "nome": "Como saber a posição solar de um imóvel ou terreno — Portas",
+      "url": "https://portas.com.br/morar-bem/dicas-lar/como-saber-a-posicao-solar-de-um-imovel-ou-terreno/",
+      "data": "outubro de 2026"
+    }
+  ]
+}

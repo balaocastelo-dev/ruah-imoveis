@@ -1,4 +1,37 @@
 {
   "versao": 1,
-  "pendentes": []
+  "pendentes": [
+    {
+      "slug": "biofilia-em-casa-como-trazer-natureza-para-dentro",
+      "titulo": "Biofilia em casa: como trazer a natureza para dentro",
+      "categoria": "bem-estar",
+      "alt": "Sala clara com grande janela para um jardim, piso de madeira, vasos com plantas, poltrona de linho e mesa de pedra",
+      "pedido": "A bright, calm living room with a large floor-to-ceiling window looking out onto a leafy garden. Warm oak wooden floor, a low linen armchair, a round natural stone side table, a woven jute rug and several potted leafy plants placed near the window. Soft diffuse morning daylight, interior design photography, eye level, wide angle.",
+      "pedidoEm": "2026-10-26T10:29:45.686Z"
+    },
+    {
+      "slug": "mobiliario-de-alto-padrao-como-reconhecer-qualidade",
+      "titulo": "Mobiliário de alto padrão: como reconhecer qualidade de verdade",
+      "categoria": "interiores",
+      "alt": "Detalhe de um aparador de madeira maciça com encaixe aparente na quina, ao lado de uma poltrona estofada em linho cru",
+      "pedido": "Close-up interior design photography of a solid walnut sideboard corner showing a visible hand-cut dovetail joint and a smooth oiled finish. Beside it, the arm of a lounge chair upholstered in natural off-white linen with precise piping seams. Soft daylight from a side window, warm neutral tones, shallow depth of field, minimalist room with a light concrete wall.",
+      "pedidoEm": "2026-10-26T10:29:45.686Z"
+    },
+    {
+      "slug": "imovel-novo-o-que-conferir-na-vistoria-de-entrega",
+      "titulo": "Imóvel novo: o que conferir na vistoria de entrega das chaves",
+      "categoria": "construcao",
+      "alt": "Apartamento novo e vazio, com piso de porcelanato claro, paredes brancas, janela de alumínio e uma prancheta em branco sobre o piso",
+      "pedido": "An empty, brand-new apartment living room just before move-in, with light large-format porcelain floor tiles, freshly painted white walls and a wide aluminum sliding window letting in soft daylight. A plain blank clipboard rests on the floor near the window. Clean, bright and calm, interior architectural photography, wide angle, eye level.",
+      "pedidoEm": "2026-10-26T10:29:45.688Z"
+    },
+    {
+      "slug": "como-avaliar-imovel-de-alto-padrao-antes-de-comprar",
+      "titulo": "Como avaliar um imóvel de alto padrão antes de comprar: o checklist",
+      "categoria": "alto-padrao",
+      "alt": "Sala ampla e vazia de uma casa contemporânea, com piso de pedra clara, grandes portas de vidro abertas para um jardim e luz do fim da tarde",
+      "pedido": "A spacious, empty living room in a contemporary high-end house, with light natural stone flooring, exposed concrete ceiling and tall sliding glass doors opening onto a landscaped garden with mature trees. Slim dark aluminum window frames and a wooden deck outside. Warm late afternoon sunlight casting long soft shadows across the floor. Wide-angle architectural photography, eye level.",
+      "pedidoEm": "2026-10-26T10:29:45.689Z"
+    }
+  ]
 }

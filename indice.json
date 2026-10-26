@@ -1,4 +1,72 @@
 {
   "versao": 1,
-  "artigos": []
+  "artigos": [
+    {
+      "slug": "como-avaliar-imovel-de-alto-padrao-antes-de-comprar",
+      "titulo": "Como avaliar um imóvel de alto padrão antes de comprar: o checklist",
+      "resumo": "Como avaliar um imóvel de alto padrão: entorno, sol, construção, instalações, condomínio, documentos e manutenção, e quando chamar engenheiro ou advogado.",
+      "categoria": "alto-padrao",
+      "etiquetas": [
+        "compra",
+        "alto padrão",
+        "vistoria",
+        "documentação",
+        "condomínio"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-26T10:29:45.038Z",
+      "minutos": 13
+    },
+    {
+      "slug": "imovel-novo-o-que-conferir-na-vistoria-de-entrega",
+      "titulo": "Imóvel novo: o que conferir na vistoria de entrega das chaves",
+      "resumo": "Imóvel novo pede vistoria de entrega com calma: documentos, ambiente por ambiente, defeitos por escrito e os prazos de garantia da lei e das normas.",
+      "categoria": "construcao",
+      "etiquetas": [
+        "vistoria",
+        "imóvel novo",
+        "construção",
+        "garantia",
+        "compra"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-26T10:28:45.038Z",
+      "minutos": 10
+    },
+    {
+      "slug": "mobiliario-de-alto-padrao-como-reconhecer-qualidade",
+      "titulo": "Mobiliário de alto padrão: como reconhecer qualidade de verdade",
+      "resumo": "Madeira maciça, lâmina ou MDF, encaixes, ferragens, espuma e selo FSC: o que olhar e o que perguntar antes de pagar mais por um móvel de alto padrão.",
+      "categoria": "interiores",
+      "etiquetas": [
+        "interiores",
+        "mobiliário",
+        "alto padrão",
+        "madeira",
+        "decoração"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-26T10:27:45.038Z",
+      "minutos": 5,
+      "formato": "dica"
+    },
+    {
+      "slug": "biofilia-em-casa-como-trazer-natureza-para-dentro",
+      "titulo": "Biofilia em casa: como trazer a natureza para dentro",
+      "resumo": "Biofilia em casa é luz natural, vista para o verde, plantas no lugar certo e materiais naturais. Veja o que a pesquisa diz e como aplicar sem exagero.",
+      "categoria": "bem-estar",
+      "etiquetas": [
+        "bem-estar",
+        "design biofílico",
+        "plantas",
+        "luz natural",
+        "interiores"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-26T10:26:45.038Z",
+      "minutos": 5,
+      "formato": "dica"
+    }
+  ],
+  "atualizadoEm": "2026-10-26T10:29:45.689Z"
 }
