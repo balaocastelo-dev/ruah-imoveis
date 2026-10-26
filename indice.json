@@ -29,7 +29,12 @@
         "garantia",
         "compra"
       ],
-      "capa": null,
+      "capa": {
+        "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/imovel-novo-o-que-conferir-na-vistoria-de-entrega-824fe704.jpg",
+        "alt": "Apartamento novo e vazio, com piso de porcelanato claro, paredes brancas, janela de alumínio e uma prancheta em branco sobre o piso",
+        "largura": 1600,
+        "altura": 900
+      },
       "publicadoEm": "2026-10-26T10:28:45.038Z",
       "minutos": 10
     },
@@ -78,5 +83,5 @@
       "formato": "dica"
     }
   ],
-  "atualizadoEm": "2026-10-26T10:35:18.317Z"
+  "atualizadoEm": "2026-10-26T10:36:41.701Z"
 }

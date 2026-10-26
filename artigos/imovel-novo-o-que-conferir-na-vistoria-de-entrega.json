@@ -10,7 +10,12 @@
     "garantia",
     "compra"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/imovel-novo-o-que-conferir-na-vistoria-de-entrega-824fe704.jpg",
+    "alt": "Apartamento novo e vazio, com piso de porcelanato claro, paredes brancas, janela de alumínio e uma prancheta em branco sobre o piso",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-26T10:28:45.038Z",
   "redes": {
     "legenda": "Recebeu as chaves do imóvel novo? Antes de assinar o termo de vistoria, vale uma hora com trena, carregador de celular e um balde de água. Teste cada tomada, abra cada janela, veja se a água corre para o ralo e anote tudo, com foto e data. Defeito que você vê no dia da entrega deve ir por escrito, e há prazo para reclamar. No blog, o roteiro ambiente por ambiente e o que dizem a lei e as normas de garantia. Link na bio.",
