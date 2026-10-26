@@ -10,7 +10,12 @@
     "madeira",
     "decoração"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/mobiliario-de-alto-padrao-como-reconhecer-qualidade-b7572a25.jpg",
+    "alt": "Detalhe de um aparador de madeira maciça com encaixe aparente na quina, ao lado de uma poltrona estofada em linho cru",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-26T10:27:45.038Z",
   "formato": "dica",
   "redes": {
