@@ -10,7 +10,12 @@
     "luz natural",
     "interiores"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/biofilia-em-casa-como-trazer-natureza-para-dentro-530a3fd0.jpg",
+    "alt": "Sala clara com grande janela para um jardim, piso de madeira, vasos com plantas, poltrona de linho e mesa de pedra",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-26T10:26:45.038Z",
   "formato": "dica",
   "redes": {
