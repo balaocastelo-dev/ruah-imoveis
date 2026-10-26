@@ -244,7 +244,7 @@ function conferir(arquivo) {
   return { artigo, foto, pendente };
 }
 
-function conferirContraOPublicado(artigo, indice) {
+function conferirContraOPublicado(artigo, indice, lote = []) {
   const erros = [];
   const noIndice = indice.artigos.find((a) => a.slug === artigo.slug);
   if (noIndice && !atualizar) erros.push(`/blog/${artigo.slug} já está publicado. Para trocar o texto, use --atualizar.`);
@@ -259,7 +259,7 @@ function conferirContraOPublicado(artigo, indice) {
       erros.push(`O título repete o assunto de "${outro.titulo}" (/blog/${outro.slug}). Escolha outro tema.`);
     }
   }
-  const existentes = new Set(indice.artigos.map((a) => a.slug));
+  const existentes = new Set([...indice.artigos.map((a) => a.slug), ...lote]);
   for (const [, slug] of JSON.stringify(artigo.blocos).matchAll(/\]\(\/blog\/([a-z0-9-]+)[)#?]/g)) {
     if (slug !== 'categoria' && !existentes.has(slug)) erros.push(`O texto aponta para /blog/${slug}, que não existe.`);
   }
@@ -321,45 +321,59 @@ if (comando === 'listar') {
   if (amanha) console.log(`Com --amanha, aparece em ${quando(agendadoParaAmanha(tipoDe(artigo)))}, já com a foto.`);
   console.log('\n✓ Aprovado. (Nada foi publicado: use o comando publicar.)');
 } else if (comando === 'publicar') {
-  const { artigo, foto, pendente } = conferir(alvo);
-  if (amanha) artigo.publicadoEm = agendadoParaAmanha(tipoDe(artigo));
-  else if (Date.parse(artigo.publicadoEm) > Date.now() + 60_000) sair('A data de publicação está no futuro. Para agendar, use --amanha.');
-  if (!artigo.capa && !pendente) sair('Falta a foto de capa: descreva-a no artigo ("capa": { "alt": "…", "pedido": "…" }) ou passe --capa foto.jpg.');
+  // Vários arquivos no mesmo comando = um lote (o lançamento do blog): todos conferidos
+  // como sempre, gravados juntos num só envio; podem apontar uns para os outros.
+  const arquivos = [alvo, ...resto].filter((a) => a && !a.startsWith('--') && a.endsWith('.json') && a !== arquivoDaFoto);
+  if (arquivos.length > 1 && arquivoDaFoto) sair('--capa só vale com um artigo por vez.');
+  const lidos = arquivos.map((arq) => conferir(arq));
+  const lote = lidos.map((l) => l.artigo.slug);
+  for (const { artigo, pendente } of lidos) {
+    if (amanha) artigo.publicadoEm = agendadoParaAmanha(tipoDe(artigo));
+    else if (Date.parse(artigo.publicadoEm) > Date.now() + 60_000) sair('A data de publicação está no futuro. Para agendar, use --amanha.');
+    if (!artigo.capa && !pendente) sair(`Falta a foto de capa em ${artigo.slug}: descreva-a ("capa": { "alt", "pedido" }) ou passe --capa foto.jpg.`);
+  }
+  // No lote, a ordem dos arquivos é a ordem de publicação: o último fica no topo do blog.
+  if (lidos.length > 1 && !amanha) lidos.forEach((l, i) => { l.artigo.publicadoEm = new Date(Date.now() - (lidos.length - 1 - i) * 60_000).toISOString(); });
 
   const pasta = abrirRamo();
   try {
     const indice = lerIndice(pasta);
-    conferirContraOPublicado(artigo, indice);
-    const paraGravar = { ...artigo };
-    delete paraGravar.autor;
-    delete paraGravar.origem;
-    const anterior = indice.artigos.find((a) => a.slug === artigo.slug);
-    if (anterior) { paraGravar.publicadoEm = anterior.publicadoEm; paraGravar.atualizadoEm = new Date().toISOString(); }
+    const fila = lerPendentes(pasta);
+    const titulos = [];
+    for (const { artigo, foto, pendente } of lidos) {
+      conferirContraOPublicado(artigo, indice, lote.filter((s) => s !== artigo.slug));
+      const paraGravar = { ...artigo };
+      delete paraGravar.autor;
+      delete paraGravar.origem;
+      const anterior = indice.artigos.find((a) => a.slug === artigo.slug);
+      if (anterior) { paraGravar.publicadoEm = anterior.publicadoEm; paraGravar.atualizadoEm = new Date().toISOString(); }
 
-    const capaEmUso = artigo.capa ? path.join(pasta, 'capas', path.basename(artigo.capa.src)) : null;
-    if (foto) {
-      fs.mkdirSync(path.join(pasta, 'capas'), { recursive: true });
-      fs.writeFileSync(path.join(pasta, foto.noRamo), foto.bytes);
-    } else if (capaEmUso && !fs.existsSync(capaEmUso)) sair('O artigo aponta para uma foto que não está no ramo de conteúdo: passe --capa foto.jpg.');
-    for (const antiga of capasNoRamo(pasta, artigo.slug)) if (antiga !== capaEmUso) fs.rmSync(antiga, { force: true });
+      const capaEmUso = artigo.capa ? path.join(pasta, 'capas', path.basename(artigo.capa.src)) : null;
+      if (foto) {
+        fs.mkdirSync(path.join(pasta, 'capas'), { recursive: true });
+        fs.writeFileSync(path.join(pasta, foto.noRamo), foto.bytes);
+      } else if (capaEmUso && !fs.existsSync(capaEmUso)) sair('O artigo aponta para uma foto que não está no ramo de conteúdo: passe --capa foto.jpg.');
+      for (const antiga of capasNoRamo(pasta, artigo.slug)) if (antiga !== capaEmUso) fs.rmSync(antiga, { force: true });
 
-    fs.mkdirSync(path.join(pasta, 'artigos'), { recursive: true });
-    fs.writeFileSync(path.join(pasta, 'artigos', `${artigo.slug}.json`), `${JSON.stringify(paraGravar, null, 2)}\n`);
-    indice.artigos = indice.artigos.filter((a) => a.slug !== artigo.slug);
-    indice.artigos.push({
-      slug: artigo.slug, titulo: artigo.titulo, resumo: artigo.resumo, categoria: artigo.categoria, etiquetas: artigo.etiquetas,
-      capa: artigo.capa, publicadoEm: paraGravar.publicadoEm, minutos: minutosDeLeitura(artigo), ...(artigo.formato ? { formato: artigo.formato } : {}),
-    });
+      fs.mkdirSync(path.join(pasta, 'artigos'), { recursive: true });
+      fs.writeFileSync(path.join(pasta, 'artigos', `${artigo.slug}.json`), `${JSON.stringify(paraGravar, null, 2)}\n`);
+      indice.artigos = indice.artigos.filter((a) => a.slug !== artigo.slug);
+      indice.artigos.push({
+        slug: artigo.slug, titulo: artigo.titulo, resumo: artigo.resumo, categoria: artigo.categoria, etiquetas: artigo.etiquetas,
+        capa: artigo.capa, publicadoEm: paraGravar.publicadoEm, minutos: minutosDeLeitura(artigo), ...(artigo.formato ? { formato: artigo.formato } : {}),
+      });
+      const i = fila.findIndex((p) => p.slug === artigo.slug);
+      if (i >= 0) fila.splice(i, 1);
+      if (pendente && !artigo.capa) fila.push({ slug: artigo.slug, titulo: artigo.titulo, categoria: artigo.categoria, alt: pendente.alt, pedido: pendente.pedido, pedidoEm: new Date().toISOString() });
+      const futuro = Date.parse(paraGravar.publicadoEm) > Date.now();
+      titulos.push(artigo.titulo);
+      console.log(`\n✓ ${anterior ? 'Atualizado' : futuro ? `Agendado para ${quando(paraGravar.publicadoEm)}` : 'Publicado'}: ${endereco(artigo.slug)}`);
+      if (pendente && !artigo.capa) console.log('  O blog só mostra o texto depois que a foto chegar (fila do PC da RTX 4090, capas/pendentes.json).');
+    }
     gravarIndice(pasta, indice);
-
-    const fila = lerPendentes(pasta).filter((p) => p.slug !== artigo.slug);
-    if (pendente && !artigo.capa) fila.push({ slug: artigo.slug, titulo: artigo.titulo, categoria: artigo.categoria, alt: pendente.alt, pedido: pendente.pedido, pedidoEm: new Date().toISOString() });
     gravarPendentes(pasta, fila);
-
-    const futuro = Date.parse(paraGravar.publicadoEm) > Date.now();
-    enviar(pasta, `${anterior ? 'Atualiza' : futuro ? 'Agenda' : 'Publica'}: ${artigo.titulo}`);
-    console.log(`\n✓ ${futuro ? `Agendado para ${quando(paraGravar.publicadoEm)}` : 'Publicado'} no ramo de conteúdo:\n  ${endereco(artigo.slug)}`);
-    if (pendente && !artigo.capa) console.log('  O blog só mostra o artigo depois que a foto chegar: ela está na fila do PC da RTX 4090 (capas/pendentes.json), que faz as fotos de madrugada.');
+    const verbo = amanha ? 'Agenda' : 'Publica';
+    enviar(pasta, titulos.length === 1 ? `${verbo}: ${titulos[0]}` : `${verbo} ${titulos.length} textos: ${titulos.join(' | ')}`);
   } finally { fecharRamo(pasta); }
 } else if (comando === 'pendentes') {
   const pasta = abrirRamo();
