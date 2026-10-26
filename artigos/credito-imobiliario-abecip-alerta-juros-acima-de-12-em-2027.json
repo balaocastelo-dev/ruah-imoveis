@@ -9,7 +9,12 @@
     "juros",
     "mercado imobiliário"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/credito-imobiliario-abecip-alerta-juros-acima-de-12-em-2027-6a901046.jpg",
+    "alt": "Chaves de metal sobre uma mesa de madeira clara ao lado de uma maquete branca de edifício residencial",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-26T10:25:00.000Z",
   "redes": {
     "legenda": "O crédito imobiliário deve fechar 2026 em ritmo forte, mas o próximo ano pede atenção. Num debate da CBIC na última quarta-feira (21), a Abecip estimou R$ 410 bilhões em financiamentos neste ano e alertou: se os juros de mercado ficarem acima do teto de 12% do novo modelo, o volume pode cair. Vai comprar ou vender? Entenda o que muda no artigo completo no blog (link na bio).",

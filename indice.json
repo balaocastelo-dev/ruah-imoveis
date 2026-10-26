@@ -98,10 +98,15 @@
         "juros",
         "mercado imobiliário"
       ],
-      "capa": null,
+      "capa": {
+        "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/credito-imobiliario-abecip-alerta-juros-acima-de-12-em-2027-6a901046.jpg",
+        "alt": "Chaves de metal sobre uma mesa de madeira clara ao lado de uma maquete branca de edifício residencial",
+        "largura": 1600,
+        "altura": 900
+      },
       "publicadoEm": "2026-10-26T10:25:00.000Z",
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-26T10:45:17.297Z"
+  "atualizadoEm": "2026-10-26T10:49:13.729Z"
 }
