@@ -223,8 +223,12 @@ Ao menos dois links para dentro do blog, no meio do texto, só destes:
 | `/blog/categoria/noticias` | Mercado imobiliário |
 | `/blog/<endereço>` | Outro artigo do blog (precisa existir: veja a lista do `preparar`) |
 
-Ligue para outros artigos sempre que o assunto encostar em um deles. Links
-para fora (as fontes) podem ir no texto com `https://`.
+Ligue para outros artigos sempre que o assunto encostar em um deles.
+
+**O leitor não sai do site da RUAH.** Nenhum link para fora no texto: nada
+de `https://` em parágrafo, lista, tabela ou destaque (a régua reprova). As
+fontes vão só no campo `fontes`; o blog as mostra no fim, citadas pelo nome e
+pelo site, sem link. No texto, cite a origem pelo nome ("segundo a CBIC").
 
 ## Formato do artigo
 
@@ -276,7 +280,8 @@ Texto aceita só `**negrito**`, `*itálico*` e `[texto](endereço)`. Nada de HTM
 
 Temas de chamada: `comprar` (procura imóvel), `vender` (vai vender),
 `alto-padrao` (ver os imóveis à venda no site da RUAH), `visita` (marcar
-visita), `instagram` (seguir a RUAH) e `geral`. Escolha o que continua o
+visita), `blog` (mais textos do blog) e `geral`. Não existe chamada para
+Instagram ou outra rede: o leitor não sai do site da RUAH. Escolha o que continua o
 assunto do artigo; o comum é uma no meio e outra no fim.
 
 ## O que a régua cobra
@@ -289,7 +294,7 @@ assunto do artigo; o comum é uma no meio e outra no fim.
   110 a 165.
 - Abre com parágrafo (antes de qualquer título) que já responde à busca.
 - 1 a 3 chamadas, nenhuma no primeiro quarto, nunca duas seguidas.
-- Ao menos 2 links para dentro do blog, da lista acima.
+- Ao menos 2 links para dentro do blog, da lista acima, e nenhum link para fora.
 - Ao menos 2 fontes. Campo `redes` com legenda (80 a 600) e 4 a 10 hashtags.
 - Sem parcela, desconto, promessa de ganho; sem reais fora da notícia; sem
   "testamos"/"visitamos".
