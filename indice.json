@@ -2,6 +2,23 @@
   "versao": 1,
   "artigos": [
     {
+      "slug": "porcelanato-ou-piso-de-madeira-na-sala-qual-escolher",
+      "titulo": "Porcelanato ou piso de madeira na sala: qual escolher",
+      "resumo": "Porcelanato ou madeira na sala? Compare sensação térmica, barulho, água, riscos e manutenção, e veja quando cada piso vale a pena na sua casa.",
+      "categoria": "interiores",
+      "etiquetas": [
+        "interiores",
+        "pisos",
+        "porcelanato",
+        "madeira",
+        "decoração"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-28T21:00:00.000Z",
+      "minutos": 5,
+      "formato": "dica"
+    },
+    {
       "slug": "regularizacao-de-construcoes-campinas-prorroga-programa-social-ate-2028",
       "titulo": "Regularização de construções: Campinas prorroga programa social até 2028",
       "resumo": "Decreto de 22 de outubro dá mais dois anos ao programa que regulariza ampliações e reformas sem aprovação em conjuntos habitacionais de Campinas.",
@@ -202,5 +219,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-27T23:38:14.894Z"
+  "atualizadoEm": "2026-10-27T23:57:56.175Z"
 }
