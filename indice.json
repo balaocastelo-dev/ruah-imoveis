@@ -45,7 +45,12 @@
         "cozinha",
         "porcelanato"
       ],
-      "capa": null,
+      "capa": {
+        "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/marmore-granito-quartzito-ou-porcelanato-guia-de-pedras-9682c827.jpg",
+        "alt": "Cozinha clara com ilha revestida de pedra natural de fundo branco e veios cinza, piso de porcelanato claro e luz natural entrando por uma janela ampla",
+        "largura": 1600,
+        "altura": 900
+      },
       "publicadoEm": "2026-10-27T09:00:00.000Z",
       "minutos": 11
     },
@@ -156,5 +161,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-26T23:58:26.703Z"
+  "atualizadoEm": "2026-10-27T01:41:45.109Z"
 }

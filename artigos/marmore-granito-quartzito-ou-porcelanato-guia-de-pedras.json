@@ -10,7 +10,12 @@
     "cozinha",
     "porcelanato"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/marmore-granito-quartzito-ou-porcelanato-guia-de-pedras-9682c827.jpg",
+    "alt": "Cozinha clara com ilha revestida de pedra natural de fundo branco e veios cinza, piso de porcelanato claro e luz natural entrando por uma janela ampla",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-27T09:00:00.000Z",
   "redes": {
     "legenda": "Limão no mármore: você sabia que um simples respingo pode tirar o brilho da pedra? Mármore, granito, quartzito e porcelanato podem ficar lindos na foto, mas cada um reage de um jeito a riscos, manchas e ácidos. Explicamos onde cada material vai melhor na casa, o que olhar na ficha técnica e o teste simples para fazer numa amostra antes de comprar. O guia completo está no blog, link na bio.",
