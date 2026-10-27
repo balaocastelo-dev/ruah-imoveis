@@ -2,6 +2,21 @@
   "versao": 1,
   "artigos": [
     {
+      "slug": "regularizacao-de-construcoes-campinas-prorroga-programa-social-ate-2028",
+      "titulo": "Regularização de construções: Campinas prorroga programa social até 2028",
+      "resumo": "Decreto de 22 de outubro dá mais dois anos ao programa que regulariza ampliações e reformas sem aprovação em conjuntos habitacionais de Campinas.",
+      "categoria": "noticias",
+      "etiquetas": [
+        "regularização",
+        "campinas",
+        "documentação",
+        "mercado imobiliário"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-28T15:00:00.000Z",
+      "minutos": 3
+    },
+    {
       "slug": "quarto-que-ajuda-a-dormir-luz-temperatura-ruido-materiais",
       "titulo": "Quarto que ajuda a dormir: luz, temperatura, ruído e materiais",
       "resumo": "Quarto que ajuda a dormir: como cuidar de escuro, temperatura, silêncio, umidade e materiais, o que resolver sem obra e o que olhar no quarto ao comprar.",
@@ -187,5 +202,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-27T23:18:09.945Z"
+  "atualizadoEm": "2026-10-27T23:38:14.894Z"
 }
