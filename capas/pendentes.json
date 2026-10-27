@@ -1,4 +1,13 @@
 {
   "versao": 1,
-  "pendentes": []
+  "pendentes": [
+    {
+      "slug": "quarto-que-ajuda-a-dormir-luz-temperatura-ruido-materiais",
+      "titulo": "Quarto que ajuda a dormir: luz, temperatura, ruído e materiais",
+      "categoria": "bem-estar",
+      "alt": "Quarto sereno ao entardecer, com cama baixa de linho claro, cabeceira estofada, piso de madeira e cortinas pesadas entreabertas",
+      "pedido": "A serene minimalist bedroom at dusk with a low platform bed dressed in off-white linen and a soft upholstered headboard in warm beige. Wide-plank oak floor, a small wool rug, a walnut bedside table with a low ceramic lamp giving dim amber light. Heavy floor-length blackout curtains in sand color, slightly open to a deep blue evening sky. Calm, uncluttered, interior design photography, eye level, soft natural tones.",
+      "pedidoEm": "2026-10-27T23:18:09.944Z"
+    }
+  ]
 }

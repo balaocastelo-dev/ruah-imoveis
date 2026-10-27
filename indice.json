@@ -2,6 +2,22 @@
   "versao": 1,
   "artigos": [
     {
+      "slug": "quarto-que-ajuda-a-dormir-luz-temperatura-ruido-materiais",
+      "titulo": "Quarto que ajuda a dormir: luz, temperatura, ruído e materiais",
+      "resumo": "Quarto que ajuda a dormir: como cuidar de escuro, temperatura, silêncio, umidade e materiais, o que resolver sem obra e o que olhar no quarto ao comprar.",
+      "categoria": "bem-estar",
+      "etiquetas": [
+        "bem-estar",
+        "quarto",
+        "sono",
+        "acústica",
+        "iluminação"
+      ],
+      "capa": null,
+      "publicadoEm": "2026-10-28T09:00:00.000Z",
+      "minutos": 10
+    },
+    {
       "slug": "pe-direito-alto-vale-a-pena-o-que-muda-na-sala",
       "titulo": "Pé-direito alto vale a pena? O que muda na sala",
       "resumo": "Pé-direito alto traz amplitude, luz e ar, mas pede mais cuidado com climatização, eco e limpeza. Veja quando vale a pena na sala e quando não compensa.",
@@ -171,5 +187,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-27T01:47:10.683Z"
+  "atualizadoEm": "2026-10-27T23:18:09.945Z"
 }
