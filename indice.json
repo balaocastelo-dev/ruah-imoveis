@@ -29,7 +29,12 @@
         "mercado imobiliário",
         "pesquisa"
       ],
-      "capa": null,
+      "capa": {
+        "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/credito-imobiliario-novo-modelo-anima-compradores-datazap-faea4867.jpg",
+        "alt": "Mesa de madeira clara com uma maquete branca de casa térrea, um molho de chaves e uma calculadora, perto de uma janela com luz natural",
+        "largura": 1600,
+        "altura": 900
+      },
       "publicadoEm": "2026-10-27T15:00:00.000Z",
       "minutos": 3
     },
@@ -161,5 +166,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-27T01:41:45.109Z"
+  "atualizadoEm": "2026-10-27T01:44:22.413Z"
 }

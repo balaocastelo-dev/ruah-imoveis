@@ -9,7 +9,12 @@
     "mercado imobiliário",
     "pesquisa"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/credito-imobiliario-novo-modelo-anima-compradores-datazap-faea4867.jpg",
+    "alt": "Mesa de madeira clara com uma maquete branca de casa térrea, um molho de chaves e uma calculadora, perto de uma janela com luz natural",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-27T15:00:00.000Z",
   "redes": {
     "legenda": "O novo modelo de crédito imobiliário, que passa a valer por completo em janeiro de 2027, já mexe com quem procura casa. Numa pesquisa do DataZAP divulgada nesta semana, 60% dos entrevistados disseram que a vontade de financiar aumentou. E o que mais pesa na decisão? Os juros do contrato. Entenda o que a pesquisa mostra e o que isso muda para quem compra ou vende no artigo completo no blog (link na bio).",
