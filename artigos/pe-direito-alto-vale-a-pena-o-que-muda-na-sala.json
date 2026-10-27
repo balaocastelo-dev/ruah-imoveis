@@ -10,7 +10,12 @@
     "conforto",
     "sala"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/pe-direito-alto-vale-a-pena-o-que-muda-na-sala-3dc8270b.jpg",
+    "alt": "Sala de estar com pé-direito alto, janelas altas de vidro, luz natural entrando e um sofá baixo de linho claro",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-27T21:00:00.000Z",
   "formato": "dica",
   "redes": {
