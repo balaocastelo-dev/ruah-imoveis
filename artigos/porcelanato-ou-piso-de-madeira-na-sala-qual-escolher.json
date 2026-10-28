@@ -10,7 +10,12 @@
     "madeira",
     "decoração"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/porcelanato-ou-piso-de-madeira-na-sala-qual-escolher-e587ded2.jpg",
+    "alt": "Sala de estar clara dividida ao meio: de um lado piso de tábuas largas de madeira, do outro porcelanato acetinado em placas grandes, com sofá de linho e tapete",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-28T21:00:00.000Z",
   "formato": "dica",
   "redes": {
