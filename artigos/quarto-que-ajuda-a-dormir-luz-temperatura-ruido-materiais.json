@@ -10,7 +10,12 @@
     "acústica",
     "iluminação"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/quarto-que-ajuda-a-dormir-luz-temperatura-ruido-materiais-d3d5cee1.jpg",
+    "alt": "Quarto sereno ao entardecer, com cama baixa de linho claro, cabeceira estofada, piso de madeira e cortinas pesadas entreabertas",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-28T09:00:00.000Z",
   "redes": {
     "legenda": "Você já reparou que alguns quartos convidam ao sono e outros parecem lutar contra ele? Escuro de verdade, temperatura amena, silêncio e materiais que não guardam umidade fazem mais diferença do que a decoração. E boa parte disso se resolve sem obra: cortina blackout, luz âmbar baixa, vedação das janelas. No blog, mostramos o que ajustar no seu quarto e o que observar no quarto do próximo imóvel. Leia o texto completo, link na bio.",

@@ -45,7 +45,12 @@
         "acústica",
         "iluminação"
       ],
-      "capa": null,
+      "capa": {
+        "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/quarto-que-ajuda-a-dormir-luz-temperatura-ruido-materiais-d3d5cee1.jpg",
+        "alt": "Quarto sereno ao entardecer, com cama baixa de linho claro, cabeceira estofada, piso de madeira e cortinas pesadas entreabertas",
+        "largura": 1600,
+        "altura": 900
+      },
       "publicadoEm": "2026-10-28T09:00:00.000Z",
       "minutos": 10
     },
@@ -219,5 +224,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-27T23:57:56.175Z"
+  "atualizadoEm": "2026-10-28T01:42:28.220Z"
 }
