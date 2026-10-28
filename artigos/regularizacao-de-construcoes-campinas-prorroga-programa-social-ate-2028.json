@@ -9,7 +9,12 @@
     "documentação",
     "mercado imobiliário"
   ],
-  "capa": null,
+  "capa": {
+    "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/regularizacao-de-construcoes-campinas-prorroga-programa-social-ate-2028-19cb0563.jpg",
+    "alt": "Plantas de arquitetura enroladas sobre uma mesa de madeira ao lado de uma trena e de uma pequena maquete branca de casa térrea",
+    "largura": 1600,
+    "altura": 900
+  },
   "publicadoEm": "2026-10-28T15:00:00.000Z",
   "redes": {
     "legenda": "Fez puxadinho, ampliou a casa ou trocou a fachada sem aprovar o projeto? Em Campinas, quem mora em conjunto habitacional ou empreendimento de interesse social ganhou mais dois anos para regularizar a construção com isenção de taxa e multa menor. O prazo, que tinha acabado em 16 de outubro, agora vai até outubro de 2028. Entenda quem pode pedir e por que isso pesa na hora de vender no artigo completo no blog (link na bio).",

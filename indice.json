@@ -29,7 +29,12 @@
         "documentação",
         "mercado imobiliário"
       ],
-      "capa": null,
+      "capa": {
+        "src": "https://raw.githubusercontent.com/balaocastelo-dev/ruah-imoveis/refs/heads/claude/blog-conteudo/capas/regularizacao-de-construcoes-campinas-prorroga-programa-social-ate-2028-19cb0563.jpg",
+        "alt": "Plantas de arquitetura enroladas sobre uma mesa de madeira ao lado de uma trena e de uma pequena maquete branca de casa térrea",
+        "largura": 1600,
+        "altura": 900
+      },
       "publicadoEm": "2026-10-28T15:00:00.000Z",
       "minutos": 3
     },
@@ -224,5 +229,5 @@
       "minutos": 3
     }
   ],
-  "atualizadoEm": "2026-10-28T01:42:28.220Z"
+  "atualizadoEm": "2026-10-28T01:44:04.821Z"
 }
